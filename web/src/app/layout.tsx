@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Shell from "@/components/Shell";
 
-// IBM Plex: institutional, legible on small screens, and not the default AI-app font (04 doc §3).
-const sans = IBM_Plex_Sans({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-plex" });
-const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-plexmono" });
+// Plus Jakarta Sans with tabular figures: the "Clear Day" look (04 doc §13).
+const sans = Plus_Jakarta_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-jakarta" });
 
 export const metadata: Metadata = {
   title: "FINN",
@@ -18,8 +17,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#F3F3EF" },
-    { media: "(prefers-color-scheme: dark)", color: "#0F1012" },
+    { media: "(prefers-color-scheme: light)", color: "#F4F7FB" },
+    { media: "(prefers-color-scheme: dark)", color: "#0A1626" },
   ],
 };
 
@@ -28,7 +27,7 @@ const themeScript = `try{var t=JSON.parse(localStorage.getItem('finn.settings')|
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={sans.variable} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>

@@ -1,36 +1,23 @@
 "use client";
-// Companies: the library. Portfolio list (state + track-record dots), search any NSE company,
-// long-press a row to remove (with Undo) — 04 doc §10.6.
+// Companies: the portfolio list (state + promise bar per company). Search lives on its own
+// centre button; long-press a row to remove (with Undo) — 04 doc §13.
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { companyDay } from "@/lib/digest";
+import { sectorOf } from "@/lib/home";
 import { DEMO, useBundles, usePortfolio, useRules } from "@/lib/client";
 import type { Bundle } from "@/lib/types";
-import { stateChip } from "./cards";
-import { Footer, Icon, Sheet, Skeleton, Toast, TopBar } from "./ui";
+import { PromiseBar, short, stateChip } from "./cards";
+import { Footer, Icon, Sheet, Skeleton, Toast } from "./ui";
 
 export default function CompaniesView() {
   const [portfolio, setPortfolio, hydrated] = usePortfolio();
   const [rules] = useRules();
   const { bundles, loading } = useBundles(portfolio, hydrated);
-  const [q, setQ] = useState("");
-  const [hits, setHits] = useState<{ symbol: string; name: string }[]>([]);
   const [menu, setMenu] = useState<Bundle | null>(null);
   const [toast, setToast] = useState<{ text: string; undo?: () => void } | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    const t = q.trim();
-    if (t.length < 2) {
-      setHits([]);
-      return;
-    }
-    const id = setTimeout(() => {
-      fetch(`/api/search?q=${encodeURIComponent(t)}`).then((r) => r.json()).then(setHits).catch(() => setHits([]));
-    }, 250);
-    return () => clearTimeout(id);
-  }, [q]);
 
   const days = useMemo(() => {
     const from = Date.now() - 7 * 864e5;
@@ -41,65 +28,43 @@ export default function CompaniesView() {
   const remove = (sym: string, name: string) => {
     const before = portfolio;
     setPortfolio(portfolio.filter((s) => s !== sym));
-    setToast({ text: `Removed ${name.replace(/ Limited$/, "")}`, undo: () => setPortfolio(before) });
-  };
-  const add = (sym: string) => {
-    if (!portfolio.includes(sym)) setPortfolio([...portfolio, sym]);
-    router.push(`/c/${sym}`);
+    setToast({ text: `Removed ${short(name)}`, undo: () => setPortfolio(before) });
   };
 
   return (
     <>
-      <TopBar />
+      <div style={{ height: 20 }} />
       <div className="stack gap14">
-        <h1 className="title">Companies</h1>
-        <label className="row gap8" style={{ position: "relative" }}>
-          <span style={{ position: "absolute", left: 14, color: "var(--ink3)" }}>{Icon.search}</span>
-          <input className="input" style={{ paddingLeft: 40 }} placeholder="Any NSE company or ticker" value={q} onChange={(e) => setQ(e.target.value)} aria-label="Search companies" />
-        </label>
-        {hits.length > 0 && (
-          <section className="card flush">
-            {hits.map((h) => (
-              <div key={h.symbol} className="rowlink" style={{ alignItems: "center" }}>
-                <Link href={`/c/${h.symbol}`} className="stack" style={{ flex: 1, gap: 2, minWidth: 0 }}>
-                  <span className="strong">{h.name}</span>
-                  <span className="mono small muted">{h.symbol}</span>
-                </Link>
-                {portfolio.includes(h.symbol) ? (
-                  <span className="small muted">In portfolio</span>
-                ) : (
-                  <button className="btn" onClick={() => add(h.symbol)}>Add</button>
-                )}
-              </div>
-            ))}
-          </section>
-        )}
+        <div className="row between" style={{ alignItems: "flex-end" }}>
+          <div className="stack gap4">
+            <h1 className="title">Companies</h1>
+            <span className="s13 ink2">{portfolio.length} in your portfolio · state over the last 7 days</span>
+          </div>
+          <Link className="roundbtn" href="/search" aria-label="Add a company">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden><path d="M12 5v14M5 12h14" /></svg>
+          </Link>
+        </div>
 
-        <span className="row between">
-          <span className="label">Your portfolio · {portfolio.length}</span>
-          <span className="small muted">Long-press a company for options</span>
-        </span>
         {loading && <div className="card stack gap10"><Skeleton /><Skeleton w="70%" /><Skeleton w="85%" /></div>}
-        {!loading && (
-          <section className="card flush">
-            {days.map((d) => (
-              <Row key={d.b.symbol} b={d.b} onLong={() => setMenu(d.b)}>
+        {!loading &&
+          days.map((d) => (
+            <Row key={d.b.symbol} b={d.b} onLong={() => setMenu(d.b)}>
+              <span className="row between gap8">
+                <span style={{ fontSize: 16, fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }}>{short(d.b.name)}</span>
                 {stateChip(d.state)}
-                <span className="stack" style={{ gap: 2, minWidth: 0, flex: 1 }}>
-                  <span className="row between gap8">
-                    <span className="strong" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.b.name.replace(/ Limited$/, "")}</span>
-                    <span className="mono small muted">{d.b.symbol}</span>
-                  </span>
-                  <span className="s13 ink2" style={{ lineHeight: "18px" }}>{d.state === "unchanged" ? "Nothing material this week" : d.reason}</span>
-                  {d.b.track && (
-                    <span className="small muted">Kept {d.b.track.kept} of {d.b.track.due} promises due</span>
-                  )}
-                </span>
-              </Row>
-            ))}
-            {portfolio.length === 0 && <div className="rowlink s14 ink2">Empty. Search above to add any NSE company.</div>}
-          </section>
+              </span>
+              <span className="small ink2">{sectorOf(d.b.symbol, d.b.industry)} · {d.b.symbol}</span>
+              <span className="s13 ink2" style={{ lineHeight: "18px" }}>{d.state === "unchanged" ? "Nothing material this week" : d.reason}</span>
+              {d.b.track && <PromiseBar t={d.b.track} />}
+            </Row>
+          ))}
+        {!loading && portfolio.length === 0 && (
+          <div className="card stack gap10">
+            <span className="headline">Your portfolio is empty</span>
+            <Link className="btn primary" href="/search">Search any NSE company</Link>
+          </div>
         )}
+        {!loading && portfolio.length > 0 && <span className="small muted" style={{ textAlign: "center" }}>Long-press a company for options</span>}
         {portfolio.length !== DEMO.length || portfolio.some((s) => !DEMO.includes(s)) ? (
           <button className="btn" style={{ height: 44, justifyContent: "center" }} onClick={() => { const before = portfolio; setPortfolio(DEMO); setToast({ text: "Demo portfolio restored", undo: () => setPortfolio(before) }); }}>
             Reset to demo portfolio
@@ -111,14 +76,15 @@ export default function CompaniesView() {
       <Sheet open={!!menu} onClose={() => setMenu(null)} label="Company options">
         {menu && (
           <div className="stack gap4">
-            <span className="headline" style={{ marginBottom: 6 }}>{menu.name.replace(/ Limited$/, "")}</span>
+            <span className="headline" style={{ marginBottom: 6 }}>{short(menu.name)}</span>
             {[
               { label: "Open company", go: () => router.push(`/c/${menu.symbol}`) },
               { label: menu.track ? "Open track record" : "Build track record", go: () => router.push(`/c/${menu.symbol}?tab=track`) },
               { label: "Remove from portfolio", danger: true, go: () => remove(menu.symbol, menu.name) },
             ].map((a) => (
-              <button key={a.label} className={`row ${a.danger ? "t-act" : ""}`} style={{ height: 52, border: 0, borderTop: "1px solid var(--line)", background: "none", fontSize: 16, textAlign: "left" }} onClick={() => { setMenu(null); a.go(); }}>
+              <button key={a.label} className={`row between ${a.danger ? "t-act" : ""}`} style={{ height: 52, border: 0, borderTop: "1px solid var(--line)", background: "none", fontSize: 16, fontWeight: 600, textAlign: "left" }} onClick={() => { setMenu(null); a.go(); }}>
                 {a.label}
+                {!a.danger && <span className="muted">{Icon.chevR}</span>}
               </button>
             ))}
           </div>
@@ -145,8 +111,8 @@ function Row({ b, onLong, children }: { b: Bundle; onLong: () => void; children:
   return (
     <a
       href={`/c/${b.symbol}`}
-      className="rowlink"
-      style={{ userSelect: "none", WebkitTouchCallout: "none" }}
+      className="card"
+      style={{ userSelect: "none", WebkitTouchCallout: "none", gap: 6 }}
       onPointerDown={start}
       onPointerUp={cancel}
       onPointerLeave={cancel}

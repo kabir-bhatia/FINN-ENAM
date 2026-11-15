@@ -23,7 +23,7 @@ export default function HowView() {
           Every number and quote opens its source document.
         </p>
 
-        <Section title="1 · What reaches Today">
+        <Section title="1 · What reaches Home">
           <Li><b>Governance always comes first</b> — auditor changes, senior exits, regulatory orders, pledges, guarantees. It can never be collapsed.</Li>
           <Li><b>Your categories</b> (Alerts tab) count as “needs you”; everything else non-routine is “worth knowing”.</Li>
           <Li><b>Routine paperwork</b> (trading-window notices, newspaper ads, certificates, call recordings) is collapsed into one line.</Li>

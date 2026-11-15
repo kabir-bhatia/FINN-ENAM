@@ -30,7 +30,7 @@ export default function SettingsView() {
           {[{ t: "Morning brief", n: "before the 09:15 open" }, { t: "Evening brief", n: "after the close, when results land" }].map((x, i) => (
             <label key={x.t} className="rowlink between" style={{ alignItems: "center" }}>
               <span className="stack" style={{ gap: 2 }}><span className="s14 strong">{x.t}</span><span className="small muted">{x.n}</span></span>
-              <input type="time" className="mono" value={s.briefs[i] ?? ""} onChange={(e) => setBrief(i, e.target.value)} style={{ height: 40, border: "1px solid var(--line)", borderRadius: 10, padding: "0 8px", background: "var(--surface)", color: "var(--ink)" }} />
+              <input type="time" value={s.briefs[i] ?? ""} onChange={(e) => setBrief(i, e.target.value)} style={{ height: 40, border: "1px solid var(--line)", borderRadius: 10, padding: "0 8px", background: "var(--surface)", color: "var(--ink)" }} />
             </label>
           ))}
           <button className="rowlink between" style={{ width: "100%", background: "none", border: 0, borderTop: "1px solid var(--line)", textAlign: "left", alignItems: "center" }} role="switch" aria-checked={s.weekdaysOnly} onClick={() => setS({ ...s, weekdaysOnly: !s.weekdaysOnly })}>
@@ -42,9 +42,9 @@ export default function SettingsView() {
             <span className="s13 ink2">In app · <span className="muted">Telegram (coming soon)</span></span>
           </div>
         </section>
-        <span className="small muted">Next brief {nextBrief(s.briefs, s.weekdaysOnly)}. Today is assembled from data refreshed on a schedule, so it is ready when you open it.</span>
+        <span className="small muted">Next brief {nextBrief(s.briefs, s.weekdaysOnly)}. Home is assembled from data refreshed on a schedule, so it is ready when you open it.</span>
 
-        <span className="label" style={{ marginTop: 6 }}>Today shows</span>
+        <span className="label" style={{ marginTop: 6 }}>Home shows</span>
         <div className="seg" style={{ gridAutoColumns: "auto" }}>
           {(["since", "24h", "7d", "30d"] as WindowKey[]).map((w) => (
             <button key={w} aria-pressed={s.window === w} onClick={() => setS({ ...s, window: w })} style={{ fontSize: 13 }}>

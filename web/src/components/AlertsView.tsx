@@ -15,7 +15,7 @@ export default function AlertsView() {
       <div className="stack gap14">
         <div className="stack gap4">
           <h1 className="title">Alerts</h1>
-          <span className="s14 ink2">You decide what is unusual. These rules decide what reaches Today.</span>
+          <span className="s14 ink2">You decide what is unusual. These rules decide what reaches Home.</span>
         </div>
         <span className="label" style={{ marginTop: 6 }}>Price and volume</span>
         <section className="card flush">
@@ -71,7 +71,7 @@ function Stepper({ title, note, value, dec, inc }: { title: string; note: string
       </span>
       <span className="row gap6" style={{ flex: "0 0 auto" }}>
         <button style={b} onClick={dec} aria-label={`Decrease ${title}`}>−</button>
-        <span className="mono s14" style={{ minWidth: 48, textAlign: "center" }}>{value}</span>
+        <span className="s14 strong" style={{ minWidth: 48, textAlign: "center" }}>{value}</span>
         <button style={b} onClick={inc} aria-label={`Increase ${title}`}>+</button>
       </span>
     </div>

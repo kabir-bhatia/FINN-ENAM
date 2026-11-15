@@ -1,7 +1,7 @@
 // Per-company bundle: everything Today and the company page need, in one Blob document.
 // Push is batch by nature, so the cron precomputes bundles; screens only read them (R3).
 import type { Bundle, Filing, Ledger, TrackSummary } from "./types";
-import { nseAnnouncements, screener, yahooBars } from "./sources";
+import { nseAnnouncements, nseEvents, screener, yahooBars } from "./sources";
 import { classifyRows } from "./classify";
 import { getJSON, putJSON } from "./store";
 
@@ -30,7 +30,8 @@ export async function readBundle(symbol: string): Promise<Bundle | null> {
 }
 
 export function isStale(b: Bundle) {
-  return Date.now() - new Date(b.updatedAt).getTime() > STALE_MS;
+  // Bundles saved before the event calendar existed refresh once to pick it up.
+  return b.events === undefined || Date.now() - new Date(b.updatedAt).getTime() > STALE_MS;
 }
 
 export function summarizeLedger(l: Ledger): TrackSummary | null {
@@ -62,11 +63,12 @@ export function summarizeLedger(l: Ledger): TrackSummary | null {
 export async function buildBundle(symbol: string): Promise<Bundle> {
   const prev = await getJSON<Bundle>(key(symbol), { fresh: true }).catch(() => null);
   const errors: string[] = [];
-  const [ann, px, scr, ledger] = await Promise.allSettled([
+  const [ann, px, scr, ledger, evs] = await Promise.allSettled([
     nseAnnouncements(symbol, 45),
     yahooBars(symbol),
     screener(symbol),
     getJSON<Ledger>(`t/${symbol}.json`),
+    nseEvents(symbol),
   ]);
   const reuse = prev?.cv === CLASSIFIER_VERSION ? prev.filings : [];
   const prior = new Map<string, Filing>(reuse.map((f) => [f.id, f]));
@@ -95,7 +97,9 @@ export async function buildBundle(symbol: string): Promise<Bundle> {
   } else errors.push("Screener unavailable");
   const track = ledger.status === "fulfilled" && ledger.value ? summarizeLedger(ledger.value) : (prev?.track ?? null);
   if (ann.status === "fulfilled" && !ann.value.length && !fund && !prices.length) throw new Error(`No NSE company found for ${symbol}`);
-  const b: Bundle = { cv: CLASSIFIER_VERSION, symbol, name, industry, updatedAt: new Date().toISOString(), filings, prices, splits, fund, track, errors, llm };
+  // Event calendar is optional: if NSE does not answer, keep the last saved list (never invent dates).
+  const events = evs.status === "fulfilled" ? evs.value : (prev?.events ?? []);
+  const b: Bundle = { cv: CLASSIFIER_VERSION, symbol, name, industry, updatedAt: new Date().toISOString(), filings, prices, splits, fund, track, events, errors, llm };
   await putJSON(key(symbol), b);
   mem.set(symbol, { at: Date.now(), b });
   return b;

@@ -1,17 +1,26 @@
 "use client";
-// Company page — the hub (04 doc §9, §11): Updates · Results · Track record for any NSE ticker.
+// Company page (04 doc §13): header + navy hero with the promises-kept ring, then
+// Updates · Results · Track record · Governance. Works for any NSE ticker.
 // No price in the header (thesis-centric); price lives only inside Updates, small.
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import type { Bundle } from "@/lib/types";
+import { VERDICTS } from "@/lib/types";
 import { companyDay, fmtPct, rank, resultsHeadline, resultsView, sessionLabel, tierOf } from "@/lib/digest";
+import { sectorOf } from "@/lib/home";
 import { markSeen, useBundle, usePortfolio, useRules } from "@/lib/client";
-import { anchor } from "@/lib/time";
-import { AgainstTheirWord, chipFor, filingEvidence, stateChip } from "./cards";
+import { anchor, fyQuarter } from "@/lib/time";
+import { AgainstTheirWord, chipFor, filingEvidence, short, stateChip } from "./cards";
 import TrackView from "./TrackView";
-import { Footer, Skeleton, Toast, TopBar, useEvidence } from "./ui";
+import { Footer, Ring, Skeleton, Toast, TopBar, useEvidence } from "./ui";
 
-type Tab = "updates" | "results" | "track";
+type Tab = "updates" | "results" | "track" | "governance";
+const TABS: { k: Tab; label: string }[] = [
+  { k: "updates", label: "Updates" },
+  { k: "results", label: "Results" },
+  { k: "track", label: "Track record" },
+  { k: "governance", label: "Governance" },
+];
 
 export default function CompanyView({ symbol }: { symbol: string }) {
   const sp = useSearchParams();
@@ -21,7 +30,7 @@ export default function CompanyView({ symbol }: { symbol: string }) {
   const [portfolio, setPortfolio] = usePortfolio();
   const [toast, setToast] = useState<string | null>(null);
   const inPf = portfolio.includes(symbol);
-  const back = from === "today" ? { label: "Today", href: "/" } : { label: "Companies", href: "/companies" };
+  const back = from === "today" ? { label: "Home", href: "/" } : { label: "Companies", href: "/companies" };
 
   const toggle = () => {
     if (inPf) {
@@ -35,9 +44,16 @@ export default function CompanyView({ symbol }: { symbol: string }) {
 
   return (
     <>
-      <TopBar back={back} />
+      <TopBar
+        back={back}
+        right={
+          <button className={`pill${inPf ? " on" : ""}`} onClick={toggle} role="switch" aria-checked={inPf}>
+            {inPf ? "✓ In portfolio" : "+ Add to portfolio"}
+          </button>
+        }
+      />
       {loading && (
-        <div className="stack gap12">
+        <div className="stack gap12" style={{ paddingTop: 8 }}>
           <Skeleton h={30} w="70%" />
           <Skeleton h={14} w="40%" />
           <div className="card stack gap10"><Skeleton h={14} /><Skeleton h={14} w="80%" /></div>
@@ -51,27 +67,24 @@ export default function CompanyView({ symbol }: { symbol: string }) {
         </div>
       )}
       {b && (
-        <div className="stack gap14">
-          <div className="stack gap4">
-            <div className="row between gap10" style={{ alignItems: "flex-start" }}>
-              <h1 className="title" style={{ fontSize: 26, lineHeight: "32px" }}>{b.name.replace(/ Limited$/, "")}</h1>
-              <button className="row gap8 s13 ink2" style={{ background: "none", border: 0, minHeight: 44, flex: "0 0 auto" }} onClick={toggle} role="switch" aria-checked={inPf}>
-                In portfolio <span className="toggle" aria-checked={inPf} />
-              </button>
-            </div>
-            <span className="s13 muted"><span className="mono">{b.symbol}</span>{b.industry ? ` · ${b.industry}` : ""} · data as of {anchor(b.updatedAt)} IST</span>
+        <div className="stack gap14" style={{ paddingTop: 8 }}>
+          <div className="stack" style={{ gap: 2 }}>
+            <h1 className="title">{short(b.name)}</h1>
+            <span className="s13 ink2">{sectorOf(b.symbol, b.industry)} · {b.symbol} · data as of {anchor(b.updatedAt)} IST</span>
           </div>
-          <Header b={b} />
+          <StateLine b={b} />
+          <Hero b={b} onOpen={() => setTab("track")} />
           <div className="seg" role="tablist">
-            {(["updates", "results", "track"] as Tab[]).map((t) => (
-              <button key={t} role="tab" aria-pressed={tab === t} aria-selected={tab === t} onClick={() => setTab(t)}>
-                {t === "updates" ? "Updates" : t === "results" ? "Results" : "Track record"}
+            {TABS.map((t) => (
+              <button key={t.k} role="tab" aria-pressed={tab === t.k} aria-selected={tab === t.k} onClick={() => setTab(t.k)}>
+                {t.label}
               </button>
             ))}
           </div>
           {tab === "updates" && <Updates b={b} />}
           {tab === "results" && <Results b={b} onTrack={() => setTab("track")} />}
           {tab === "track" && <TrackView b={b} />}
+          {tab === "governance" && <Governance b={b} />}
           {b.errors.length > 0 && <span className="small t-watch">{b.errors.join(" · ")}</span>}
           <Footer />
         </div>
@@ -81,38 +94,54 @@ export default function CompanyView({ symbol }: { symbol: string }) {
   );
 }
 
-/** State banner + governance strip (pledge, auditor, senior exits, regulatory) over the last 45 days. */
-function Header({ b }: { b: Bundle }) {
+function StateLine({ b }: { b: Bundle }) {
   const [rules] = useRules();
   const day = useMemo(() => companyDay(b, rules, Date.now() - 7 * 864e5), [b, rules]);
-  const gov = b.filings.filter((f) => f.category === "governance");
-  const count = (re: RegExp) => gov.filter((f) => re.test(f.govKind ?? "")).length;
-  const strip = [
-    { k: "Auditor changes", v: count(/Auditor/) },
-    { k: "Senior exits", v: count(/exit/i) },
-    { k: "Regulatory actions", v: count(/Regulatory|Insolvency|Red flag/) },
-    { k: "Pledge / promoter", v: count(/Pledge|Insider/) },
-  ];
+  if (day.state === "unchanged") return null;
   return (
-    <>
-      {day.state !== "unchanged" && (
-        <div className="row gap8" style={{ alignItems: "flex-start" }}>
-          {stateChip(day.state)}
-          <span className="s14 ink2">{day.reason} <span className="muted">(last 7 days)</span></span>
-        </div>
-      )}
-      <section className="card" style={{ padding: "12px 14px", gap: 8 }} aria-label="Governance">
-        <span className="label">Governance · last 45 days</span>
-        <span style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: "8px 12px" }}>
-          {strip.map((s) => (
-            <span key={s.k} className="row between s13">
-              <span className="ink2">{s.k}</span>
-              <span className={`mono ${s.v ? "t-act strong" : "muted"}`}>{s.v || "None"}</span>
-            </span>
-          ))}
+    <div className="row gap8" style={{ alignItems: "flex-start" }}>
+      {stateChip(day.state)}
+      <span className="s14 ink2">{day.reason} <span className="muted">(last 7 days)</span></span>
+    </div>
+  );
+}
+
+/** Navy hero: how many of the promises now due were kept. Opens the track record. */
+function Hero({ b, onOpen }: { b: Bundle; onOpen: () => void }) {
+  const t = b.track;
+  if (!t)
+    return (
+      <button className="hero" onClick={onOpen}>
+        <Ring size={96} stroke={11} label="Track record not built yet" segments={[]} track="rgba(255,255,255,0.18)">
+          <span style={{ fontSize: 22, fontWeight: 700 }}>?</span>
+        </Ring>
+        <span className="stack gap6">
+          <span style={{ fontSize: 16, fontWeight: 700 }}>Did they do what they said?</span>
+          <span className="s13 dim" style={{ lineHeight: "18px" }}>FINN can read the last 4 earnings calls and check every promise against reported numbers.</span>
+          <span className="go">Build the track record ›</span>
         </span>
-      </section>
-    </>
+      </button>
+    );
+  const others = VERDICTS.filter((v) => v !== "Kept" && t.counts[v]).map((v) => `${t.counts[v]} ${v.toLowerCase()}`);
+  return (
+    <button className="hero" onClick={onOpen}>
+      <Ring
+        size={96}
+        stroke={11}
+        label={`${t.kept} of ${t.due} promises due were kept`}
+        track="rgba(255,255,255,0.18)"
+        segments={t.due ? [{ value: t.kept, color: "var(--hero-accent)" }, { value: t.due - t.kept, color: "transparent" }] : []}
+      >
+        <span style={{ fontSize: 22, fontWeight: 700 }}>{t.kept}/{t.due}</span>
+      </Ring>
+      <span className="stack gap6" style={{ minWidth: 0 }}>
+        <span style={{ fontSize: 16, fontWeight: 700 }}>{t.due ? "Promises kept" : "Promises due so far"}</span>
+        <span className="s13 dim" style={{ lineHeight: "18px" }}>
+          {others.length ? others.join(" · ") : "No other promises on record"} · last {t.calls} calls
+        </span>
+        <span className="go">See the track record ›</span>
+      </span>
+    </button>
   );
 }
 
@@ -138,7 +167,7 @@ function Updates({ b }: { b: Bundle }) {
               {chipFor(f, tier)}
               <span className="small muted">{anchor(f.at)}</span>
             </span>
-            <span className="headline" style={{ fontSize: 15 }}>{view ? resultsHeadline(view) : f.headline}</span>
+            <span className="headline" style={{ fontSize: 15, lineHeight: "20px" }}>{view ? resultsHeadline(view) : f.headline}</span>
             {f.summary && <span className="s13 ink2" style={{ display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{f.summary}</span>}
             <span className="small muted">{f.nseCat} · tap for source</span>
           </button>
@@ -164,14 +193,14 @@ function Updates({ b }: { b: Bundle }) {
       )}
 
       {day.routine.length > 0 && (
-        <section className="card" style={{ padding: "12px 14px" }}>
+        <section className="card">
           <button className="row between" style={{ background: "none", border: 0, padding: 0, minHeight: 36 }} onClick={() => setShowRoutine(!showRoutine)}>
-            <span className="s14">{day.routine.length} routine filings this month</span>
-            <span className="s14 strong">{showRoutine ? "Hide" : "Show"}</span>
+            <span className="s14" style={{ fontWeight: 600 }}>{day.routine.length} routine filings this month</span>
+            <span className="link">{showRoutine ? "Hide" : "Show"}</span>
           </button>
           {showRoutine && day.routine.map((f) => (
             <button key={f.id} className="s13 ink2" style={{ background: "none", border: 0, borderTop: "1px solid var(--line)", padding: "9px 0", textAlign: "left" }} onClick={() => ev(filingEvidence(b, f))}>
-              <span className="muted mono small">{anchor(f.at)} </span>{f.headline}
+              <span className="muted small">{anchor(f.at)} · </span>{f.headline}
             </button>
           ))}
         </section>
@@ -180,15 +209,29 @@ function Updates({ b }: { b: Bundle }) {
   );
 }
 
+/** Highlight the clause of a quote that carries the figure (or the whole quote if it has none). */
+function QuoteMark({ q }: { q: string }) {
+  const m = /[^,.;:]*\d[^,.;:]*/.exec(q);
+  if (!m || m[0].trim().length < 6) return <span className="mark">{q}</span>;
+  const i = m.index;
+  return (
+    <>
+      {q.slice(0, i)}
+      <span className="mark">{m[0]}</span>
+      {q.slice(i + m[0].length)}
+    </>
+  );
+}
+
 function Results({ b, onTrack }: { b: Bundle; onTrack: () => void }) {
   const ev = useEvidence();
+  const [vs, setVs] = useState<"yoy" | "qoq">("yoy");
   const v = resultsView(b.fund);
   if (!v || !b.fund) return <div className="card s14 ink2">No quarterly results table found for {b.symbol} on Screener, so FINN shows no numbers rather than guessing.</div>;
   const f = b.fund;
   const n = f.quarters.length;
   const val = (key: string, j: number) => f.rows[key]?.[j];
   const fmt = (x: number | null | undefined) => (x == null ? "–" : x.toLocaleString("en-IN", { maximumFractionDigits: 0 }));
-  const pc = (x: number | null) => (x == null ? <span className="muted">–</span> : <span className={x >= 0 ? "t-good" : "t-act"}>{fmtPct(x)}</span>);
   const openRow = (r: (typeof v.rows)[number]) => {
     const nums = r.computed
       ? [
@@ -213,41 +256,163 @@ function Results({ b, onTrack }: { b: Bundle; onTrack: () => void }) {
       extra: v.pdf ? [{ label: "Open Screener table", url: v.source }] : undefined,
     });
   };
+
+  // Profit, last 5 quarters (reported net profit, ₹ crore).
+  const profit = f.rows["Net Profit"] ?? [];
+  const bars = f.quarters.map((q, j) => ({ q, j, x: profit[j] ?? null })).slice(-5).filter((x) => x.x != null) as { q: string; j: number; x: number }[];
+  const max = Math.max(...bars.map((x) => Math.abs(x.x)), 1);
+  const qShort = (q: string) => fyQuarter(q).q.replace(" FY", "’");
+  const s = b.track?.spotlight;
+
   return (
     <div className="stack gap14">
-      <section className="card stack gap12">
-        <span className="headline">{resultsHeadline(v)}</span>
-        <span className="small muted">{v.q} ({v.months}) · {v.basis} · ₹ crore</span>
-        <table className="ntable">
-          <thead>
-            <tr><th></th><th>This<br />quarter</th><th>vs last<br />quarter</th><th>vs last<br />year</th></tr>
-          </thead>
-          <tbody>
-            {v.rows.map((r) => (
-              <tr key={r.key} className="tap" onClick={() => openRow(r)}>
-                <td>{r.label}{r.computed && <span className="small muted"> · computed</span>}</td>
-                <td className="mono">{fmt(r.now)}</td>
-                <td className="mono">{pc(r.qoq)}</td>
-                <td className="mono">{pc(r.yoy)}</td>
-              </tr>
-            ))}
-            {v.margin && v.margin.now != null && (
-              <tr>
-                <td>EBITDA margin</td>
-                <td className="mono">{v.margin.now.toFixed(1)}%</td>
-                <td></td>
-                <td className="mono small muted">{v.margin.lastYear != null ? `${v.margin.lastYear.toFixed(1)}% a year ago` : ""}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+      <section className="card big" style={{ gap: 14 }}>
+        <div className="stack gap6">
+          <span className="label t-good">RESULTS · {v.q} ({v.months})</span>
+          <span style={{ fontSize: 22, lineHeight: "28px", fontWeight: 700, letterSpacing: "-0.01em" }}>{resultsHeadline(v)}.</span>
+        </div>
+        <div className="seg sm" style={{ alignSelf: "flex-start", gridAutoColumns: "auto" }}>
+          <button aria-pressed={vs === "yoy"} onClick={() => setVs("yoy")} style={{ padding: "0 12px" }}>vs last year</button>
+          <button aria-pressed={vs === "qoq"} onClick={() => setVs("qoq")} style={{ padding: "0 12px" }}>vs last quarter</button>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(4, v.rows.length)}, minmax(0, 1fr))`, borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
+          {v.rows.map((r) => {
+            const x = vs === "yoy" ? r.yoy : r.qoq;
+            return (
+              <button key={r.key} onClick={() => openRow(r)} className="stack" style={{ gap: 2, background: "none", border: 0, padding: "10px 0", textAlign: "left", minWidth: 0 }} aria-label={`${r.label}: ${fmt(r.now)} crore. Tap for source`}>
+                <span style={{ fontSize: 11 }} className="ink2">{r.label.replace(" (PAT)", "")}{r.computed ? "*" : ""}</span>
+                <span style={{ fontSize: 16, fontWeight: 700 }} className={x == null ? "muted" : x >= 0 ? "t-good" : "t-act"}>{x == null ? "–" : fmtPct(x)}</span>
+                <span style={{ fontSize: 11 }} className="muted">{fmt(r.now)}</span>
+              </button>
+            );
+          })}
+        </div>
+        <span className="small muted" style={{ marginTop: -6 }}>
+          {vs === "yoy" ? "vs the same quarter last year" : "vs the previous quarter"} · {v.basis} · ₹ crore
+          {v.margin?.now != null && ` · EBITDA margin ${v.margin.now.toFixed(1)}%${v.margin.lastYear != null ? ` (${v.margin.lastYear.toFixed(1)}% a year ago)` : ""}`}
+          {!v.lender && " · *computed"}
+        </span>
         {v.lender && <span className="small muted">EBITDA isn’t meaningful for a lender, so FINN doesn’t show one.</span>}
-        <span className="small muted">Tap any row to see where the number comes from. Numbers are read from the filing table, never generated by a model.</span>
+        <span className="small muted">Tap any figure to see where it comes from. Numbers are read from the filing table, never generated by a model.</span>
       </section>
-      <AgainstTheirWord b={b} />
-      <button className="btn" style={{ height: 44, justifyContent: "center" }} onClick={onTrack}>
-        {b.track ? `Track record · kept ${b.track.kept} of ${b.track.due} due ›` : "Did they do what they said? Track record ›"}
-      </button>
+
+      {bars.length >= 2 && (
+        <section className="card big" style={{ gap: 14 }}>
+          <div className="row between" style={{ alignItems: "baseline" }}>
+            <span style={{ fontSize: 15, fontWeight: 700 }}>Profit, last {bars.length} quarters</span>
+            <span className="small ink2">₹ crore</span>
+          </div>
+          <div role="img" aria-label={`Profit by quarter: ${bars.map((x) => `${qShort(x.q)} ${fmt(x.x)}`).join(", ")}`} style={{ display: "flex", alignItems: "flex-end", gap: 12, height: 136 }}>
+            {bars.map((x, i) => {
+              const lastBar = i === bars.length - 1;
+              return (
+                <button
+                  key={x.q}
+                  style={{ flex: "1 1 0", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, justifyContent: "flex-end", height: "100%", background: "none", border: 0, padding: 0, minWidth: 0 }}
+                  onClick={() =>
+                    ev({
+                      company: b.name,
+                      title: `Profit (PAT) · ${fyQuarter(x.q).q} (${fyQuarter(x.q).months})`,
+                      detail: `${v.basis} · ₹ crore · Screener’s standardised table of the company’s results filings`,
+                      numbers: [{ label: `Net profit ${fyQuarter(x.q).q}`, value: fmt(x.x) }],
+                      url: f.pdfs[x.j] ?? v.source,
+                      extra: f.pdfs[x.j] ? [{ label: "Open Screener table", url: v.source }] : undefined,
+                    })
+                  }
+                >
+                  <span style={{ fontSize: 11, fontWeight: lastBar ? 700 : 500 }} className={x.x < 0 ? "t-act" : lastBar ? "" : "ink2"}>{fmt(x.x)}</span>
+                  <span style={{ width: "100%", height: `${Math.max(4, (Math.abs(x.x) / max) * 78)}%`, borderRadius: 8, background: x.x < 0 ? "var(--act-solid)" : lastBar ? "var(--accent)" : "var(--quiet-solid)" }} />
+                  <span style={{ fontSize: 11, fontWeight: lastBar ? 700 : 400 }} className={lastBar ? "" : "ink2"}>{qShort(x.q)}</span>
+                </button>
+              );
+            })}
+          </div>
+          {bars.some((x) => x.x < 0) && <span className="small muted">Red bars are losses.</span>}
+        </section>
+      )}
+
+      {s && (
+        <button
+          className="card"
+          style={{ textAlign: "left", gap: 8 }}
+          onClick={() =>
+            ev({
+              company: b.name,
+              title: `${short(b.name)} — earnings call transcript (${s.call})`,
+              detail: `Exchange filing · quoted from page ${s.page}`,
+              quote: s.quote,
+              quoteNote: `Quote found word-for-word on p.${s.page} by code`,
+              readBy: "Read by gemini flash-lite · quote checked by code, not by the model",
+              url: s.url,
+              page: s.page,
+            })
+          }
+        >
+          <span className="label">What management said</span>
+          <span style={{ borderLeft: "3px solid var(--accent)", paddingLeft: 14, fontSize: 17, lineHeight: "26px", fontStyle: "italic" }}>
+            “<QuoteMark q={s.quote.length > 220 ? s.quote.slice(0, 217) + "…" : s.quote} />”
+          </span>
+          <span className="small ink2">Management, {s.call} call, p.{s.page} · on {s.metric.toLowerCase()} · tap for the source</span>
+        </button>
+      )}
+
+      <AgainstTheirWord b={b} onBuild={onTrack} />
+      {b.track && (
+        <button className="btn" style={{ height: 44, justifyContent: "center" }} onClick={onTrack}>
+          Track record · kept {b.track.kept} of {b.track.due} due ›
+        </button>
+      )}
+    </div>
+  );
+}
+
+/** Governance: four tiles (auditor, senior exits, regulatory, pledge) and the filings behind them. */
+function Governance({ b }: { b: Bundle }) {
+  const ev = useEvidence();
+  const gov = b.filings.filter((f) => f.category === "governance");
+  const pick = (re: RegExp) => gov.filter((f) => re.test(f.govKind ?? ""));
+  const tiles = [
+    { k: "Auditor changes", fs: pick(/Auditor/) },
+    { k: "Senior exits", fs: pick(/exit/i) },
+    { k: "Regulatory actions", fs: pick(/Regulatory|Insolvency|Red flag/) },
+    { k: "Pledge / promoter", fs: pick(/Pledge|Insider/) },
+  ];
+  return (
+    <div className="stack gap14">
+      <section className="card big" style={{ gap: 12 }}>
+        <span className="row between" style={{ alignItems: "baseline" }}>
+          <span style={{ fontSize: 15, fontWeight: 700 }}>Governance</span>
+          <span className="small ink2">last 45 days of filings</span>
+        </span>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 8 }}>
+          {tiles.map((t) => (
+            <div key={t.k} className="tile" style={t.fs.length ? { background: "var(--actbg)" } : undefined}>
+              <span className={`n ${t.fs.length ? "t-act" : ""}`}>{t.fs.length || "None"}</span>
+              <span className="k" style={t.fs.length ? { color: "var(--act)" } : undefined}>{t.k}</span>
+            </div>
+          ))}
+        </div>
+        <span className="small muted">
+          Counted from exchange announcements. Pledges are only caught when the company announces them; NSE’s separate pledge feed is not read yet.
+        </span>
+      </section>
+      {gov.length === 0 ? (
+        <div className="card s14 ink2">No governance filing in the last 45 days. Every announcement was checked against the governance rules first.</div>
+      ) : (
+        <section className="card flush">
+          {gov.map((f) => (
+            <button key={f.id} className="rowlink" style={{ width: "100%", background: "none", border: 0, borderTop: "1px solid var(--line)", textAlign: "left", flexDirection: "column", gap: 4 }} onClick={() => ev(filingEvidence(b, f))}>
+              <span className="row between gap8" style={{ width: "100%" }}>
+                <span className={`chip ${f.govSeverity === "high" ? "c-act" : "c-watch"}`}>{f.govKind ?? "Governance"} · {f.govSeverity === "high" ? "red flag" : "check"}</span>
+                <span className="small muted">{anchor(f.at)}</span>
+              </span>
+              <span className="s14" style={{ fontWeight: 600, lineHeight: "20px" }}>{f.headline}</span>
+              {f.summary && <span className="s13 ink2" style={{ display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{f.summary}</span>}
+              <span className="small muted">tap for source</span>
+            </button>
+          ))}
+        </section>
+      )}
     </div>
   );
 }

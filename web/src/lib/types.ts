@@ -61,6 +61,12 @@ export interface TrackSummary {
   spotlight?: { metric: string; verdict: Verdict; text: string; quote: string; page: number; call: string; url: string };
 }
 
+export interface CalEvent {
+  d: string; // YYYY-MM-DD (exchange event date)
+  purpose: string; // exchange wording, e.g. "Financial Results"
+  desc: string; // exchange description of the board meeting
+}
+
 export interface Bundle {
   cv?: number; // classifier version
   symbol: string;
@@ -72,6 +78,7 @@ export interface Bundle {
   splits: string[]; // YYYY-MM-DD of splits/bonus (I6: no false alerts)
   fund: Fundamentals | null;
   track: TrackSummary | null;
+  events?: CalEvent[]; // NSE event calendar, recent + upcoming (undefined = not fetched yet)
   errors: string[]; // which sources failed this time (shown honestly, never hidden)
   llm?: { calls: number; inTok: number; outTok: number; inr: number };
 }

@@ -1,6 +1,6 @@
 // Primary-source fetchers. All three key on the NSE symbol (03 doc: no ISIN/BSE map needed).
 // Polite scraping (I11): one generic browser UA, short timeouts, everything cached in Blob afterwards.
-import type { Bar, ConcallLink, Fundamentals } from "./types";
+import type { Bar, CalEvent, ConcallLink, Fundamentals } from "./types";
 
 export const UA =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36";
@@ -44,6 +44,33 @@ export async function nseAnnouncements(symbol: string, days = 45): Promise<NseRo
   if (!r.ok) throw new Error(`NSE ${r.status}`);
   const j = await r.json();
   return Array.isArray(j) ? j : [];
+}
+
+// ---------- NSE event calendar (board meetings: results, dividends, fund raising) ----------
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+export async function nseEvents(symbol: string): Promise<CalEvent[]> {
+  const r = await get(`https://www.nseindia.com/api/event-calendar?index=equities&symbol=${encodeURIComponent(symbol)}`, {
+    Accept: "application/json",
+    Referer: "https://www.nseindia.com/",
+  });
+  if (!r.ok) throw new Error(`NSE events ${r.status}`);
+  const j = (await r.json()) as { purpose?: string; bm_desc?: string; date?: string }[];
+  if (!Array.isArray(j)) return [];
+  const now = Date.now() + 5.5 * 36e5;
+  const out: CalEvent[] = [];
+  for (const e of j) {
+    const m = /^(\d{2})-([A-Za-z]{3})-(\d{4})$/.exec(e.date ?? "");
+    if (!m) continue;
+    const mi = MONTHS.indexOf(m[2]);
+    if (mi < 0) continue;
+    const d = `${m[3]}-${String(mi + 1).padStart(2, "0")}-${m[1]}`;
+    const t = new Date(d + "T00:00:00Z").getTime();
+    // Keep the last 45 days (for "recently") and everything announced ahead.
+    if (t < now - 45 * 864e5 || t > now + 200 * 864e5) continue;
+    out.push({ d, purpose: (e.purpose ?? "Board meeting").trim(), desc: (e.bm_desc ?? "").replace(/\s+/g, " ").trim().slice(0, 400) });
+  }
+  return out.sort((a, b) => a.d.localeCompare(b.d));
 }
 
 // ---------- Yahoo EOD prices ----------
