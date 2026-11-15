@@ -11,6 +11,7 @@ import { useBundles, usePortfolio, useRules, useSeen, useSettings, useSince } fr
 import type { WindowKey } from "@/lib/types";
 import { anchor, nextBrief } from "@/lib/time";
 import { AlertCard, FilingCard, filingEvidence, short } from "./cards";
+import InstallCard from "./InstallCard";
 import { Footer, Icon, Ring, Sheet, Skeleton, useEvidence } from "./ui";
 
 type Seg = string | { t: string; on: () => void };
@@ -182,6 +183,8 @@ export default function HomeView() {
                 </div>
               )}
             </section>
+
+            <InstallCard />
 
             {/* The lead */}
             <section className="card" aria-label="Summary">

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "FINN",
   description: "What changed for your companies, and whether management kept its word. Primary sources only.",
   appleWebApp: { capable: true, title: "FINN", statusBarStyle: "default" },
+  applicationName: "FINN",
 };
 
 export const viewport: Viewport = {

@@ -1,6 +1,8 @@
 // Scheduled refresh, called by GitHub Actions cron (free, frequent) with a shared secret.
 // The work runs here on Vercel bom1 because NSE/Screener are reachable from it (03 doc).
-import { buildBundle, cleanSymbol, pool, trackedSymbols } from "@/lib/bundle";
+import { buildBundle, cleanSymbol, pool, readBundle, trackedSymbols } from "@/lib/bundle";
+import { notifyAll } from "@/lib/push";
+import type { Bundle } from "@/lib/types";
 
 export const preferredRegion = "bom1"; // Mumbai: next to NSE, Screener and BSE PDFs
 export const maxDuration = 300;
@@ -30,5 +32,9 @@ export async function POST(request: Request) {
     filings: r.status === "fulfilled" ? r.value.filings.length : 0,
     errors: r.status === "fulfilled" ? r.value.errors : [String(r.reason)],
   }));
-  return Response.json({ ms: Date.now() - t0, n: syms.length, report });
+  // After the refresh: push new alerts / due briefs to subscribed browsers.
+  const byId = new Map<string, Bundle>();
+  res.forEach((r) => r.status === "fulfilled" && byId.set(r.value.symbol, r.value));
+  const push = await notifyAll(byId, readBundle).catch((e) => ({ error: String(e) }));
+  return Response.json({ ms: Date.now() - t0, n: syms.length, push, report });
 }

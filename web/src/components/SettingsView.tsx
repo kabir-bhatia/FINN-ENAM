@@ -5,6 +5,7 @@ import { DEFAULT_RULES, WINDOW_LABEL } from "@/lib/digest";
 import { DEFAULT_SETTINGS, DEMO, usePortfolio, useRules, useSettings } from "@/lib/client";
 import type { WindowKey } from "@/lib/types";
 import { nextBrief } from "@/lib/time";
+import { PushRow } from "./PushControls";
 import { Footer, Icon, Toast, TopBar } from "./ui";
 
 export default function SettingsView() {
@@ -37,12 +38,9 @@ export default function SettingsView() {
             <span className="s14 strong">Weekdays only</span>
             <span className="toggle" aria-checked={s.weekdaysOnly} />
           </button>
-          <div className="rowlink between" style={{ alignItems: "center" }}>
-            <span className="s14 strong">Send to</span>
-            <span className="s13 ink2">In app · <span className="muted">Telegram (coming soon)</span></span>
-          </div>
+          <PushRow />
         </section>
-        <span className="small muted">Next brief {nextBrief(s.briefs, s.weekdaysOnly)}. Home is assembled from data refreshed on a schedule, so it is ready when you open it.</span>
+        <span className="small muted">Next brief {nextBrief(s.briefs, s.weekdaysOnly)}. Home is assembled from data refreshed on a schedule (5 times a weekday), so it is ready when you open it; notifications go out right after each refresh.</span>
 
         <span className="label" style={{ marginTop: 6 }}>Home shows</span>
         <div className="seg" style={{ gridAutoColumns: "auto" }}>
