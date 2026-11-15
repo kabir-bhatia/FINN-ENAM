@@ -149,7 +149,7 @@ export function AgainstTheirWord({ b, onBuild }: { b: Bundle; onBuild?: () => vo
           detail: `Exchange filing · quoted from page ${s.page}`,
           quote: s.quote,
           quoteNote: `Quote found word-for-word on p.${s.page} by code`,
-          readBy: "Read by gemini flash-lite · verdict by gemini flash · quote checked by code, not by the model",
+          readBy: "Read and judged by GLM 5.3 flash (Gemini as fallback) · quote checked by code, not by the model",
           url: s.url,
           page: s.page,
         })

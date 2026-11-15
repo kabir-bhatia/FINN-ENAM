@@ -67,7 +67,7 @@ export default function TrackView({ b }: { b: Bundle }) {
           FINN reads the last 4 earnings-call transcripts, lists every checkable promise with its exact quote and page,
           then checks each against the reported numbers. Primary sources only.
         </span>
-        <span className="small muted">≈ 1 minute · flash-lite reads the calls, flash judges · about ₹0.3 at paid prices, ₹0 on the free tier · cached for everyone after</span>
+        <span className="small muted">≈ 1–2 minutes · GLM 5.3 flash reads the calls and judges (Gemini as fallback) · ₹0 on free tiers · cached for everyone after</span>
         {l?.status === "building" && <span className="small t-watch">A previous build stopped part-way; it will resume where it left off.</span>}
         <button className="btn primary" onClick={() => build()}>Build track record</button>
         {err && <span className="small t-act">{err}</span>}
@@ -109,7 +109,7 @@ export default function TrackView({ b }: { b: Bundle }) {
         ...(p.actual ? [{ label: "Reported", value: p.actual }] : []),
         { label: "Verdict", value: p.verdict ?? "Too early" },
       ],
-      readBy: `${p.reason ? `${p.reason} · ` : ""}Extracted by flash-lite · verdict by flash from the ledger + reported numbers only`,
+      readBy: `${p.reason ? `${p.reason} · ` : ""}Extracted and judged by the model named in the cost receipt · verdict uses the ledger + reported numbers only`,
       url: t?.url,
       page: p.page,
     });
@@ -182,11 +182,11 @@ export default function TrackView({ b }: { b: Bundle }) {
         {l.costs.map((c, i) => (
           <span key={i} className="row between small gap8">
             <span className="ink2" style={{ minWidth: 0 }}>{c.step}</span>
-            <span className="muted" style={{ flex: "0 0 auto" }}>{c.cached ? "cached" : `${c.model.replace("gemini-", "")} · ${((c.inTok + c.outTok) / 1000).toFixed(1)}k`}</span>
+            <span className="muted" style={{ flex: "0 0 auto" }}>{c.cached ? "cached" : `${c.model.replace("gemini-", "").replace("hyde/", "")} · ${((c.inTok + c.outTok) / 1000).toFixed(1)}k`}</span>
           </span>
         ))}
         <span className="row between s13 strong" style={{ borderTop: "1px solid var(--line)", paddingTop: 6 }}>
-          <span>{(tokens / 1000).toFixed(1)}k tokens · ≈ ₹{cost.toFixed(2)} at paid prices</span>
+          <span>{(tokens / 1000).toFixed(1)}k tokens{cost > 0 ? ` · ≈ ₹${cost.toFixed(2)} at Gemini list prices` : ""}</span>
           <span className="muted">₹0 free tier</span>
         </span>
         <span className="small muted">Built {l.builtAt ? shortDate(l.builtAt) : ""} · cached for everyone · numbers from Screener’s table of reported results, never generated.</span>
@@ -206,7 +206,7 @@ export default function TrackView({ b }: { b: Bundle }) {
               <span className="s14" style={{ lineHeight: "21px" }}>“{q.text}”</span>
             </div>
           ))}
-          <span className="small muted">Drafted by flash from the ledger only; each one traces to a quoted promise in the ledger.</span>
+          <span className="small muted">Drafted by the model from the ledger only; each one traces to a quoted promise in the ledger.</span>
         </div>
       </Sheet>
     </div>

@@ -157,7 +157,7 @@ ${JSON.stringify(items)}`;
         "cheap",
         "Classify vague filings",
         prompt,
-        { maxOut: 2048, timeoutMs: 30000 },
+        { maxOut: 2048, timeoutMs: 45000 },
       );
       cost = res.cost;
       for (const it of res.data.items ?? []) {

@@ -33,9 +33,9 @@ export default function HowView() {
 
         <Section title="2 · Cheapest model that does the job">
           <Li><b>Rules first.</b> The exchange’s own category plus keywords classify most filings for free.</Li>
-          <Li><b>flash-lite</b> only for vague titles (“General Updates”), reading the exchange’s short summary — never the PDF.</Li>
-          <Li><b>flash-lite</b> reads call transcripts and lists promises with exact quotes. <b>Code</b> then finds each quote in the PDF text and drops any it can’t find.</Li>
-          <Li><b>flash</b> judges verdicts on the small ledger only (a few KB), not on whole transcripts.</Li>
+          <Li><b>A model</b> only for vague titles (“General Updates”), reading the exchange’s short summary — never the PDF. Main model: <b>GLM 5.3 flash</b> (Hyde Inference); <b>Gemini</b> takes over if it fails.</Li>
+          <Li><b>The model</b> reads call transcripts and lists promises with exact quotes. <b>Code</b> then finds each quote in the PDF text and drops any it can’t find.</Li>
+          <Li><b>The model</b> judges verdicts on the small ledger only (a few KB), not on whole transcripts.</Li>
           <Li><b>No model touches numbers.</b> Results come from Screener’s table of the filed results; growth and EBITDA are computed in code.</Li>
           <Li><b>Cached forever:</b> filings never change, so nothing is read twice.</Li>
         </Section>
@@ -45,10 +45,10 @@ export default function HowView() {
             <>
               <Stat k="Filings read (last 45 days)" v={String(stats.n)} />
               <Stat k="Classified by rules, no model" v={`${stats.rule} · ${pct(stats.rule)}%`} />
-              <Stat k="Needed flash-lite" v={`${stats.model} · ${pct(stats.model)}%`} />
+              <Stat k="Needed a model" v={`${stats.model} · ${pct(stats.model)}%`} />
               <Stat k="Routine, collapsed" v={`${stats.routine} · ${pct(stats.routine)}%`} />
               <Stat k="Model cost for all of it" v={`₹${stats.llm.inr.toFixed(2)} · ${(stats.llm.tok / 1000).toFixed(1)}k tokens`} />
-              <span className="small muted">Costs are at paid Gemini list prices; FINN runs on the free tier, so the actual cost is ₹0. A full track record costs about ₹0.2–0.5 once, then it is cached for everyone.</span>
+              <span className="small muted">Rupee figures count Gemini calls at paid list prices; GLM 5.3 flash (the main model) has no published price we can cite, so its calls show tokens only. FINN runs on free tiers, so the actual cost is ₹0. A track record is built once, then cached for everyone.</span>
             </>
           ) : (
             <span className="s14 muted">Loading…</span>

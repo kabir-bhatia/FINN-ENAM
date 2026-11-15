@@ -342,7 +342,7 @@ function Results({ b, onTrack }: { b: Bundle; onTrack: () => void }) {
               detail: `Exchange filing · quoted from page ${s.page}`,
               quote: s.quote,
               quoteNote: `Quote found word-for-word on p.${s.page} by code`,
-              readBy: "Read by gemini flash-lite · quote checked by code, not by the model",
+              readBy: "Read by GLM 5.3 flash (Gemini as fallback) · quote checked by code, not by the model",
               url: s.url,
               page: s.page,
             })
