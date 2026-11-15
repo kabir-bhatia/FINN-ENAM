@@ -72,8 +72,9 @@ async function glm<T>(key: string, step: string, prompt: string, maxOut: number,
             { role: "user", content: prompt },
           ],
           temperature: 0.1,
-          // GLM reasons before answering; leave room so the JSON is never cut off.
-          max_tokens: maxOut + 4096,
+          // "low" skips GLM's long hidden reasoning: answers in seconds instead of ~40 s, same JSON.
+          reasoning_effort: "low",
+          max_tokens: maxOut + 1024,
         }),
         signal: AbortSignal.timeout(left),
       });
