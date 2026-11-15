@@ -94,6 +94,40 @@ export function useSince(): number {
 // ---------- data fetching ----------
 const mem = new Map<string, { at: number; data: unknown }>();
 
+// Pull to refresh: bumping the epoch drops the client caches and makes every data hook refetch,
+// with a query that skips the CDN's 120 s copy. It fetches the latest *server* copy; NSE itself is
+// still read on the refresh schedule, not on every pull.
+let epoch = 0;
+let bust = 0;
+const epochListeners = new Set<() => void>();
+const inflight = new Set<Promise<unknown>>();
+const subscribeEpoch = (f: () => void) => {
+  epochListeners.add(f);
+  return () => epochListeners.delete(f);
+};
+export const useRefreshEpoch = () => useSyncExternalStore(subscribeEpoch, () => epoch, () => 0);
+
+/** Refetch everything on screen; resolves with the newest "data as of" among the responses. */
+export async function requestRefresh(): Promise<string | null> {
+  mem.clear();
+  try {
+    for (const k of Object.keys(sessionStorage)) if (k.startsWith("finn.c:")) sessionStorage.removeItem(k);
+  } catch {}
+  bust = Date.now();
+  epoch++;
+  epochListeners.forEach((f) => f());
+  await new Promise((r) => setTimeout(r, 60)); // let the hooks' effects start their fetches
+  const res = await Promise.allSettled([...inflight]);
+  const stamps: string[] = [];
+  for (const r of res) {
+    if (r.status !== "fulfilled") continue;
+    const d = r.value as { updatedAt?: string; bundles?: { updatedAt: string }[] };
+    if (d?.updatedAt) stamps.push(d.updatedAt);
+    d?.bundles?.forEach((b) => stamps.push(b.updatedAt));
+  }
+  return stamps.sort().pop() ?? null;
+}
+
 async function getJSON<T>(url: string, maxAgeMs = 120_000): Promise<T> {
   const m = mem.get(url);
   if (m && Date.now() - m.at < maxAgeMs) return m.data as T;
@@ -107,19 +141,25 @@ async function getJSON<T>(url: string, maxAgeMs = 120_000): Promise<T> {
       }
     }
   } catch {}
-  const r = await fetch(url);
-  const data = await r.json();
-  if (!r.ok) throw new Error(data?.error ?? `HTTP ${r.status}`);
-  mem.set(url, { at: Date.now(), data });
-  try {
-    sessionStorage.setItem("finn.c:" + url, JSON.stringify({ at: Date.now(), data }));
-  } catch {}
-  return data as T;
+  const job = (async () => {
+    const r = await fetch(bust ? `${url}${url.includes("?") ? "&" : "?"}_r=${bust}` : url);
+    const data = await r.json();
+    if (!r.ok) throw new Error(data?.error ?? `HTTP ${r.status}`);
+    mem.set(url, { at: Date.now(), data });
+    try {
+      sessionStorage.setItem("finn.c:" + url, JSON.stringify({ at: Date.now(), data }));
+    } catch {}
+    return data as T;
+  })();
+  inflight.add(job);
+  job.finally(() => inflight.delete(job)).catch(() => {});
+  return job;
 }
 
 export function useBundles(symbols: string[], enabled = true) {
   const key = [...symbols].sort().join(",");
-  const [state, setState] = useState<{ bundles: Bundle[]; failed: { symbol: string; error: string }[]; loading: boolean; error?: string }>({
+  const ep = useRefreshEpoch();
+  const [state, setState] = useState<{ bundles: Bundle[]; failed: { symbol: string; error: string }[]; loading: boolean; error?: string; key?: string }>({
     bundles: [],
     failed: [],
     loading: true,
@@ -132,28 +172,30 @@ export function useBundles(symbols: string[], enabled = true) {
       setState({ bundles: [], failed: [], loading: false });
       return;
     }
-    setState((s) => ({ ...s, loading: true }));
+    // A pull to refresh keeps the current list on screen; only a new portfolio shows the skeleton.
+    setState((s) => ({ ...s, loading: !(s.bundles.length && s.key === key) }));
     getJSON<{ bundles: Bundle[]; failed: { symbol: string; error: string }[] }>(`/api/bundles?s=${key}`)
-      .then((d) => live && setState({ bundles: d.bundles, failed: d.failed, loading: false }))
+      .then((d) => live && setState({ bundles: d.bundles, failed: d.failed, loading: false, key }))
       .catch((e) => live && setState((s) => ({ ...s, loading: false, error: String(e.message ?? e) })));
     return () => {
       live = false;
     };
-  }, [key, enabled]);
+  }, [key, enabled, ep]);
   return state;
 }
 
 export function useBundle(symbol: string) {
   const [state, setState] = useState<{ b: Bundle | null; loading: boolean; error?: string }>({ b: null, loading: true });
+  const ep = useRefreshEpoch();
   useEffect(() => {
     let live = true;
     getJSON<Bundle>(`/api/company/${symbol}`)
       .then((b) => live && setState({ b, loading: false }))
-      .catch((e) => live && setState({ b: null, loading: false, error: String(e.message ?? e) }));
+      .catch((e) => live && setState((s) => (s.b ? s : { b: null, loading: false, error: String(e.message ?? e) })));
     return () => {
       live = false;
     };
-  }, [symbol]);
+  }, [symbol, ep]);
   return state;
 }
 

@@ -1,20 +1,18 @@
 "use client";
 // Home (04 doc §13 "Clear Day"): a portfolio summary that is alive every day — state ring,
-// three stats, sector mix — then a short written lead, what needs you, what is coming up,
+// three stats, sector mix — then one list of what needs you, what is worth knowing, what is coming up,
 // and a finite ending. Every figure is counted from real filings; blocks without data are hidden.
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { buildToday, CAT_LABEL, moveSentence, resultsHeadline, routineGroups, tierOf, windowStart, WINDOW_LABEL, type Card } from "@/lib/digest";
+import { buildToday, routineGroups, tierOf, windowStart, WINDOW_LABEL, type Card } from "@/lib/digest";
 import { dayLabel, portfolioEvents, promisesKept, SECTOR_COLORS, sectorMix, type PortfolioEvent } from "@/lib/home";
 import { useBundles, usePortfolio, useRules, useSeen, useSettings, useSince } from "@/lib/client";
 import type { WindowKey } from "@/lib/types";
-import { anchor, nextBrief } from "@/lib/time";
-import { AlertCard, FilingCard, filingEvidence, short } from "./cards";
+import { anchor } from "@/lib/time";
+import { filingEvidence, NeedRow } from "./cards";
 import InstallCard from "./InstallCard";
 import { Footer, Icon, Ring, Sheet, Skeleton, useEvidence } from "./ui";
 
-type Seg = string | { t: string; on: () => void };
 
 function greeting(now = Date.now()) {
   const h = Number(new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", hour: "2-digit", hour12: false }).format(new Date(now)));
@@ -29,7 +27,6 @@ export default function HomeView() {
   const [settings, setSettings] = useSettings();
   const [seen] = useSeen();
   const since = useSince();
-  const router = useRouter();
   const [win, setWin] = useState<WindowKey | null>(null);
   const w = win ?? settings.window;
   const [sheet, setSheet] = useState(false);
@@ -52,33 +49,6 @@ export default function HomeView() {
   const cal = useMemo(() => portfolioEvents(bundles), [bundles]);
   const govFlags = today.days.reduce((s, d) => s + d.items.filter((f) => f.category === "governance").length, 0);
   const c = today.counts;
-
-  // ----- the lead: 2–3 templated sentences; highlighted facts open their source -----
-  const lead: Seg[] = [];
-  const sentence = (card: Card): Seg[] => {
-    const name = short(card.day.b.name);
-    if (card.kind === "alert") return [`${name} `, { t: moveSentence(card.move), on: () => router.push(`/c/${card.day.b.symbol}?tab=updates&from=today`) }, card.move.explainedBy ? "." : ", and no filing explains it."];
-    const f = card.filing;
-    const view = f.category === "results" ? card.day.results?.view : null;
-    return [`${name}: `, { t: (view ? resultsHeadline(view) : f.headline).replace(/\.$/, ""), on: () => ev(filingEvidence(card.day.b, f)) }, "."];
-  };
-  if (bundles.length) {
-    if (!attention.length) {
-      lead.push(`Nothing needs you across ${bundles.length} companies ${winPhrase}. `);
-      if (know.length) lead.push({ t: `${know.length} business update${know.length > 1 ? "s" : ""}`, on: () => setAllKnow(true) }, " are worth knowing but none change a thesis. ");
-      if (today.routine.length) lead.push({ t: `${today.routine.length} routine filing${today.routine.length > 1 ? "s" : ""}`, on: () => setShowRoutine(true) }, " checked; your rules didn’t fire.");
-      else lead.push(today.filingsRead ? `${today.filingsRead} filings checked; your rules didn’t fire.` : "No company filed anything, and your rules didn’t fire.");
-    } else {
-      lead.push(...sentence(attention[0]), " ");
-      if (attention[1]) lead.push(...sentence(attention[1]), " ");
-      const rest = attention.length - Math.min(2, attention.length);
-      lead.push(
-        `${rest > 0 ? `${rest} more need${rest === 1 ? "s" : ""} you. ` : ""}${c.unchanged} of ${bundles.length} companies are unchanged; `,
-        { t: `${today.routine.length} routine filing${today.routine.length === 1 ? "" : "s"}`, on: () => setShowRoutine(true) },
-        " checked.",
-      );
-    }
-  }
 
   // ----- coming up: next two dated groups -----
   const groups: { d: string; kind: string; items: PortfolioEvent[] }[] = [];
@@ -157,7 +127,7 @@ export default function HomeView() {
                 {kept && (
                   <Link href="/companies" className="tile" title={`${kept.kept} of ${kept.due} due promises kept, across ${kept.companies} track records`}>
                     <span className="n t-good">{kept.pct}%</span>
-                    <span className="k">promises kept · {kept.companies} {kept.companies === 1 ? "company" : "cos"}</span>
+                    <span className="k">promises kept</span>
                   </Link>
                 )}
                 <div className="tile">
@@ -171,13 +141,13 @@ export default function HomeView() {
               </div>
               {mix.length > 0 && (
                 <div className="stack gap8">
-                  <span className="label">Sector mix · by number of companies</span>
+                  <span className="label">Sectors</span>
                   <span className="bar" role="img" aria-label={mix.map((m) => `${m.name} ${m.pct}%`).join(", ")}>
-                    {mix.map((m, i) => <span key={m.name} style={{ flex: `${m.n} 1 0`, background: SECTOR_COLORS[i] }} />)}
+                    {mix.map((m, i) => <span key={m.name} style={{ flex: `${m.n} 1 0`, background: m.name === "Other" ? "var(--quiet-solid)" : SECTOR_COLORS[i] }} />)}
                   </span>
                   <span className="row ink2" style={{ flexWrap: "wrap", gap: "4px 12px", fontSize: 11 }}>
                     {mix.map((m, i) => (
-                      <span key={m.name} className="row gap4"><span style={{ width: 8, height: 8, borderRadius: 4, background: SECTOR_COLORS[i] }} />{m.name} {m.pct}%</span>
+                      <span key={m.name} className="row gap4"><span style={{ width: 8, height: 8, borderRadius: 4, background: m.name === "Other" ? "var(--quiet-solid)" : SECTOR_COLORS[i] }} />{m.name} {m.pct}%</span>
                     ))}
                   </span>
                 </div>
@@ -186,33 +156,28 @@ export default function HomeView() {
 
             <InstallCard />
 
-            {/* The lead */}
-            <section className="card" aria-label="Summary">
-              <span className="label">The brief</span>
-              <p style={{ margin: 0, fontSize: 16, lineHeight: "25px" }}>
-                {lead.map((s, i) => (typeof s === "string" ? <span key={i}>{s}</span> : <span key={i} role="button" tabIndex={0} className="mark" style={{ cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 3, textDecorationColor: "color-mix(in srgb, currentColor 35%, transparent)" }} onClick={s.on} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && s.on()}>{s.t}</span>))}
-              </p>
-              <span className="small muted">Written from the filings by fixed rules, not by a model. Tap a highlight for its source.</span>
-            </section>
-
-            {/* Needs your attention */}
+            {/* Needs you: the old brief and the attention cards merged into one list (declutter plan) */}
             <div className="row between" style={{ alignItems: "baseline" }}>
-              <span className="sect">Needs your attention</span>
-              {attention.length > 3 && <button className="link" onClick={() => setAllAttn(!allAttn)}>{allAttn ? "Show fewer" : `See all ${attention.length}`}</button>}
+              <span className="sect">Needs you{attention.length ? ` · ${attention.length}` : ""}</span>
+              {attention.length > 4 && <button className="link" onClick={() => setAllAttn(!allAttn)}>{allAttn ? "Show fewer" : `See all ${attention.length}`}</button>}
             </div>
-            {(allAttn ? attention : attention.slice(0, 3)).map((card) =>
-              card.kind === "alert" ? (
-                <AlertCard key={`m${card.day.b.symbol}${card.move.d}`} day={card.day} move={card.move} seen={!!seen[`m:${card.day.b.symbol}:${card.move.d}`]} />
-              ) : (
-                <FilingCard key={card.filing.id} day={card.day} f={card.filing} seen={!!seen[`f:${card.filing.id}`]} />
-              ),
+            {attention.length > 0 && (
+              <section className="card flush">
+                {(allAttn ? attention : attention.slice(0, 4)).map((card) =>
+                  card.kind === "alert" ? (
+                    <NeedRow key={`m${card.day.b.symbol}${card.move.d}`} day={card.day} move={card.move} seen={!!seen[`m:${card.day.b.symbol}:${card.move.d}`]} />
+                  ) : (
+                    <NeedRow key={card.filing.id} day={card.day} f={card.filing} seen={!!seen[`f:${card.filing.id}`]} />
+                  ),
+                )}
+              </section>
             )}
             {attention.length === 0 && (
               <div className="card" style={{ flexDirection: "row", gap: 12, alignItems: "flex-start" }}>
                 <span className="icontile c-good" aria-hidden>{Icon.check}</span>
                 <span className="stack gap6" style={{ flex: 1 }}>
                   <span className="headline" style={{ fontSize: 15 }}>Nothing needs you {winPhrase}</span>
-                  <span className="s13 ink2">{today.filingsRead} filings checked. No governance event, no results, and none of your rules fired.</span>
+                  <span className="s13 ink2">{today.filingsRead} filings checked · none of your rules fired</span>
                   {w !== "30d" && (
                     <button className="link" style={{ alignSelf: "flex-start" }} onClick={() => setWin(w === "7d" ? "30d" : "7d")}>
                       Look back {w === "7d" ? "30 days" : "7 days"} ›
@@ -230,10 +195,7 @@ export default function HomeView() {
                 </div>
                 <section className="card flush">
                   {(allKnow ? know : know.slice(0, 3)).map(({ day, filing: f }) => (
-                    <button key={f.id} className="rowlink" style={{ width: "100%", background: "none", border: 0, borderTop: "1px solid var(--line)", textAlign: "left", flexDirection: "column", gap: 2 }} onClick={() => ev(filingEvidence(day.b, f))}>
-                      <span className="small ink2">{short(day.b.name)} · {CAT_LABEL[f.category]} · {anchor(f.at)}</span>
-                      <span className="s14" style={{ fontWeight: 600, lineHeight: "20px" }}>{f.headline}</span>
-                    </button>
+                    <NeedRow key={f.id} day={day} f={f} seen={!!seen[`f:${f.id}`]} onOpen={() => ev(filingEvidence(day.b, f))} />
                   ))}
                 </section>
               </>
@@ -257,7 +219,7 @@ export default function HomeView() {
                   </div>
                 ) : (
                   <Link href="/calendar" className="card s14 ink2">
-                    None of your companies has announced a board meeting or results date yet. Recent ones are in the calendar ›
+                    No dates announced yet
                   </Link>
                 )}
               </>
@@ -269,7 +231,7 @@ export default function HomeView() {
                 <button className="row between" style={{ background: "none", border: 0, padding: 0, textAlign: "left", minHeight: 40 }} onClick={() => setShowRoutine(!showRoutine)} aria-expanded={showRoutine}>
                   <span className="stack" style={{ gap: 2, minWidth: 0 }}>
                     <span style={{ fontSize: 15, fontWeight: 600 }}>{today.routine.length} routine filings</span>
-                    <span className="small muted">{routineGroups(today.routine).slice(0, 3).map((g) => g.label).join(", ")}</span>
+                    {!showRoutine && <span className="small muted">{routineGroups(today.routine).slice(0, 3).map((g) => g.label).join(", ")}</span>}
                   </span>
                   <span className="link">{showRoutine ? "Hide" : "Show"}</span>
                 </button>
@@ -287,7 +249,7 @@ export default function HomeView() {
                         return (
                           <button key={f.id} className="row gap10 s13" style={{ background: "none", border: 0, borderTop: "1px solid var(--line)", padding: "9px 0", textAlign: "left", alignItems: "flex-start" }} onClick={() => ev(filingEvidence(b, f))}>
                             <span className="small muted strong" style={{ width: 86, flex: "0 0 auto", overflow: "hidden", textOverflow: "ellipsis" }}>{f.symbol}</span>
-                            <span className="ink2">{f.headline}</span>
+                            <span className="ink2 clamp2">{f.headline}</span>
                           </button>
                         );
                       })}
@@ -307,8 +269,7 @@ export default function HomeView() {
               {Icon.check}
               <span style={{ fontSize: 17, fontWeight: 700 }}>You’re caught up</span>
               <span className="s13 muted">
-                Next brief {nextBrief(settings.briefs, settings.weekdaysOnly)}
-                {dataAsOf && ` · data as of ${anchor(dataAsOf)} IST`}
+                {dataAsOf && `Data as of ${anchor(dataAsOf)} IST`}
               </span>
             </div>
           </>

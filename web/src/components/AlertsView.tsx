@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { CAT_LABEL, DEFAULT_RULES, RULE_CATS } from "@/lib/digest";
 import { useRules } from "@/lib/client";
-import { Footer, Icon, TopBar } from "./ui";
+import { Icon, TopBar } from "./ui";
 
 export default function AlertsView() {
   const [rules, setRules] = useRules();
@@ -29,7 +29,6 @@ export default function AlertsView() {
             <span className="toggle" aria-checked={rules.onlyUnexplained} />
           </button>
         </section>
-        <span className="small muted">Split and bonus days never fire an alert — the price change is mechanical.</span>
 
         <span className="label" style={{ marginTop: 6 }}>Announcements that need you</span>
         <section className="card stack gap10">
@@ -49,13 +48,12 @@ export default function AlertsView() {
               );
             })}
           </span>
-          <span className="small muted">Dark = needs you. Unselected types still appear, ranked lower as “worth knowing”. Routine paperwork is always collapsed.</span>
+          <span className="small muted">Selected types go to Needs you; the rest to Worth knowing.</span>
         </section>
         <button className="btn" style={{ height: 44, justifyContent: "center" }} onClick={() => setRules(DEFAULT_RULES)}>Restore default rules</button>
         <Link href="/how" className="row between s14 ink2" style={{ minHeight: 44 }}>
           How FINN ranks, and what it costs {Icon.chevR}
         </Link>
-        <Footer />
       </div>
     </>
   );

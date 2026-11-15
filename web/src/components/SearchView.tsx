@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { sectorOf } from "@/lib/home";
 import { useBundles, usePortfolio } from "@/lib/client";
 import { short } from "./cards";
-import { Footer, Icon } from "./ui";
+import { Icon } from "./ui";
 
 export default function SearchView() {
   const [portfolio, setPortfolio, hydrated] = usePortfolio();
@@ -104,7 +104,6 @@ export default function SearchView() {
             )}
           </>
         )}
-        <Footer />
       </div>
     </>
   );

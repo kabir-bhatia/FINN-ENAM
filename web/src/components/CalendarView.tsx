@@ -2,11 +2,11 @@
 // Calendar: board meetings (results, dividends, fund raising) for portfolio companies, by date.
 // Source: NSE's event calendar, refreshed with each company's data. Only announced dates are shown.
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { dayLabel, portfolioEvents, type PortfolioEvent } from "@/lib/home";
 import { useBundles, usePortfolio } from "@/lib/client";
 import { istDate } from "@/lib/time";
-import { Footer, Icon, Skeleton } from "./ui";
+import { Skeleton } from "./ui";
 
 function groupByDay(es: PortfolioEvent[]) {
   const out: { d: string; items: PortfolioEvent[] }[] = [];
@@ -27,24 +27,36 @@ export default function CalendarView() {
   const today = istDate(Date.now());
   const up = groupByDay(cal.upcoming);
   const past = groupByDay(cal.recent);
+  const [open, setOpen] = useState<string | null>(null);
+  const [showPast, setShowPast] = useState(false);
 
-  const day = (g: { d: string; items: PortfolioEvent[] }, first: boolean) => (
-    <section key={g.d} className="card flush">
-      <span className="row between" style={{ padding: "12px 16px", background: first ? "var(--hero)" : "transparent", color: first ? "var(--hero-ink)" : "var(--ink)" }}>
-        <span style={{ fontWeight: 700 }}>{dayLabel(g.d)}{g.d === today ? " · today" : ""}</span>
-        <span className="small" style={{ opacity: 0.8 }}>{g.items.length} {g.items.length === 1 ? "company" : "companies"}</span>
-      </span>
-      {g.items.map((e, i) => (
-        <Link key={e.symbol + i} href={`/c/${e.symbol}`} className="rowlink" style={{ borderTop: "1px solid var(--line)", alignItems: "center" }}>
-          <span className="stack" style={{ flex: 1, gap: 3, minWidth: 0 }}>
-            <span className="row gap8">
-              <span style={{ fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{e.name}</span>
-              <span className={`chip ${tone(e.kind)}`}>{e.kind}</span>
-            </span>
-            {e.desc && <span className="s13 ink2" style={{ lineHeight: "18px", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{e.desc}</span>}
+  // One list with date headers, routine-list style; the NSE purpose text sits behind a tap.
+  const list = (gs: { d: string; items: PortfolioEvent[] }[], firstHot: boolean) => (
+    <section className="card flush">
+      {gs.map((g, gi) => (
+        <div key={g.d}>
+          <span className="row small strong" style={{ padding: "10px 16px 6px", borderTop: gi ? "1px solid var(--line)" : 0, color: firstHot && gi === 0 ? "var(--good)" : "var(--ink2)" }}>
+            {dayLabel(g.d)}{g.d === today ? " · today" : ""}
           </span>
-          <span className="muted" style={{ flex: "0 0 auto" }}>{Icon.chevR}</span>
-        </Link>
+          {g.items.map((e, i) => {
+            const k = g.d + e.symbol + i;
+            const isOpen = open === k;
+            return (
+              <div key={k} style={{ padding: "0 16px" }}>
+                <button className="row between gap8" style={{ width: "100%", minHeight: 44, background: "none", border: 0, padding: "4px 0", textAlign: "left", font: "inherit", color: "inherit" }} aria-expanded={isOpen} onClick={() => setOpen(isOpen ? null : k)}>
+                  <span className="s14" style={{ fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }}>{e.name}</span>
+                  <span className={`chip ${tone(e.kind)}`}>{e.kind}</span>
+                </button>
+                {isOpen && (
+                  <span className="stack gap6" style={{ paddingBottom: 10 }}>
+                    {e.desc && <span className="s13 ink2" style={{ lineHeight: "18px" }}>{e.desc}</span>}
+                    <Link className="link s13" href={`/c/${e.symbol}`}>Open {e.name} ›</Link>
+                  </span>
+                )}
+              </div>
+            );
+          })}
+        </div>
       ))}
     </section>
   );
@@ -53,10 +65,7 @@ export default function CalendarView() {
     <>
       <div style={{ height: 20 }} />
       <div className="stack gap14">
-        <div className="stack gap4">
-          <h1 className="title">Calendar</h1>
-          <span className="s14 ink2">Board meetings your companies have announced to the exchange.</span>
-        </div>
+        <h1 className="title">Calendar</h1>
         {loading && <div className="card stack gap10"><Skeleton /><Skeleton w="70%" /><Skeleton w="85%" /></div>}
         {!loading && !cal.loaded && bundles.length > 0 && (
           <div className="card s14 ink2">Event dates are being fetched from NSE for the first time. Open this tab again in a minute.</div>
@@ -67,21 +76,19 @@ export default function CalendarView() {
         {!loading && cal.loaded && (
           <>
             <span className="sect">Coming up</span>
-            {up.length ? up.map((g, i) => day(g, i === 0)) : (
-              <div className="card s14 ink2">
-                None of your {bundles.length} companies has announced a board meeting ahead. Results dates are usually announced about a week before; they will appear here when filed.
-              </div>
-            )}
+            {up.length ? list(up, true) : <div className="card s14 ink2">No board meetings announced yet. Results dates usually appear about a week ahead.</div>}
             {past.length > 0 && (
-              <>
-                <span className="sect" style={{ marginTop: 6 }}>Last 45 days</span>
-                {past.map((g) => day(g, false))}
-              </>
+              <section className="card">
+                <button className="row between" style={{ background: "none", border: 0, padding: 0, textAlign: "left", minHeight: 40, font: "inherit", color: "inherit" }} onClick={() => setShowPast(!showPast)} aria-expanded={showPast}>
+                  <span style={{ fontSize: 15, fontWeight: 600 }}>{past.reduce((n, g) => n + g.items.length, 0)} meetings in the last 45 days</span>
+                  <span className="link">{showPast ? "Hide" : "Show"}</span>
+                </button>
+              </section>
             )}
+            {showPast && list(past, false)}
           </>
         )}
-        <span className="small muted">Source: NSE event calendar, read with each data refresh. Earnings-call dates are not in this feed; they appear in a company’s Updates when it files the schedule.</span>
-        <Footer />
+        <span className="small muted">Source: NSE event calendar · earnings-call dates appear in a company’s Updates</span>
       </div>
     </>
   );

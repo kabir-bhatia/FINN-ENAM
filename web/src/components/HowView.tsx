@@ -38,6 +38,8 @@ export default function HowView() {
           <Li><b>The model</b> judges verdicts on the small ledger only (a few KB), not on whole transcripts.</Li>
           <Li><b>No model touches numbers.</b> Results come from Screener’s table of the filed results; growth and EBITDA are computed in code.</Li>
           <Li><b>Cached forever:</b> filings never change, so nothing is read twice.</Li>
+          <Li><b>Refreshed on a schedule</b> (5 times a weekday), so Home is ready when you open it; notifications go out right after each refresh. Pulling down on a page fetches the latest refreshed copy.</Li>
+          <Li><b>Home’s lists are assembled by fixed rules</b>, not written by a model; tap any row for its filing and source.</Li>
         </Section>
 
         <Section title="3 · Live numbers for your portfolio">

@@ -149,7 +149,7 @@ export default function TrackView({ b }: { b: Bundle }) {
 
       {l.promises.length > 0 && (
         <section className="card flush">
-          <span className="label" style={{ padding: "14px 16px 6px" }}>Ledger · {l.promises.length} promises · tap a row for the quote</span>
+          <span className="label" style={{ padding: "14px 16px 6px" }}>Ledger · {l.promises.length} promises</span>
           {shown.map((p) => (
             <button key={p.id} className="ledger" style={{ borderTop: "1px solid var(--line)" }} onClick={() => openPromise(p)}>
               <span className="stack" style={{ gap: 2 }}>
@@ -177,8 +177,11 @@ export default function TrackView({ b }: { b: Bundle }) {
         <button className="btn primary" onClick={() => { setCopied(false); setAsk(true); }}>Questions to ask management</button>
       )}
 
-      <section className="card stack gap6">
-        <span className="label">Cost receipt</span>
+      <details className="card stack gap6 receipt">
+        <summary className="row between s14" style={{ fontWeight: 600, minHeight: 32, cursor: "pointer" }}>
+          <span>Cost receipt</span>
+          <span className="small muted">{(tokens / 1000).toFixed(1)}k tokens · ₹0 ›</span>
+        </summary>
         {l.costs.map((c, i) => (
           <span key={i} className="row between small gap8">
             <span className="ink2" style={{ minWidth: 0 }}>{c.step}</span>
@@ -190,7 +193,7 @@ export default function TrackView({ b }: { b: Bundle }) {
           <span className="muted">₹0 free tier</span>
         </span>
         <span className="small muted">Built {l.builtAt ? shortDate(l.builtAt) : ""} · cached for everyone · numbers from Screener’s table of reported results, never generated.</span>
-      </section>
+      </details>
 
       <Sheet open={ask} onClose={() => setAsk(false)} label="Questions to ask management">
         <div className="stack gap12">
@@ -256,7 +259,7 @@ function SaidVsReported({ metric, rows, onOpen }: { metric: string; rows: SaidRo
           </span>
         </div>
       )}
-      <span className="small muted">“They said” is management’s own figure on each call (tap for the quote). “Reported” is the latest figure the check used, taken from reported numbers.</span>
+      <span className="small muted">Tap a “they said” figure for the quote</span>
     </section>
   );
 }

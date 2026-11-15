@@ -1,6 +1,7 @@
 "use client";
 import { Suspense, useSyncExternalStore, type ReactNode } from "react";
 import { PushSync } from "./PushControls";
+import PullToRefresh from "./PullToRefresh";
 import { EvidenceProvider, TabBar, ThemeSync } from "./ui";
 
 const noop = () => () => {};
@@ -15,6 +16,7 @@ export default function Shell({ children }: { children: ReactNode }) {
       {mounted && <PushSync />}
       <main className="app">{mounted ? children : <div style={{ height: 56 }} />}</main>
       <Suspense fallback={null}>
+        {mounted && <PullToRefresh />}
         <TabBar />
       </Suspense>
     </EvidenceProvider>

@@ -5,11 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 import { companyDay } from "@/lib/digest";
-import { sectorOf } from "@/lib/home";
 import { DEMO, useBundles, usePortfolio, useRules } from "@/lib/client";
 import type { Bundle } from "@/lib/types";
 import { PromiseBar, short, stateChip } from "./cards";
-import { Footer, Icon, Sheet, Skeleton, Toast } from "./ui";
+import { Icon, Sheet, Skeleton, Toast } from "./ui";
 
 export default function CompaniesView() {
   const [portfolio, setPortfolio, hydrated] = usePortfolio();
@@ -18,6 +17,16 @@ export default function CompaniesView() {
   const [menu, setMenu] = useState<Bundle | null>(null);
   const [toast, setToast] = useState<{ text: string; undo?: () => void } | null>(null);
   const router = useRouter();
+  // The long-press tip shows on the first visit only (declutter plan).
+  const [tipSeen] = useState(() => {
+    try {
+      const v = localStorage.getItem("finn.tip.longpress");
+      localStorage.setItem("finn.tip.longpress", "1");
+      return !!v;
+    } catch {
+      return false;
+    }
+  });
 
   const days = useMemo(() => {
     const from = Date.now() - 7 * 864e5;
@@ -38,7 +47,7 @@ export default function CompaniesView() {
         <div className="row between" style={{ alignItems: "flex-end" }}>
           <div className="stack gap4">
             <h1 className="title">Companies</h1>
-            <span className="s13 ink2">{portfolio.length} in your portfolio · state over the last 7 days</span>
+            <span className="s13 ink2">{portfolio.length} companies · last 7 days</span>
           </div>
           <Link className="roundbtn" href="/search" aria-label="Add a company">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden><path d="M12 5v14M5 12h14" /></svg>
@@ -53,7 +62,6 @@ export default function CompaniesView() {
                 <span style={{ fontSize: 16, fontWeight: 700, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", minWidth: 0 }}>{short(d.b.name)}</span>
                 {stateChip(d.state)}
               </span>
-              <span className="small ink2">{sectorOf(d.b.symbol, d.b.industry)} · {d.b.symbol}</span>
               <span className="s13 ink2" style={{ lineHeight: "18px" }}>{d.state === "unchanged" ? "Nothing material this week" : d.reason}</span>
               {d.b.track && <PromiseBar t={d.b.track} />}
             </Row>
@@ -64,13 +72,12 @@ export default function CompaniesView() {
             <Link className="btn primary" href="/search">Search any NSE company</Link>
           </div>
         )}
-        {!loading && portfolio.length > 0 && <span className="small muted" style={{ textAlign: "center" }}>Long-press a company for options</span>}
+        {!loading && portfolio.length > 0 && !tipSeen && <span className="small muted" style={{ textAlign: "center" }}>Tip: long-press a company for options</span>}
         {portfolio.length !== DEMO.length || portfolio.some((s) => !DEMO.includes(s)) ? (
           <button className="btn" style={{ height: 44, justifyContent: "center" }} onClick={() => { const before = portfolio; setPortfolio(DEMO); setToast({ text: "Demo portfolio restored", undo: () => setPortfolio(before) }); }}>
             Reset to demo portfolio
           </button>
         ) : null}
-        <Footer />
       </div>
 
       <Sheet open={!!menu} onClose={() => setMenu(null)} label="Company options">

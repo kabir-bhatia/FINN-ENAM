@@ -30,7 +30,7 @@ export function sectorOf(symbol: string, industry?: string): string {
 
 export const SECTOR_COLORS = ["var(--ink)", "var(--accent)", "var(--watch-solid)", "var(--blue)", "var(--quiet-solid)"];
 
-/** Sector mix by company count: top four sectors, the rest folded into "Other". */
+/** Sector mix by company count: top three sectors, the rest folded into "Other" (fits one legend line). */
 export function sectorMix(bundles: Bundle[]): { name: string; n: number; pct: number }[] {
   const m = new Map<string, number>();
   for (const b of bundles) {
@@ -38,8 +38,8 @@ export function sectorMix(bundles: Bundle[]): { name: string; n: number; pct: nu
     m.set(s, (m.get(s) ?? 0) + 1);
   }
   const rows = [...m.entries()].filter(([k]) => k !== "Other").sort((a, b) => b[1] - a[1]);
-  const top = rows.slice(0, 4);
-  const rest = rows.slice(4).reduce((s, r) => s + r[1], 0) + (m.get("Other") ?? 0);
+  const top = rows.slice(0, 3);
+  const rest = rows.slice(3).reduce((s, r) => s + r[1], 0) + (m.get("Other") ?? 0);
   if (rest) top.push(["Other", rest]);
   const total = bundles.length || 1;
   return top.map(([name, n]) => ({ name, n, pct: Math.round((n / total) * 100) }));
