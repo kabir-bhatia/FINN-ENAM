@@ -2,6 +2,7 @@
 // The work runs here on Vercel bom1 because NSE/Screener are reachable from it (03 doc).
 import { buildBundle, cleanSymbol, pool, trackedSymbols } from "@/lib/bundle";
 
+export const preferredRegion = "bom1"; // Mumbai: next to NSE, Screener and BSE PDFs
 export const maxDuration = 300;
 
 // Two schedulers, one endpoint: Vercel Cron (daily, Hobby limit) sends "Authorization: Bearer

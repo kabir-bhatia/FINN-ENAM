@@ -5,6 +5,7 @@ import { after } from "next/server";
 import { addTracked, buildBundle, cleanSymbol, isStale, pool, readBundle } from "@/lib/bundle";
 import type { Bundle } from "@/lib/types";
 
+export const preferredRegion = "bom1"; // Mumbai: next to NSE, Screener and BSE PDFs
 export const maxDuration = 120;
 
 export async function GET(request: Request) {

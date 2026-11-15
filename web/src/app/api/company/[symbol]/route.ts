@@ -1,6 +1,7 @@
 // One company's bundle; ?refresh=1 forces a live rebuild from NSE, Yahoo and Screener.
 import { addTracked, buildBundle, cleanSymbol, readBundle } from "@/lib/bundle";
 
+export const preferredRegion = "bom1"; // Mumbai: next to NSE, Screener and BSE PDFs
 export const maxDuration = 60;
 
 export async function GET(request: Request, ctx: { params: Promise<{ symbol: string }> }) {

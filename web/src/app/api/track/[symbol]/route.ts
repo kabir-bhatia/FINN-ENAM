@@ -4,6 +4,7 @@ import { cleanSymbol, patchTrack } from "@/lib/bundle";
 import { applyExtraction, discover, extractTranscript, getLedger, saveLedger, verdicts } from "@/lib/track";
 import { screener } from "@/lib/sources";
 
+export const preferredRegion = "bom1"; // Mumbai: next to NSE, Screener and BSE PDFs
 export const maxDuration = 300;
 
 export async function GET(_req: Request, ctx: { params: Promise<{ symbol: string }> }) {

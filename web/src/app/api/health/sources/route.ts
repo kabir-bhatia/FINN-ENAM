@@ -1,6 +1,7 @@
 // Reachability check: can this deployment's servers reach each data source?
 // Kept in the app as a health endpoint (useful for the demo and for debugging blocked sources).
 // (Next 16 + cacheComponents: no `dynamic` export; reading the request keeps this handler per-request.)
+export const preferredRegion = "bom1"; // Mumbai: next to NSE, Screener and BSE PDFs
 export const maxDuration = 30;
 
 const UA =
