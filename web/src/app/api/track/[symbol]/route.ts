@@ -18,7 +18,15 @@ export async function POST(request: Request, ctx: { params: Promise<{ symbol: st
   try {
     if (body.step === "discover") {
       const existing = await getLedger(symbol, true);
-      if (existing?.status === "ready") return Response.json(existing);
+      // A ready ledger is returned as-is, unless the caller asks to retry calls that failed
+      // (usually a model quota error) — then only those calls are re-read.
+      if (existing?.status === "ready" && !(body as { retry?: boolean }).retry) return Response.json(existing);
+      if (existing?.status === "ready" && existing.transcripts.some((t) => t.status === "failed")) {
+        existing.transcripts.forEach((t) => t.status === "failed" && ((t.status = "pending"), (t.error = undefined)));
+        existing.status = "building";
+        await saveLedger(existing);
+        return Response.json(existing);
+      }
       const { ledger } = await discover(symbol);
       if (ledger.status === "no-transcripts") {
         ledger.builtAt = new Date().toISOString();

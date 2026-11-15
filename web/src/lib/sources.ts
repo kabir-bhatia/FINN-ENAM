@@ -113,8 +113,10 @@ export function parseScreener(html: string, url: string): { fund: Fundamentals |
   const concalls: ConcallLink[] = [];
   const ci = html.indexOf(">Concalls<");
   if (ci > 0) {
-    const block = html.slice(ci, ci + 60000);
-    const ul = /<ul class="list-links">([\s\S]*?)<\/ul>/.exec(block)?.[1] ?? "";
+    // Long-listed companies have 40+ calls; read up to the list's own closing tag, not a fixed window.
+    const start = html.indexOf('<ul class="list-links">', ci);
+    const end = start > 0 ? html.indexOf("</ul>", start) : -1;
+    const ul = start > 0 && end > start ? html.slice(start, end) : "";
     for (const li of ul.matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) {
       const month = strip(/<div[^>]*>([\s\S]*?)<\/div>/.exec(li[1])?.[1] ?? "");
       const links = [...li[1].matchAll(/<a([^>]*)>([\s\S]*?)<\/a>/g)];

@@ -28,13 +28,13 @@ export default function TrackView({ b }: { b: Bundle }) {
       .finally(() => setLoading(false));
   }, [b.symbol]);
 
-  const build = useCallback(async () => {
+  const build = useCallback(async (retry = false) => {
     if (started.current) return;
     started.current = true;
     setRunning(true);
     setErr("");
     try {
-      let cur = await postTrack(b.symbol, { step: "discover" });
+      let cur = await postTrack(b.symbol, { step: "discover", retry });
       setL(cur);
       if (cur.status === "building") {
         for (let i = 0; i < cur.transcripts.length; i++) {
@@ -66,7 +66,7 @@ export default function TrackView({ b }: { b: Bundle }) {
         </span>
         <span className="small muted">≈ 1 minute · flash-lite reads the calls, flash judges · about ₹0.3 at paid prices, ₹0 on the free tier · cached for everyone after</span>
         {l?.status === "building" && <span className="small t-watch">A previous build stopped part-way; it will resume where it left off.</span>}
-        <button className="btn primary" onClick={build}>Build track record</button>
+        <button className="btn primary" onClick={() => build()}>Build track record</button>
         {err && <span className="small t-act">{err}</span>}
       </div>
     );
@@ -77,6 +77,8 @@ export default function TrackView({ b }: { b: Bundle }) {
       <div className="card stack gap8">
         <span className="headline">No call transcripts found</span>
         <span className="s14 ink2">{l.note}</span>
+        <button className="btn" style={{ alignSelf: "flex-start" }} onClick={() => build()}>Check again</button>
+        {err && <span className="small t-act">{err}</span>}
       </div>
     );
 
@@ -111,7 +113,13 @@ export default function TrackView({ b }: { b: Bundle }) {
         )}
         {l.note && <span className="s14 ink2">{l.note}</span>}
         {done.length < l.transcripts.length && (
-          <span className="small t-watch">{l.transcripts.length - done.length} transcript(s) couldn’t be read: {l.transcripts.filter((t) => t.status === "failed").map((t) => `${t.month} (${t.error})`).join("; ")}</span>
+          <span className="stack gap6">
+            <span className="small t-watch">
+              {l.transcripts.length - done.length} call(s) couldn’t be read:{" "}
+              {l.transcripts.filter((t) => t.status === "failed").map((t) => `${t.month} (${/429|quota/i.test(t.error ?? "") ? "free-tier model quota reached" : t.error})`).join("; ")}. Verdicts use the calls that were read.
+            </span>
+            <button className="btn" style={{ alignSelf: "flex-start" }} onClick={() => build(true)}>Retry missing calls</button>
+          </span>
         )}
       </section>
 
