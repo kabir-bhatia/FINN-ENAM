@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Time window sheet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="{{theme}}">
+  <div style="position: absolute; inset: 0; padding: 76px 20px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; opacity: 0.55">
+    <span style="font-size: 28px; font-weight: 600">Saturday brief</span>
+    <span style="height: 36px; width: 150px; background: var(--sunk); border-radius: 18px"></span>
+    <span style="height: 64px; background: var(--surface); border-radius: 14px"></span>
+    <span style="height: 130px; background: var(--surface); border-radius: 16px"></span>
+  </div>
+  <a href="Main.dc.html" aria-label="Close sheet" style="position: absolute; inset: 0; background: var(--scrim)"></a>
+
+  <div role="dialog" aria-label="Choose time window" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 20px 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 6px; background: var(--surface); border-radius: 24px 24px 0 0">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: var(--line); margin-bottom: 10px"></span>
+    <span style="font-size: 20px; font-weight: 600">Show filings from</span>
+    <span style="font-size: 13px; color: var(--ink3); margin-bottom: 8px">Governance items are never hidden, whatever the window.</span>
+
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 14px; border-radius: 12px; background: var(--sunk)">
+      <input type="radio" name="win" style="width: 20px; height: 20px; accent-color: #15171B; margin: 0">
+      <span style="display: flex; flex-direction: column"><span style="font-size: 16px; font-weight: 500">Since I last opened</span><span style="font-size: 12px; color: var(--ink3)">Thu 18:40 · 61 filings</span></span>
+    </label>
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 14px; border-radius: 12px; border: 1.5px solid var(--ink)">
+      <input type="radio" name="win" checked style="width: 20px; height: 20px; accent-color: #15171B; margin: 0">
+      <span style="display: flex; flex-direction: column"><span style="font-size: 16px; font-weight: 600">Last 24 hours</span><span style="font-size: 12px; color: var(--ink3)">44 filings</span></span>
+    </label>
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 14px; border-radius: 12px">
+      <input type="radio" name="win" style="width: 20px; height: 20px; accent-color: #15171B; margin: 0">
+      <span style="font-size: 16px">Last 3 days</span>
+    </label>
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 14px; border-radius: 12px">
+      <input type="radio" name="win" style="width: 20px; height: 20px; accent-color: #15171B; margin: 0">
+      <span style="font-size: 16px">Last 7 days</span>
+    </label>
+    <label style="display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 14px; border-radius: 12px">
+      <input type="radio" name="win" style="width: 20px; height: 20px; accent-color: #15171B; margin: 0">
+      <span style="font-size: 16px">Last 30 days</span>
+    </label>
+
+    <a href="Main.dc.html" style="margin-top: 12px; height: 50px; display: flex; align-items: center; justify-content: center; background: var(--ink); color: var(--oninv); border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none">Show brief</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var L = '--ground:#F3F3EF;--surface:#FFFFFF;--sunk:#EAEAE4;--ink:#15171B;--ink2:#4C515A;--ink3:#656A73;--line:#DEDDD6;--act:#B3261E;--actbg:#FBEAE7;--watch:#8A5300;--watchbg:#FBF0DC;--good:#1E6B3A;--goodbg:#E4F1E7;--quiet:#5B6270;--quietbg:#ECECE7;--mark:#FFE27A;--scrim:rgba(21,23,27,.45);--oninv:#F3F3EF;';
+    var D = '--ground:#0F1012;--surface:#17191C;--sunk:#202328;--ink:#ECECE6;--ink2:#B4B8BF;--ink3:#8D929B;--line:#2A2D33;--act:#FF8A7A;--actbg:#3A1C19;--watch:#E8B45A;--watchbg:#33260F;--good:#74C98F;--goodbg:#14301E;--quiet:#9AA1AD;--quietbg:#24272C;--mark:#5E4B0B;--scrim:rgba(0,0,0,.6);--oninv:#0F1012;';
+    var dark = this.props.dark ?? false;
+    return { theme: 'width:390px;height:844px;position:relative;overflow:hidden;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;' + (dark ? D : L) };
+  }
+}
+</script>
+</body>
+</html>

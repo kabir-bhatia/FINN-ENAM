@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Add company sheet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="{{theme}}">
+  <div style="position: absolute; inset: 0; padding: 76px 20px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; opacity: 0.55">
+    <span style="font-size: 28px; font-weight: 600">Watch</span>
+    <span style="height: 160px; background: var(--surface); border-radius: 16px"></span>
+  </div>
+  <a href="Watch.dc.html" aria-label="Close sheet" style="position: absolute; inset: 0; background: var(--scrim)"></a>
+
+  <div role="dialog" aria-label="Add a company" style="position: absolute; left: 0; right: 0; bottom: 0; top: 120px; padding: 10px 20px 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; background: var(--surface); border-radius: 24px 24px 0 0">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: var(--line)"></span>
+    <span style="font-size: 20px; font-weight: 600">Add to portfolio</span>
+    <label style="display: flex; align-items: center; gap: 10px; height: 50px; padding: 0 14px; background: var(--ground); border: 1.5px solid var(--ink); border-radius: 14px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+      <span style="position: absolute; width: 1px; height: 1px; overflow: hidden">Search NSE companies</span>
+      <input type="text" value="dixon" style="flex: 1 1 auto; min-width: 0; border: 0; outline: none; background: none; font: inherit; font-size: 16px; color: var(--ink)">
+    </label>
+
+    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 14px">
+      <span style="display: flex; flex-direction: column; gap: 2px; flex: 1 1 auto"><span style="font-size: 15px; font-weight: 600">Dixon Technologies (India)</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink3)">DIXON · NSE</span></span>
+      <span style="font-size: 13px; font-weight: 600; color: var(--good)">Added</span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--ground); border-radius: 14px">
+      <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink3)">CATCHING UP ON DIXON</span>
+      <span style="display: flex; justify-content: space-between; font-size: 14px"><span>Filings, last 30 days</span><span style="font-family: 'IBM Plex Mono', monospace">23 found</span></span>
+      <span style="display: flex; justify-content: space-between; font-size: 14px"><span>Sorting by importance</span><span style="font-family: 'IBM Plex Mono', monospace">14 / 23</span></span>
+      <span style="height: 4px; background: var(--sunk); border-radius: 2px; overflow: hidden"><span style="display: block; width: 61%; height: 4px; background: var(--ink)"></span></span>
+      <span style="display: flex; justify-content: space-between; font-size: 14px; color: var(--ink3)"><span>Prices, last 60 days</span><span style="font-family: 'IBM Plex Mono', monospace">done</span></span>
+    </div>
+    <span style="font-size: 12px; line-height: 17px; color: var(--ink3)">Rules sort most filings for free. Only unclear titles go to a small model.</span>
+
+    <a href="Main.dc.html" style="margin-top: auto; height: 50px; display: flex; align-items: center; justify-content: center; background: var(--ink); color: var(--oninv); border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none">See it in the Brief</a>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var L = '--ground:#F3F3EF;--surface:#FFFFFF;--sunk:#EAEAE4;--ink:#15171B;--ink2:#4C515A;--ink3:#656A73;--line:#DEDDD6;--act:#B3261E;--actbg:#FBEAE7;--watch:#8A5300;--watchbg:#FBF0DC;--good:#1E6B3A;--goodbg:#E4F1E7;--quiet:#5B6270;--quietbg:#ECECE7;--mark:#FFE27A;--scrim:rgba(21,23,27,.45);--oninv:#F3F3EF;';
+    var D = '--ground:#0F1012;--surface:#17191C;--sunk:#202328;--ink:#ECECE6;--ink2:#B4B8BF;--ink3:#8D929B;--line:#2A2D33;--act:#FF8A7A;--actbg:#3A1C19;--watch:#E8B45A;--watchbg:#33260F;--good:#74C98F;--goodbg:#14301E;--quiet:#9AA1AD;--quietbg:#24272C;--mark:#5E4B0B;--scrim:rgba(0,0,0,.6);--oninv:#0F1012;';
+    var dark = this.props.dark ?? false;
+    return { theme: 'width:390px;height:844px;position:relative;overflow:hidden;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;' + (dark ? D : L) };
+  }
+}
+</script>
+</body>
+</html>

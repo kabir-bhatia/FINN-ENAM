@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FINN colour, type and motion</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="width: 1300px; height: 1000px; box-sizing: border-box; padding: 56px; background: #E6E6E0; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #15171B; display: flex; flex-direction: column; gap: 32px">
+  <div style="display: flex; flex-direction: column; gap: 6px">
+    <h1 style="margin: 0; font-size: 36px; font-weight: 600; letter-spacing: -0.01em">Annotated ledger</h1>
+    <span style="font-size: 16px; color: #4C515A">Ink on paper, with one highlighter. Colour appears only when it means something.</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px">
+    <div style="background: #F3F3EF; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #656A73">LIGHT</span>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px">
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 52px; border-radius: 10px; background: #F3F3EF; border: 1px solid #DEDDD6"></span><span style="font-size: 12px; font-weight: 600">Ground</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #656A73">#F3F3EF</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 52px; border-radius: 10px; background: #FFFFFF; border: 1px solid #DEDDD6"></span><span style="font-size: 12px; font-weight: 600">Surface</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #656A73">#FFFFFF</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 52px; border-radius: 10px; background: #15171B"></span><span style="font-size: 12px; font-weight: 600">Ink</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #656A73">#15171B</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 52px; border-radius: 10px; background: #FFE27A"></span><span style="font-size: 12px; font-weight: 600">Highlighter</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #656A73">#FFE27A</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 40px; border-radius: 10px; background: #B3261E"></span><span style="font-size: 12px; font-weight: 600">Act · governance</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #656A73">#B3261E</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 40px; border-radius: 10px; background: #8A5300"></span><span style="font-size: 12px; font-weight: 600">Watch · moved</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #656A73">#8A5300</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 40px; border-radius: 10px; background: #1E6B3A"></span><span style="font-size: 12px; font-weight: 600">Good · delivered</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #656A73">#1E6B3A</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 40px; border-radius: 10px; background: #5B6270"></span><span style="font-size: 12px; font-weight: 600">Quiet · routine</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #656A73">#5B6270</span></div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #B3261E; background: #FBEAE7; padding: 4px 8px; border-radius: 6px">NEEDS YOU</span>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #8A5300; background: #FBF0DC; padding: 4px 8px; border-radius: 6px">GOALPOSTS MOVED</span>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #1E6B3A; background: #E4F1E7; padding: 4px 8px; border-radius: 6px">DELIVERED</span>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #5B6270; border: 1px dashed #5B6270; padding: 3px 8px; border-radius: 6px">NOT YET DUE</span>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center">
+        <span style="height: 44px; padding: 0 18px; display: inline-flex; align-items: center; background: #15171B; color: #F3F3EF; border-radius: 12px; font-size: 15px; font-weight: 600">Primary action</span>
+        <span style="height: 44px; padding: 0 18px; display: inline-flex; align-items: center; background: #EAEAE4; color: #15171B; border-radius: 12px; font-size: 15px; font-weight: 500">Secondary</span>
+      </div>
+      <span style="font-size: 15px; line-height: 24px; background: #FFFFFF; border: 1px solid #DEDDD6; border-radius: 12px; padding: 12px 14px">“…would like to <span style="background: #FFE27A; padding: 0 2px">anchor our margin target at around 11%</span>.”</span>
+    </div>
+
+    <div style="background: #0F1012; color: #ECECE6; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #8D929B">DARK</span>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px">
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 52px; border-radius: 10px; background: #0F1012; border: 1px solid #2A2D33"></span><span style="font-size: 12px; font-weight: 600">Ground</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8D929B">#0F1012</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 52px; border-radius: 10px; background: #17191C; border: 1px solid #2A2D33"></span><span style="font-size: 12px; font-weight: 600">Surface</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8D929B">#17191C</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 52px; border-radius: 10px; background: #ECECE6"></span><span style="font-size: 12px; font-weight: 600">Ink</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8D929B">#ECECE6</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 52px; border-radius: 10px; background: #5E4B0B"></span><span style="font-size: 12px; font-weight: 600">Highlighter</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8D929B">#5E4B0B</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 40px; border-radius: 10px; background: #FF8A7A"></span><span style="font-size: 12px; font-weight: 600">Act</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8D929B">#FF8A7A</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 40px; border-radius: 10px; background: #E8B45A"></span><span style="font-size: 12px; font-weight: 600">Watch</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8D929B">#E8B45A</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 40px; border-radius: 10px; background: #74C98F"></span><span style="font-size: 12px; font-weight: 600">Good</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8D929B">#74C98F</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><span style="height: 40px; border-radius: 10px; background: #9AA1AD"></span><span style="font-size: 12px; font-weight: 600">Quiet</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8D929B">#9AA1AD</span></div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #FF8A7A; background: #3A1C19; padding: 4px 8px; border-radius: 6px">NEEDS YOU</span>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #E8B45A; background: #33260F; padding: 4px 8px; border-radius: 6px">GOALPOSTS MOVED</span>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #74C98F; background: #14301E; padding: 4px 8px; border-radius: 6px">DELIVERED</span>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: #9AA1AD; border: 1px dashed #9AA1AD; padding: 3px 8px; border-radius: 6px">NOT YET DUE</span>
+      </div>
+      <div style="display: flex; gap: 10px; align-items: center">
+        <span style="height: 44px; padding: 0 18px; display: inline-flex; align-items: center; background: #ECECE6; color: #0F1012; border-radius: 12px; font-size: 15px; font-weight: 600">Primary action</span>
+        <span style="height: 44px; padding: 0 18px; display: inline-flex; align-items: center; background: #202328; color: #ECECE6; border-radius: 12px; font-size: 15px; font-weight: 500">Secondary</span>
+      </div>
+      <span style="font-size: 15px; line-height: 24px; background: #17191C; border: 1px solid #2A2D33; border-radius: 12px; padding: 12px 14px">“…would like to <span style="background: #5E4B0B; padding: 0 2px">anchor our margin target at around 11%</span>.”</span>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+    <div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #656A73">TYPE</span>
+      <span style="font-size: 28px; font-weight: 600; line-height: 34px">IBM Plex Sans 28</span>
+      <span style="font-size: 17px; font-weight: 600">Card headline 17 / 600</span>
+      <span style="font-size: 15px">Body 15 / 400 — words people read</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px">PLEX MONO · 20,614 · +10.1%</span>
+      <span style="font-size: 13px; color: #4C515A">Numbers and tickers always in mono, so columns line up.</span>
+    </div>
+    <div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #656A73">MOTION</span>
+      <span style="font-size: 15px; line-height: 22px">160 ms ease-out for taps and lists</span>
+      <span style="font-size: 15px; line-height: 22px">240 ms spring for sheets sliding up</span>
+      <span style="font-size: 15px; line-height: 22px">Cards fade and shift 8 px on enter</span>
+      <span style="font-size: 15px; line-height: 22px">Live work shows steps, never a spinner</span>
+      <span style="font-size: 15px; line-height: 22px">Respect reduced-motion settings</span>
+    </div>
+    <div style="background: #FFFFFF; border-radius: 20px; padding: 24px; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #656A73">DELIBERATELY AVOIDED</span>
+      <span style="font-size: 15px; line-height: 22px">Purple, violet and electric-blue accents</span>
+      <span style="font-size: 15px; line-height: 22px">Gradients, glows and glassmorphism</span>
+      <span style="font-size: 15px; line-height: 22px">Coloured stripes on card edges</span>
+      <span style="font-size: 15px; line-height: 22px">Emoji and sparkle icons</span>
+      <span style="font-size: 15px; line-height: 22px">Colour as the only signal: every state also has a word or arrow</span>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1300,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

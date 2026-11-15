@@ -1,0 +1,55 @@
+{
+  "v": 3,
+  "createdOnFiles": { "v": 1, "at": "2026-11-15T04:30:00Z" },
+  "title": "FINN Design System",
+  "launch": { "view": "canvas", "page": "v2" },
+  "pages": [
+    { "id": "v2", "name": "v2 · Company-first (current)" },
+    { "id": "v1", "name": "v1 · Mode-based (saved)" }
+  ],
+  "boards": {
+    "V2Today.dc.html": { "x": 0, "y": 300, "w": 390, "h": 844, "title": "Today", "page": "v2", "is_interactive": true, "radius": 28 },
+    "V2Companies.dc.html": { "x": 470, "y": 300, "w": 390, "h": 844, "title": "Companies", "page": "v2", "is_interactive": true, "radius": 28 },
+    "V2CompanyUpdates.dc.html": { "x": 940, "y": 300, "w": 390, "h": 844, "title": "Company · Updates", "page": "v2", "is_interactive": true, "radius": 28 },
+    "V2CompanyResults.dc.html": { "x": 1410, "y": 300, "w": 390, "h": 844, "title": "Company · Results", "page": "v2", "is_interactive": true, "radius": 28 },
+    "V2CompanyTrack.dc.html": { "x": 1880, "y": 300, "w": 390, "h": 844, "title": "Company · Track record", "page": "v2", "is_interactive": true, "radius": 28 },
+    "V2Alerts.dc.html": { "x": 2350, "y": 300, "w": 390, "h": 844, "title": "Alerts", "page": "v2", "is_interactive": true, "radius": 28 },
+    "V2Flow.dc.html": { "x": 0, "y": 1500, "w": 1500, "h": 800, "title": "Navigation map v2", "page": "v2" },
+
+    "Main.dc.html": { "x": 0, "y": 300, "w": 390, "h": 844, "title": "Brief (light)", "page": "v1", "is_interactive": true, "radius": 28 },
+    "BriefDark.dc.html": { "x": 470, "y": 300, "w": 390, "h": 844, "title": "Brief (dark)", "page": "v1", "radius": 28 },
+    "Results.dc.html": { "x": 940, "y": 300, "w": 390, "h": 844, "title": "Results card · detail", "page": "v1", "is_interactive": true, "radius": 28 },
+    "WindowSheet.dc.html": { "x": 1410, "y": 300, "w": 390, "h": 844, "title": "Sheet · time window", "page": "v1", "is_interactive": true, "radius": 28 },
+    "EvidenceSheet.dc.html": { "x": 1880, "y": 300, "w": 390, "h": 844, "title": "Sheet · evidence", "page": "v1", "is_interactive": true, "radius": 28 },
+    "Research.dc.html": { "x": 0, "y": 1500, "w": 390, "h": 844, "title": "Research home", "page": "v1", "is_interactive": true, "radius": 28 },
+    "Running.dc.html": { "x": 470, "y": 1500, "w": 390, "h": 844, "title": "Research · running", "page": "v1", "is_interactive": true, "radius": 28 },
+    "Ledger.dc.html": { "x": 940, "y": 1500, "w": 390, "h": 844, "title": "Promise ledger (light)", "page": "v1", "is_interactive": true, "radius": 28 },
+    "LedgerDark.dc.html": { "x": 1410, "y": 1500, "w": 390, "h": 844, "title": "Promise ledger (dark)", "page": "v1", "radius": 28 },
+    "Promise.dc.html": { "x": 1880, "y": 1500, "w": 390, "h": 844, "title": "Promise · drift detail", "page": "v1", "is_interactive": true, "radius": 28 },
+    "Watch.dc.html": { "x": 0, "y": 2700, "w": 390, "h": 844, "title": "Watch · portfolio & alerts", "page": "v1", "is_interactive": true, "radius": 28 },
+    "AddCompany.dc.html": { "x": 470, "y": 2700, "w": 390, "h": 844, "title": "Sheet · add company", "page": "v1", "is_interactive": true, "radius": 28 },
+    "HowFinnThinks.dc.html": { "x": 940, "y": 2700, "w": 390, "h": 844, "title": "How FINN thinks", "page": "v1", "is_interactive": true, "radius": 28 },
+    "Theme.dc.html": { "x": 0, "y": 3900, "w": 1300, "h": 1000, "title": "Colour, type & motion", "page": "v1" },
+    "Flow.dc.html": { "x": 1380, "y": 3900, "w": 1552, "h": 1312, "title": "Navigation map (v1)", "page": "v1" }
+  },
+  "order": [
+    "V2Today.dc.html", "V2Companies.dc.html", "V2CompanyUpdates.dc.html", "V2CompanyResults.dc.html", "V2CompanyTrack.dc.html", "V2Alerts.dc.html", "V2Flow.dc.html",
+    "Main.dc.html", "BriefDark.dc.html", "Results.dc.html", "WindowSheet.dc.html", "EvidenceSheet.dc.html",
+    "Research.dc.html", "Running.dc.html", "Ledger.dc.html", "LedgerDark.dc.html", "Promise.dc.html",
+    "Watch.dc.html", "AddCompany.dc.html", "HowFinnThinks.dc.html",
+    "Theme.dc.html", "Flow.dc.html"
+  ],
+  "notes": {
+    "v2Title": { "x": 0, "y": 40, "text": "v2 — Company-first: Today is the inbox, Companies is the library", "kind": "title1", "maxW": 2740, "page": "v2" },
+    "v2FlowTitle": { "x": 0, "y": 1240, "text": "How you get around", "kind": "title1", "maxW": 1500, "page": "v2" },
+    "v2Sample": { "x": 1580, "y": 1500, "w": 420, "text": "Same colours, type and motion as v1 (see the v1 page, Theme board). What changed is where things live: every company now has one page, with Updates, Results and Track record. Sample data as in v1: Titan's Q2 FY27 numbers and margin quotes are real; everything else is illustrative.", "size": "m", "fill": "gray", "page": "v2" },
+
+    "rowPush": { "x": 0, "y": 40, "text": "Push — the Brief (an inbox you can finish)", "kind": "title1", "maxW": 2270, "page": "v1" },
+    "rowPull": { "x": 0, "y": 1240, "text": "Pull — Research (did management keep its word?)", "kind": "title1", "maxW": 2270, "page": "v1" },
+    "rowWatch": { "x": 0, "y": 2440, "text": "Watch — portfolio, thresholds, transparency", "kind": "title1", "maxW": 1330, "page": "v1" },
+    "rowSystem": { "x": 0, "y": 3640, "text": "System — colour language and navigation", "kind": "title1", "maxW": 2932, "page": "v1" },
+    "noteSample": { "x": 1410, "y": 2700, "w": 420, "text": "All company data on these screens is sample data for layout only. Titan's quarterly figures and the two margin quotes come from the real Q2 FY27 filings checked in our data spike; every other event, number and verdict is illustrative.", "size": "m", "fill": "gray", "page": "v1" },
+    "noteMotion": { "x": 1410, "y": 3000, "w": 420, "text": "Interaction notes: swipe a Brief card right = Seen, left = Pin. Sheets slide up (240 ms spring) and close on drag-down. Tap a number or quote = Evidence sheet. Screens open in under 200 ms from cache; live work shows steps, never a spinner.", "size": "m", "fill": "orange", "page": "v1" }
+  },
+  "designSystems": []
+}

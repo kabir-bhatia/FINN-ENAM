@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Promise ledger</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="{{theme}}">
+  <div style="position: absolute; inset: 0 0 76px 0; overflow: hidden; padding: 16px 20px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: center; justify-content: space-between; height: 44px">
+      <a href="Research.dc.html" aria-label="Back to Research" style="width: 44px; height: 44px; margin-left: -12px; display: flex; align-items: center; justify-content: center; color: var(--ink)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+      </a>
+      <span style="font-size: 12px; color: var(--ink3)">4 calls · Feb–Nov 2026</span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <span style="font-size: 14px; color: var(--ink2)">Titan Company · <span style="font-family: 'IBM Plex Mono', monospace">TITAN</span></span>
+      <h1 style="margin: 0; font-size: 26px; line-height: 32px; font-weight: 600">Kept <span style="font-family: 'IBM Plex Mono', monospace">3</span> of <span style="font-family: 'IBM Plex Mono', monospace">5</span> promises that are due</h1>
+    </div>
+
+    <div style="display: flex; gap: 6px; flex-wrap: wrap">
+      <button type="button" style="height: 32px; padding: 0 10px; border: 0; border-radius: 16px; background: var(--ink); color: var(--oninv); font: inherit; font-size: 13px; font-weight: 600">All 8</button>
+      <button type="button" style="height: 32px; padding: 0 10px; border: 0; border-radius: 16px; background: var(--goodbg); color: var(--good); font: inherit; font-size: 13px; font-weight: 500">Delivered 3</button>
+      <button type="button" style="height: 32px; padding: 0 10px; border: 0; border-radius: 16px; background: var(--actbg); color: var(--act); font: inherit; font-size: 13px; font-weight: 500">Missed 1</button>
+      <button type="button" style="height: 32px; padding: 0 10px; border: 0; border-radius: 16px; background: var(--watchbg); color: var(--watch); font: inherit; font-size: 13px; font-weight: 500">Moved 1</button>
+      <button type="button" style="height: 32px; padding: 0 10px; border: 0; border-radius: 16px; background: var(--quietbg); color: var(--quiet); font: inherit; font-size: 13px; font-weight: 500">Dropped 1</button>
+      <button type="button" style="height: 32px; padding: 0 10px; border: 1px dashed var(--quiet); border-radius: 16px; background: none; color: var(--quiet); font: inherit; font-size: 13px; font-weight: 500">Not due 2</button>
+    </div>
+
+    <div style="display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 16px">
+      <a href="Promise.dc.html" style="display: flex; flex-direction: column; gap: 6px; padding: 14px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none">
+        <span style="display: flex; justify-content: space-between"><span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--watch)">GOALPOSTS MOVED</span><span style="font-size: 12px; color: var(--ink3)">3 calls</span></span>
+        <span style="font-size: 15px; line-height: 21px; font-weight: 500">Jewellery margin: 12–13% → “around 11%”</span>
+        <span style="font-size: 12px; color: var(--ink3)">Lowered twice, never called a cut</span>
+      </a>
+      <a href="Promise.dc.html" style="display: flex; flex-direction: column; gap: 6px; padding: 14px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none">
+        <span style="display: flex; justify-content: space-between"><span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--act)">MISSED</span><span style="font-size: 12px; color: var(--ink3)">said Q3 FY26</span></span>
+        <span style="font-size: 15px; line-height: 21px; font-weight: 500">“Double-digit growth in H2”</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink2)">target ≥10% · actual 8.2%</span>
+      </a>
+      <a href="Promise.dc.html" style="display: flex; flex-direction: column; gap: 6px; padding: 14px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none">
+        <span style="display: flex; justify-content: space-between"><span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--quiet)">QUIETLY DROPPED</span><span style="font-size: 12px; color: var(--ink3)">last said Q4 FY26</span></span>
+        <span style="font-size: 15px; line-height: 21px; font-weight: 500; text-decoration: line-through; text-decoration-color: var(--quiet)">Enter 3 new international markets</span>
+        <span style="font-size: 12px; color: var(--ink3)">Not mentioned in the last 2 calls</span>
+      </a>
+      <a href="Promise.dc.html" style="display: flex; flex-direction: column; gap: 6px; padding: 14px; color: var(--ink); text-decoration: none">
+        <span style="display: flex; justify-content: space-between"><span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--good)">DELIVERED</span><span style="font-size: 12px; color: var(--ink3)">said Q4 FY26</span></span>
+        <span style="font-size: 15px; line-height: 21px; font-weight: 500">“Add around 40 stores this year”</span>
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--ink2)">target ~40 · actual 44</span>
+      </a>
+    </div>
+    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink3)">flash-lite ×4 · flash ×1 · 58k tokens · ≈ ₹0.38 · cached</span>
+  </div>
+
+  <nav style="position: absolute; left: 0; right: 0; bottom: 0; height: 76px; padding-bottom: 12px; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--surface); border-top: 1px solid var(--line)">
+    <a href="Main.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--ink3); text-decoration: none; font-size: 12px; font-weight: 500">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13h4l2 3h4l2-3h4"></path><path d="M5.5 5h13l1.5 8v6H4v-6z"></path></svg>Brief</a>
+    <a href="Research.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--ink); text-decoration: none; font-size: 12px; font-weight: 600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>Research</a>
+    <a href="Watch.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--ink3); text-decoration: none; font-size: 12px; font-weight: 500">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"></path><circle cx="16" cy="7" r="2"></circle><circle cx="8" cy="17" r="2"></circle></svg>Watch</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var L = '--ground:#F3F3EF;--surface:#FFFFFF;--sunk:#EAEAE4;--ink:#15171B;--ink2:#4C515A;--ink3:#656A73;--line:#DEDDD6;--act:#B3261E;--actbg:#FBEAE7;--watch:#8A5300;--watchbg:#FBF0DC;--good:#1E6B3A;--goodbg:#E4F1E7;--quiet:#5B6270;--quietbg:#ECECE7;--mark:#FFE27A;--scrim:rgba(21,23,27,.45);--oninv:#F3F3EF;';
+    var D = '--ground:#0F1012;--surface:#17191C;--sunk:#202328;--ink:#ECECE6;--ink2:#B4B8BF;--ink3:#8D929B;--line:#2A2D33;--act:#FF8A7A;--actbg:#3A1C19;--watch:#E8B45A;--watchbg:#33260F;--good:#74C98F;--goodbg:#14301E;--quiet:#9AA1AD;--quietbg:#24272C;--mark:#5E4B0B;--scrim:rgba(0,0,0,.6);--oninv:#0F1012;';
+    var dark = this.props.dark ?? false;
+    return { theme: 'width:390px;height:844px;position:relative;overflow:hidden;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;' + (dark ? D : L) };
+  }
+}
+</script>
+</body>
+</html>

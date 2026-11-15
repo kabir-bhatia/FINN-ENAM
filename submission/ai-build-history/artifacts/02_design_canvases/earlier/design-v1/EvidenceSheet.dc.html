@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Evidence sheet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="{{theme}}">
+  <div style="position: absolute; inset: 0; padding: 76px 20px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 12px; opacity: 0.55">
+    <span style="font-size: 26px; font-weight: 600">Titan Company</span>
+    <span style="height: 260px; background: var(--surface); border-radius: 16px"></span>
+  </div>
+  <a href="Results.dc.html" aria-label="Close sheet" style="position: absolute; inset: 0; background: var(--scrim)"></a>
+
+  <div role="dialog" aria-label="Source of this claim" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 10px 20px 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px; background: var(--surface); border-radius: 24px 24px 0 0">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 5px; border-radius: 3px; background: var(--line)"></span>
+    <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink3)">SOURCE</span>
+    <div style="display: flex; gap: 12px; align-items: flex-start">
+      <span aria-hidden="true" style="width: 40px; height: 48px; flex: 0 0 40px; border: 1px solid var(--line); border-radius: 6px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; box-sizing: border-box; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--ink3)">PDF</span>
+      <span style="display: flex; flex-direction: column; gap: 3px">
+        <span style="font-size: 16px; line-height: 21px; font-weight: 600">Titan — Q2 FY27 earnings call transcript</span>
+        <span style="font-size: 13px; color: var(--ink3)">Exchange filing · 18 pages · quoted from page 7</span>
+      </span>
+    </div>
+
+    <div style="padding: 16px; background: var(--ground); border-radius: 14px; font-size: 16px; line-height: 26px">
+      “I think we still, Mihir, <span style="background: var(--mark); padding: 1px 2px">would like to anchor our margin target at around 11%</span>. Growth remains a priority…”
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--good)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>
+      <span>Quote found word-for-word on p.7</span>
+    </div>
+    <span style="font-size: 12px; color: var(--ink3); margin-top: -8px">Read by gemini-3.5-flash · checked by code, not by the model</span>
+
+    <div style="display: flex; gap: 10px">
+      <a href="Results.dc.html" style="flex: 1 1 0; height: 50px; display: flex; align-items: center; justify-content: center; background: var(--ink); color: var(--oninv); border-radius: 12px; font-size: 15px; font-weight: 600; text-decoration: none">Open PDF at p.7</a>
+      <button type="button" style="flex: 0 0 auto; height: 50px; padding: 0 18px; background: var(--sunk); color: var(--ink); border: 0; border-radius: 12px; font: inherit; font-size: 15px; font-weight: 500">Copy quote</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var L = '--ground:#F3F3EF;--surface:#FFFFFF;--sunk:#EAEAE4;--ink:#15171B;--ink2:#4C515A;--ink3:#656A73;--line:#DEDDD6;--act:#B3261E;--actbg:#FBEAE7;--watch:#8A5300;--watchbg:#FBF0DC;--good:#1E6B3A;--goodbg:#E4F1E7;--quiet:#5B6270;--quietbg:#ECECE7;--mark:#FFE27A;--scrim:rgba(21,23,27,.45);--oninv:#F3F3EF;';
+    var D = '--ground:#0F1012;--surface:#17191C;--sunk:#202328;--ink:#ECECE6;--ink2:#B4B8BF;--ink3:#8D929B;--line:#2A2D33;--act:#FF8A7A;--actbg:#3A1C19;--watch:#E8B45A;--watchbg:#33260F;--good:#74C98F;--goodbg:#14301E;--quiet:#9AA1AD;--quietbg:#24272C;--mark:#5E4B0B;--scrim:rgba(0,0,0,.6);--oninv:#0F1012;';
+    var dark = this.props.dark ?? false;
+    return { theme: 'width:390px;height:844px;position:relative;overflow:hidden;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;' + (dark ? D : L) };
+  }
+}
+</script>
+</body>
+</html>

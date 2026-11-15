@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FINN — Product and Decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 16mm 16mm 18mm; }
+  :root { --navy:#0B2545; --ink2:#5A6B82; --ink3:#7A8AA0; --teal:#0FA3A3; --tealink:#0A7C7C; --tealbg:#E3F5F5; --ice:#F4F7FB; --line:#E3E9F1; --amber:#F2A900; --amberink:#8A5F00; --amberbg:#FFF4D6; --red:#E5484D; --redink:#C8323A; --redbg:#FDECEC; --mark:#FFE9A8; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #fff; color: var(--navy); font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-size: 9.7pt; line-height: 1.47; font-variant-numeric: tabular-nums; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1, h2, h3 { margin: 0; letter-spacing: -0.015em; }
+  h2 { font-size: 17pt; line-height: 1.2; margin: 0 0 4mm; }
+  h3 { font-size: 11.5pt; margin: 5mm 0 2mm; }
+  p { margin: 0 0 2.6mm; }
+  .page { margin-bottom: 11mm; }
+  .page.cover, .page.tour { break-after: page; page-break-after: always; margin-bottom: 0; }
+  .page.tour { break-before: page; page-break-before: always; }
+  h2, h3, .kicker { break-after: avoid; page-break-after: avoid; }
+  .flow, .grid2, .grid3, .card, table tr { break-inside: avoid; page-break-inside: avoid; }
+  .kicker { font-size: 8pt; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tealink); margin-bottom: 2mm; }
+  .lead { font-size: 11.5pt; line-height: 1.55; color: var(--navy); }
+  .muted { color: var(--ink2); }
+  .small { font-size: 8.6pt; }
+  .mark { background: var(--mark); padding: 0 2px; border-radius: 3px; }
+  table { width: 100%; border-collapse: collapse; margin: 2mm 0 4mm; font-size: 9.2pt; }
+  th { text-align: left; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink2); padding: 0 3mm 2mm 0; border-bottom: 1.5px solid var(--navy); }
+  td { padding: 1.8mm 3mm 1.8mm 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { font-weight: 700; }
+  tr { break-inside: avoid; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm; }
+  .card { background: var(--ice); border-radius: 5mm; padding: 4.5mm 5mm; break-inside: avoid; }
+  .card h3 { margin-top: 0; }
+  .card p:last-child { margin-bottom: 0; }
+  .chip { display: inline-block; font-size: 7.6pt; font-weight: 700; padding: 0.6mm 2.4mm; border-radius: 99px; margin-right: 1mm; }
+  .c-teal { background: var(--tealbg); color: var(--tealink); } .c-amber { background: var(--amberbg); color: var(--amberink); } .c-red { background: var(--redbg); color: var(--redink); } .c-navy { background: var(--navy); color: #fff; }
+  ul { margin: 0 0 3mm; padding-left: 5mm; } li { margin: 0 0 1.4mm; }
+  .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4mm 6mm; align-items: start; }
+  .shot { break-inside: avoid; }
+  .shot img { width: 100%; height: 80mm; object-fit: cover; object-position: top; border-radius: 4mm; border: 1px solid var(--line); box-shadow: 0 2mm 6mm rgba(11,37,69,.08); display: block; }
+  .shot .cap { font-size: 7.9pt; color: var(--ink2); margin-top: 2mm; line-height: 1.4; }
+  .shot .cap b { color: var(--navy); }
+  .num { font-size: 22pt; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+  .stat .k { font-size: 8.4pt; color: var(--ink2); margin-top: 1.5mm; line-height: 1.35; }
+  .flow { display: flex; align-items: stretch; gap: 2.5mm; margin: 3mm 0 4mm; }
+  .flow .box { flex: 1; border: 1.5px solid var(--navy); border-radius: 3.5mm; padding: 3mm; font-size: 8.6pt; line-height: 1.4; background: #fff; }
+  .flow .box b { display: block; font-size: 9.2pt; margin-bottom: 1mm; }
+  .flow .arrow { align-self: center; color: var(--teal); font-weight: 800; font-size: 13pt; }
+  .flow .box.teal { border-color: var(--teal); background: var(--tealbg); }
+  .flow .box.amber { border-color: var(--amber); background: var(--amberbg); }
+  .quote { border-left: 3px solid var(--teal); padding: 1mm 0 1mm 4mm; margin: 3mm 0; font-size: 11pt; font-style: italic; }
+  /* cover */
+  .cover { height: 252mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .cover .brand { display: flex; align-items: center; gap: 4mm; }
+  .logo { width: 16mm; height: 16mm; border-radius: 4mm; background: var(--navy); display: flex; align-items: center; justify-content: center; }
+  .logo span { width: 10mm; height: 10mm; border-radius: 50%; border: 1.6mm solid #3DD6C6; color: #fff; font-weight: 800; font-size: 11pt; display: flex; align-items: center; justify-content: center; }
+  .cover h1 { font-size: 40pt; line-height: 1.02; letter-spacing: -0.035em; margin-top: 18mm; }
+  .cover h1 em { font-style: normal; color: var(--teal); }
+  .cover .sub { font-size: 13pt; color: var(--ink2); margin-top: 6mm; max-width: 150mm; line-height: 1.5; }
+  .linkrow { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .linkrow .card a { color: var(--tealink); font-weight: 700; text-decoration: none; word-break: break-all; }
+  a { color: var(--tealink); }
+  .toc { columns: 2; column-gap: 8mm; font-size: 9.6pt; }
+  .toc div { break-inside: avoid; padding: 1.4mm 0; border-bottom: 1px solid var(--line); }
+  .toc b { color: var(--teal); margin-right: 2mm; }
+  .footer-note { font-size: 8pt; color: var(--ink3); }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<section class="page cover">
+  <div>
+    <div class="brand"><div class="logo"><span>F</span></div><div><div style="font-weight:800;font-size:13pt">FINN</div><div class="muted small">Financial Investment Agent · ENAM AI Engineer Build Challenge</div></div></div>
+    <h1>Tell me only what <em>changed my thesis</em> — and whether management <em>kept its word.</em></h1>
+    <p class="sub">A calm, mobile-first intelligence layer for a long-term, governance-first investment team. This document explains what FINN is, who it is for, and every important decision behind it, with the trade-offs.</p>
+  </div>
+  <div>
+    <div class="linkrow">
+      <div class="card"><div class="kicker">Try it on your phone</div><a href="https://web-lake-chi-14.vercel.app">web-lake-chi-14.vercel.app</a><div class="small muted" style="margin-top:1.5mm">No login. Open, then Share → Add to Home Screen.</div></div>
+      <div class="card"><div class="kicker">Code</div><a href="https://github.com/kabir-bhatia/FINN-ENAM">github.com/kabir-bhatia/FINN-ENAM</a><div class="small muted" style="margin-top:1.5mm">Next.js 16 · TypeScript · Vercel · Blob</div></div>
+    </div>
+    <p class="footer-note" style="margin-top:6mm">15 November 2026 · Research aid, not investment advice. All data from primary sources: NSE filings, company call transcripts, Screener’s table of reported results, Yahoo end-of-day prices.</p>
+  </div>
+</section>
+
+<!-- ============ 1. SUMMARY ============ -->
+<section class="page">
+  <div class="kicker">01 · In one page</div>
+  <h2>What FINN is</h2>
+  <p class="lead">Investors don’t lack information; they lack <b>filtering</b>. FINN watches a portfolio’s exchange filings, prices and earnings calls, and turns them into two things an investor can act on in under a minute:</p>
+  <div class="grid2" style="margin:4mm 0 5mm">
+    <div class="card"><span class="chip c-navy">PUSH</span><h3>Home: what changed, ranked</h3><p>Every filing across the portfolio, classified and ranked by how much it could change the thesis. Governance is always first; the investor’s own price and volume rules come next; routine paperwork folds into one line. It ends with <i>“You’re caught up”</i>. Real phone notifications for red flags, rule hits, and a morning and evening brief.</p></div>
+    <div class="card"><span class="chip c-navy">PULL</span><h3>Track record: did they do what they said?</h3><p>For <b>any</b> NSE company: FINN reads the last 4 earnings-call transcripts, lists every checkable promise with its exact quote and page, and checks each against reported numbers: <span class="chip c-teal">Kept</span><span class="chip c-red">Missed</span><span class="chip c-amber">Target changed</span>Went silent · Too early.</p></div>
+  </div>
+  <p>The two modes meet on the results card. When results land, FINN shows them <b>against management’s own word</b>, not just against last quarter.</p>
+
+  <h3>At a glance (live data, 15 Nov 2026)</h3>
+  <div class="grid3" style="margin-bottom:5mm">
+    <div class="card stat"><div class="num">366</div><div class="k">filings across 18 companies in 45 days, each classified; <b>49% were routine</b> and folded away</div></div>
+    <div class="card stat"><div class="num">79%</div><div class="k">classified by <b>rules alone</b> (zero cost); a model only read the exchange’s short summary for the other 21%</div></div>
+    <div class="card stat"><div class="num">≈ ₹1</div><div class="k">total model cost for that classification at <b>paid</b> list prices; actual cost ₹0 on free tiers</div></div>
+  </div>
+
+  <h3>Three ideas that shape everything</h3>
+  <table>
+    <tr><th style="width:30%">Idea</th><th>What it means in the product</th></tr>
+    <tr><td>An inbox you can finish</td><td>Home is finite and ends with “You’re caught up · next brief 08:30”. On a quiet day it says so plainly, instead of showing an empty grey screen or inventing news.</td></tr>
+    <tr><td>Governance can’t be buried</td><td>Auditor changes, senior exits, regulatory orders, pledges and guarantees are always “needs you” and are never collapsed. This mirrors ENAM’s focus on management quality.</td></tr>
+    <tr><td>Models read words; code does maths and owns quotes</td><td>No model generates a number. Growth, EBITDA and margins are computed in code. A promise is shown only if code finds its quote word-for-word in the transcript, and the page shown is the page code found.</td></tr>
+  </table>
+</section>
+
+<!-- ============ 2. USER ============ -->
+<section class="page">
+  <div class="kicker">02 · Who it is for</div>
+  <h2>ENAM’s own investment team, not retail</h2>
+  <p>The brief never names the user, so we inferred one from the evidence: <i>“a small team makes high-conviction decisions”</i>, <i>“an intelligence layer for how <b>we</b> invest”</i>, and vocabulary like guidance, concalls and pledging. Together these point to a professional, long-term, fundamental buy-side investor. So FINN does not simplify the finance. It cuts <b>time and noise</b>.</p>
+  <div class="grid2" style="margin:4mm 0">
+    <div class="card"><h3>The Coverage Analyst</h3><p class="small muted">3–8 years · covers 15–20 companies · owns each thesis</p><p><b>Needs:</b> completeness, depth on demand, a source for every number.</p><p><b>Fears:</b> missing a material filing, or passing a wrong AI number to a partner.</p></div>
+    <div class="card"><h3>The Partner</h3><p class="small muted">20+ years · makes the allocation calls · mostly on a phone</p><p><b>Needs:</b> one screen that answers “do I need to act?”, with governance first.</p><p><b>Fears:</b> a red flag buried under routine paperwork.</p></div>
+  </div>
+  <p><b>The tension → the principle.</b> The analyst wants completeness and the partner wants brevity, in the same product. So every item has three depths: <b>headline</b> (5 seconds) → <b>summary</b> (30 seconds) → <b>source document and page</b> (trust).</p>
+
+  <h3>Problem map → what we chose to build</h3>
+  <p class="small muted">Each workflow on the brief’s menu was scored on pain, room for an original answer, how easy it is to justify, and build risk. The brief says to “nail one or two workflows”, so we went deep on a Smart Digest (Push) and Promised vs. Delivered (Pull), the item it calls “the kind of thing we value most”.</p>
+  <table>
+    <tr><th style="width:34%">Investor problem</th><th style="width:16%">Side</th><th>FINN’s answer</th></tr>
+    <tr><td>Filing overload: most filings are paperwork</td><td>Push</td><td>Rules-first classification; routine folded into one line; finite Home</td></tr>
+    <tr><td>Titles lie (“General Updates”, “Outcome of Board Meeting”)</td><td>Push</td><td>Classify on the exchange’s own summary of the document, not the title</td></tr>
+    <tr><td>Results-season crunch</td><td>Push</td><td>Results card: Sales, EBITDA, PBT, PAT vs last quarter and last year, computed by code</td></tr>
+    <tr><td>Price moves with no reason</td><td>Push</td><td>Your own volume and price rules; a move is “explained” if a filing sits behind it</td></tr>
+    <tr><td>Alert fatigue</td><td>Push</td><td>The user sets the thresholds; notifications only for red flags, rule hits and two briefs a day</td></tr>
+    <tr><td>No memory across quarters; quiet guidance drift</td><td>Pull</td><td>Promise ledger over 4 calls; said-vs-reported table; “Target changed” and “Went silent” verdicts</td></tr>
+    <tr><td>Trust in AI numbers</td><td>Both</td><td>Evidence sheet on every number and quote: document, page, exact words, how it was produced</td></tr>
+    <tr><td>Meeting prep in 15 minutes</td><td>Pull</td><td>“Questions to ask management”, drafted from missed and changed promises</td></tr>
+    <tr><td>“Who is this new CFO?”</td><td>Push</td><td><span class="muted">Not built yet (see “Left out”)</span></td></tr>
+  </table>
+</section>
+
+<!-- ============ 3. TOUR ============ -->
+<section class="page tour">
+  <div class="kicker">03 · The product</div>
+  <h2>A tour in six screens</h2>
+  <div class="shots">
+    <div class="shot"><img src="assets/home.jpg"><div class="cap"><b>Home.</b> A ring of company states (unchanged / worth a look / challenged), three numbers that matter, and the sector mix. Below that, “Needs you” lists one line per company, each with a coloured dot <i>and</i> a word.</div></div>
+    <div class="shot"><img src="assets/home-2.jpg"><div class="cap"><b>A finite ending.</b> “Worth knowing” sits below what needs you, then announced board meetings, then routine filings folded into one line with their types. Pull down to refresh.</div></div>
+    <div class="shot"><img src="assets/results.jpg"><div class="cap"><b>Results.</b> One sentence first, then four figures with ▲▼ arrows (not just colour), then profit over 5 quarters. Tap any figure to see how it was computed and open the filing. EBITDA is marked “computed”.</div></div>
+    <div class="shot"><img src="assets/track.jpg"><div class="cap"><b>Track record.</b> The navy hero answers “promises kept?”, here 4 of 7 for Dabur. Every ledger row carries a status word, the promise, what was reported, and the call month and page it came from.</div></div>
+    <div class="shot"><img src="assets/said-vs-reported.jpg"><div class="cap"><b>Said vs reported.</b> For the metric management guided on most often: their figure on each call next to the reported one, plus a small guided (dashed) vs reported (solid) chart. Tap a figure for the quote.</div></div>
+    <div class="shot"><img src="assets/alerts.jpg"><div class="cap"><b>Alerts.</b> The investor decides what “unusual” means: volume × 20-day average, ±% price, “only if no filing explains it”, and which announcement types need them. Governance is always on.</div></div>
+  </div>
+</section>
+
+<!-- ============ 4. DECISIONS ============ -->
+<section class="page">
+  <div class="kicker">04 · Key decisions</div>
+  <h2>Product and interaction decisions</h2>
+  <table>
+    <tr><th style="width:26%">Decision</th><th style="width:37%">Why</th><th>Trade-off we accepted</th></tr>
+    <tr><td>A finished briefing plus one focused research instrument</td><td>The investor picks a ticker, a window and thresholds; FINN returns a finished, structured answer. Structured output can be verified and cited line by line.</td><td>Open-ended questions are a next step, scoped to one quote at a time.</td></tr>
+    <tr><td>Editable portfolio, works for any NSE ticker</td><td>Ships with a demo portfolio; judges can add any company or remove one, with Undo and “reset to demo”. A new ticker is built live in ~5–8 s and then joins the scheduled refresh.</td><td>The portfolio lives in one browser (no accounts).</td></tr>
+    <tr><td>Rank by thesis impact, not by time</td><td>The partner’s question is about companies, not filings. Category weight + governance + the user’s own rules gives a deterministic, explainable order.</td><td>Hand-tuned weights; a learning ranker would need usage data we don’t have.</td></tr>
+    <tr><td>Thesis board, not a feed</td><td>Counting companies (12 unchanged · 5 worth a look · 1 challenged) makes silence read as “checked”, not as “broken”.</td><td>One company’s state is a summary; detail is a tap away.</td></tr>
+    <tr><td>Default window “since you last looked”</td><td>The brief suggests 24 hours, but 24 hours is empty at weekends and repeats news for daily users. 24 h, 7 d and 30 d are one tap away and can be made the default.</td><td>A first-time user sees the last 7 days.</td></tr>
+    <tr><td>Price moves only when no filing explains them</td><td>A long-term investor doesn’t need “stock fell 3%”. A large move with <i>no</i> filing behind it is the real signal (“Market moved, business didn’t”).</td><td>End-of-day data only, so alerts follow the close, not intraday.</td></tr>
+    <tr><td>Primary sources only, and code owns the evidence</td><td>The brief’s discipline for Pull. Quotes must be found word-for-word on the cited page; promises that can’t be found are dropped, not shown.</td><td>Some genuine promises are lost when the PDF text is messy. We prefer losing one to showing an invented one.</td></tr>
+    <tr><td>No login; portfolio saved in the browser</td><td>Judges can try it in 10 seconds. Shared data is stored once per ticker on the server, so there are no accounts and no duplicate work.</td><td>Not multi-device yet; a phone’s push subscription carries its own portfolio and rules.</td></tr>
+    <tr><td>Installable web app with real push</td><td>One codebase, an instant link, an app icon, and notifications on Android and iPhone (after Add to Home Screen, which is Apple’s rule).</td><td>On iPhone, push needs the install step first. FINN shows the two taps.</td></tr>
+    <tr><td>Calm notifications</td><td>Right away only for governance red flags, the user’s own rules and their chosen categories; everything else waits for the 08:30 and evening brief. Routine never notifies.</td><td>Delivery follows the 5-times-a-weekday refresh, not the second a filing lands.</td></tr>
+  </table>
+
+  <h3>Mechanisms chosen in the decision log, and what each became</h3>
+  <p class="small muted">From <code>docs/02_BUILD_DECISIONS.md</code>, written before any code: each idea was scored on why it stands out and its cost to build, then marked core, spice or stretch.</p>
+  <table>
+    <tr><th style="width:27%">Mechanism</th><th style="width:43%">What it does in FINN</th><th>Why we chose it</th></tr>
+    <tr><td>An inbox you can finish</td><td>Home is finite: what needs you, what is worth knowing, routine folded, then “You’re caught up · next brief 08:30”.</td><td>The opposite of an endless feed; answers “show only what’s important”.</td></tr>
+    <tr><td>Explainable ranking</td><td>Three tiers (needs you / worth knowing / routine), each card with its reason, e.g. the rule that fired: “20-day avg × 3.0 · your rule × 2.0”.</td><td>Ranking you can check is ranking you can trust; judgment is what is graded.</td></tr>
+    <tr><td>Governance radar</td><td>Auditor, senior exits, regulatory, pledge tiles on every company; governance events always top-ranked and never collapsed.</td><td>Encodes ENAM’s focus on management quality.</td></tr>
+    <tr><td>Explained vs unexplained moves</td><td>A price or volume move is matched to that day’s filings; only unexplained ones alert: “Market moved, business didn’t.”</td><td>Turns a commodity price alert into a signal a long-term investor needs.</td></tr>
+    <tr><td>Three-depth cards</td><td>Headline → summary → source, with the original PDF one tap away.</td><td>Serves the partner (5 s) and the analyst (30 s) with one design.</td></tr>
+    <tr><td>Promise ledger with verdicts</td><td>Kept · Missed · Target changed · Went silent · Too early, each with quote, page and reported figure.</td><td>“Went silent” (a promise that quietly disappears) is what analysts value most and summaries miss; “Too early” is more honest than guessing mid-year.</td></tr>
+    <tr><td>Delivery score as a count</td><td>“Kept 4 of 7 promises that are due”, never an opaque 0–100 score; every dot taps through to its row.</td><td>A crisp headline that stays fully traceable.</td></tr>
+    <tr><td>Results vs promises bridge</td><td>The results view shows management’s own guidance next to the numbers (“Against their word”).</td><td>Connects Push and Pull into one memory.</td></tr>
+    <tr><td>Visible pipeline progress</td><td>“Found 4 transcripts → Reading Aug 2026 call (18 pages) · 8 promises, every quote checked → Checking…”</td><td>Turns waiting into trust, and shows the architecture.</td></tr>
+    <tr><td>Cost receipt</td><td>Each track record lists every step, the model that answered and the tokens used.</td><td>Makes the efficiency bonus visible instead of claimed.</td></tr>
+    <tr><td>Evidence sheet</td><td>Any number or quote opens the document, page, exact words and how it was produced.</td><td>“Every claim is traceable”, in one tap.</td></tr>
+    <tr><td>Questions to ask management</td><td>Drafted from missed, changed and silent promises.</td><td>Pre-meeting prep in a minute, cheap once the ledger exists.</td></tr>
+  </table>
+
+  <h3>Data decisions (proved with a spike before building)</h3>
+  <table>
+    <tr><th style="width:26%">Decision</th><th>Why</th></tr>
+    <tr><td>NSE announcements, not BSE</td><td>We tested both from the cloud: BSE’s API returns 403 to cloud servers, even in Mumbai; NSE works and adds a free text summary of each document, which is our cheapest classification signal.</td></tr>
+    <tr><td>Reported numbers from Screener’s standardised table</td><td>Deterministic, consolidated when available, and the same for every NSE ticker. A model never extracts a number. The results PDF is linked from every figure.</td></tr>
+    <tr><td>Transcripts discovered via Screener, read page by page</td><td>Works for any ticker. Code extracts page text, so quotes and page numbers can be checked.</td></tr>
+    <tr><td>One key: the NSE symbol</td><td>NSE, Yahoo (<code>SYMBOL.NS</code>) and Screener all use it, so no ISIN or BSE-code mapping is needed and “add any company” just works.</td></tr>
+    <tr><td>Demo portfolio chosen by data</td><td>A scan of ~50 candidates’ last-30-day filings picked the set covering the most event types (30 of 31): 14 liquid large caps for reliable data + 4 ENAM-like mid caps (Astral, Kajaria, V-Guard, Symphony) for relevance.</td></tr>
+  </table>
+</section>
+
+<!-- ============ 5. AI + ARCHITECTURE ============ -->
+<section class="page">
+  <div class="kicker">05 · AI pipeline, cost and architecture</div>
+  <h2>Cheapest model that does the job</h2>
+  <div class="flow">
+    <div class="box"><b>1 · Rules</b>Exchange category + keywords. Governance checked first. <span class="muted">79% of filings, ₹0.</span></div>
+    <div class="arrow">→</div>
+    <div class="box teal"><b>2 · Small model</b>Only for vague filings; reads the exchange’s 2–3 line summary, never the PDF. Batched.</div>
+    <div class="arrow">→</div>
+    <div class="box teal"><b>3 · Read calls</b>Per transcript: list checkable promises with quote and page. <b>Code</b> then finds each quote on its page.</div>
+    <div class="arrow">→</div>
+    <div class="box amber"><b>4 · Judge</b>Sees only the small ledger + reported numbers (a few KB), never whole transcripts.</div>
+  </div>
+  <table>
+    <tr><th style="width:26%">Decision</th><th>Why</th></tr>
+    <tr><td>Main model: GLM 5.3 flash (Hyde Inference); fallback: Gemini flash-lite / flash</td><td>All free tiers. GLM has higher limits; Gemini takes over automatically on any failure or timeout, so a quota error never stops a demo. Running GLM with low reasoning effort cut a step from ~40 s to under 10 s with the same JSON.</td></tr>
+    <tr><td>One short call per step</td><td>A track record is discover → read call ×4 → judge, each a separate request. That gives the user real progress (“Reading Aug 2026 call…”), fits serverless time limits, and resumes where it stopped.</td></tr>
+    <tr><td>Cache everything immutable</td><td>Filings and transcripts never change. A classification or extraction is stored once, keyed by filing ID or URL hash, and reused by every user. The second person to open a track record gets it instantly.</td></tr>
+    <tr><td>Cost receipt in the app</td><td>Every track record lists each step, the model that answered it and the tokens used. Efficiency is visible instead of claimed.</td></tr>
+    <tr><td>Guardrails in code, not in the prompt alone</td><td>Prompts limit the model to the supplied text. Code then drops unverified quotes, and stops “went silent” being claimed about the latest call (it can’t have gone silent yet).</td></tr>
+  </table>
+
+  <h3>Architecture: no database, no separate backend</h3>
+  <div class="flow">
+    <div class="box"><b>Schedules</b>GitHub Actions, 5× each weekday<br>+ Vercel cron (daily backup)</div>
+    <div class="arrow">→</div>
+    <div class="box teal"><b>/api/ingest (Vercel)</b>Per company, 4 at a time: NSE filings → classify · Yahoo prices · Screener results + call links · event calendar. Then send due notifications.</div>
+    <div class="arrow">→</div>
+    <div class="box"><b>Vercel Blob</b>One JSON document per company, per ledger, per transcript extraction, per push subscription.</div>
+  </div>
+  <div class="flow">
+    <div class="box"><b>Phone (installed web app)</b>Ranking runs in the browser, so changing a rule or window re-ranks instantly, with no server call.</div>
+    <div class="arrow">←</div>
+    <div class="box teal"><b>Next.js 16 API</b>CDN-cached company data, refreshed in the background when older than 6 h. New tickers are built live in ~5–8 s, then join the schedule.</div>
+    <div class="arrow">→</div>
+    <div class="box amber"><b>Models</b>GLM 5.3 flash → Gemini fallback. Only for vague filings and track records.</div>
+  </div>
+  <p class="small muted">Why no database: everything FINN stores is a document looked up by key (a company, a ledger, a filing), never queried relationally. Blob is native to Vercel and needs no other account. Why precompute Push: filings and end-of-day prices are batch by nature, so Home never waits on a live scrape and the demo runs even if a source is slow.</p>
+</section>
+
+<!-- ============ 6. DOMAIN + DESIGN ============ -->
+<section class="page">
+  <div class="kicker">06 · Getting the details right</div>
+  <h2>Domain details a finance reader notices</h2>
+  <table>
+    <tr><th style="width:28%">Detail</th><th>What FINN does</th></tr>
+    <tr><td>EBITDA isn’t printed in Indian results</td><td>Computed as <b>PBT + finance cost + depreciation − other income</b>, labelled “computed”, with the sum shown in the evidence sheet.</td></tr>
+    <tr><td>Banks and NBFCs</td><td>No EBITDA (not meaningful for lenders), and FINN says so instead of showing a meaningless number.</td></tr>
+    <tr><td>Indian fiscal quarters</td><td>“Q2 FY27 (Jul–Sep 2026)”: the label plus the months, so there’s no doubt.</td></tr>
+    <tr><td>Time</td><td>IST everywhere; windows are the investor’s hours; “Fri close” at weekends.</td></tr>
+    <tr><td>Split and bonus days</td><td>Never fire a price or volume alert; the move is mechanical.</td></tr>
+    <tr><td>“Usual volume”</td><td>20-day average, excluding the day itself; the rule that fired is shown on the alert.</td></tr>
+    <tr><td>Consolidated vs standalone</td><td>Consolidated first, standalone if empty, always labelled.</td></tr>
+    <tr><td>Auditor change ≠ red flag</td><td>A routine rotation is “worth checking”; only a <i>resignation</i>-type event marks a company “challenged”.</td></tr>
+    <tr><td>Missing transcripts</td><td>Said plainly (“slides only for recent calls”), never filled with guesses; failed reads can be retried.</td></tr>
+  </table>
+
+  <h3>Design: four rounds, each driven by feedback</h3>
+  <table>
+    <tr><th style="width:18%">Round</th><th>What changed and why</th></tr>
+    <tr><td>v1–v2</td><td>“Annotated ledger”: ink on paper, IBM Plex, colour only for meaning. Navigation moved to company-first after review.</td></tr>
+    <tr><td>v3</td><td>Thesis board first (“1 challenged · 2 worth a look · 15 unchanged”), rule alerts on top, finite ending. Shipped, then judged “generic” and an empty grey screen on quiet days.</td></tr>
+    <tr><td>Clear Day</td><td>Three new directions were drawn (consumer-clear, pro terminal, morning paper); the user picked a hybrid. Navy and teal on ice white, a portfolio ring that is alive every day, a navy “promises kept” hero, said-vs-reported from the terminal direction and a pull-quote from the paper direction.</td></tr>
+    <tr><td>Declutter</td><td>Phone testing showed too much text. Cards went from 4–5 text levels to 2. The brief became one line per company, routine filings kept their compact list, sources moved behind a tap, and pull-to-refresh was added.</td></tr>
+  </table>
+  <p class="small muted">Rules kept through every round: buttons ≥ 44 px; every colour signal also has a word or an arrow; light and dark themes; designed at 375 px first; numbers in tabular figures.</p>
+</section>
+
+<!-- ============ 7. LEFT OUT + NEXT ============ -->
+<section class="page">
+  <div class="kicker">07 · Scope</div>
+  <h2>What we deliberately left out</h2>
+  <table>
+    <tr><th style="width:30%">Left out</th><th>Why</th></tr>
+    <tr><td>Intraday ticks, technical charts, trading</td><td>A long-term fundamental investor decides on the business, not the chart. FINN is an intelligence layer; decisions stay with people.</td></tr>
+    <tr><td>News and broker notes</td><td>Banned for Pull by the brief; for Push they add noise, not signal.</td></tr>
+    <tr><td>Business / balance-sheet / cash snapshots, bull vs bear</td><td>Screener already does snapshots well. We spent the time on the item the brief values most: promised vs. delivered.</td></tr>
+    <tr><td>Annual reports</td><td>Transcripts carry the guidance; annual reports are the next source to add (cash quality, related-party notes).</td></tr>
+    <tr><td>Accounts / login</td><td>Judges must be able to try it instantly on a phone.</td></tr>
+  </table>
+
+  <h2 style="margin-top:6mm">Known limits, stated honestly</h2>
+  <ul>
+    <li><b>Management-change bios</b> (the brief’s own example) are not built. The cheapest honest version reads the profile that appointment filings already include, with no LinkedIn scraping.</li>
+    <li><b>Pledges</b> are caught only when the company announces them; NSE’s separate pledge (SAST) feed is not read yet.</li>
+    <li><b>Results numbers</b> come from Screener’s standardised table of the filing, not from parsing the PDF itself. This is deliberate for accuracy, and the filing is linked from every figure.</li>
+    <li><b>The “Reported” column</b> in said-vs-reported is the figure the check used, not a full per-quarter series for every metric.</li>
+    <li><b>Server region:</b> functions run in US-East, although Mumbai is configured; every source answers from there, so behaviour is unaffected.</li>
+    <li><b>No published accuracy figures yet:</b> the planned hand-checked evaluation set (classification and extraction accuracy, rules-only vs rules + model) is the first thing to add.</li>
+  </ul>
+
+  <h2 style="margin-top:6mm">Where we would take it next</h2>
+  <div class="grid2">
+    <div class="card"><h3>Trust</h3><ul><li>An evaluation harness with published accuracy</li><li>Management-change card from the filing’s own profile</li><li>The NSE pledge feed; annual-report red flags (cash conversion, related parties, auditor remarks)</li></ul></div>
+    <div class="card"><h3>Workflow</h3><ul><li>“Ask about this” on one ledger row, answered only from that transcript excerpt</li><li>Team mode: shared portfolio, who-read-what, notes on a promise</li><li>Pre-meeting pack: track record + questions as one page</li></ul></div>
+  </div>
+</section>
+
+<!-- ============ 8. TRY IT ============ -->
+<section class="page">
+  <div class="kicker">08 · Try it in 2 minutes</div>
+  <h2>A suggested demo path</h2>
+  <ol style="padding-left:5mm">
+    <li style="margin-bottom:2.5mm"><b>Open the link on a phone</b> → Home. Tap the window chip and pick “Last 7 days” to see a busy week: rule hits, a governance red flag, results.</li>
+    <li style="margin-bottom:2.5mm"><b>Tap Yes Bank</b> (red flag) → Governance tab → tap the filing for the evidence sheet and the original PDF.</li>
+    <li style="margin-bottom:2.5mm"><b>Open Titan → Results</b>: profit doubled, with every figure tappable. Then <b>Dabur → Track record</b>: kept 4 of 7, with the quote and page behind each verdict, and “Questions to ask management”.</li>
+    <li style="margin-bottom:2.5mm"><b>Ad-hoc research, outside the portfolio</b> (built in advance, so they open instantly): <b>Asian Paints</b> (kept 7 of 17 due promises; 6 targets changed), <b>Pidilite</b> (3 of 12; 7 went silent) and <b>Britannia</b> (3 of 18; 9 went silent, 4 targets changed). Search → open → Track record. Each read 4 calls; 32 promises each, all quotes checked.</li>
+    <li style="margin-bottom:2.5mm"><b>Tap the centre Search button</b> and type any NSE company you pick (for example a bank, to see the lender layout). Open its Track record and watch the build, step by step, with the cost receipt at the end.</li>
+    <li style="margin-bottom:2.5mm"><b>Alerts</b>: lower the volume rule to 1.5× and see Home re-rank instantly.</li>
+    <li style="margin-bottom:2.5mm"><b>Add to Home Screen</b>, then Settings → Notifications on this phone → <b>Send a test</b>.</li>
+  </ol>
+
+  <h3>How this was built</h3>
+  <p>FINN was built in three days, working with Claude Code as a coding agent: product discovery and scoping first (<code>docs/01_FINAL_SCOPE.md</code>), every decision written down with alternatives (<code>docs/02_BUILD_DECISIONS.md</code>), a data spike before any app code (<code>docs/03_DATA_SPIKE.md</code>), then design rounds on a canvas (<code>docs/04_DESIGN.md</code>), and a deployed build tested on a real phone after each round. The full AI build history is shared alongside this document.</p>
+  <div class="quote">“The scarce skill is not aggregating information. It’s filtering it.” — the brief. FINN’s answer: rank by thesis, put governance first, let the investor set the rules, check management against its own words, and end the day with “You’re caught up”.</div>
+</section>
+
+</body>
+</html>

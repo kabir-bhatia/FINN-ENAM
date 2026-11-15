@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8"><title>FINN — Submission</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>@page{size:A4;margin:18mm 18mm} body{font-family:"Plus Jakarta Sans",system-ui,sans-serif;color:#0B2545;font-size:10.3pt;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+p{margin:0 0 2.6mm} ul{margin:0 0 3mm;padding-left:5mm} li{margin-bottom:1.6mm} a{color:#0A7C7C} hr{border:0;border-top:1.5px solid #E3E9F1;margin:4mm 0}
+.ph{background:#FFE9A8;padding:0 4px;border-radius:3px;font-weight:700} b{font-weight:700}
+.head{display:flex;align-items:center;gap:3mm;margin-bottom:5mm} .logo{width:11mm;height:11mm;border-radius:3mm;background:#0B2545;display:flex;align-items:center;justify-content:center} .logo span{width:7mm;height:7mm;border-radius:50%;border:1.2mm solid #3DD6C6;color:#fff;font-weight:800;font-size:8pt;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+</style></head><body><div class="head"><div class="logo"><span>F</span></div><div><b style="font-size:13pt">FINN</b><div style="color:#5A6B82;font-size:8.5pt">Submission · ENAM AI Engineer Build Challenge · 15 Nov 2026</div></div></div>
+<p><b>To:</b> assessment@enam.com</p>
+<p><b>Subject:</b> IIT Delhi – AI Engineer - 2027</p>
+<hr>
+<p>Dear ENAM team,</p>
+<p>Please find my submission for the FINN AI Engineer Build Challenge.</p>
+<p><b>Links</b></p>
+<ul>
+<li><b>App (open on a phone):</b> <a href="https://web-lake-chi-14.vercel.app">https://web-lake-chi-14.vercel.app</a> (no login; Share → Add to Home Screen installs it, and notifications can then be turned on in Settings)</li>
+<li><b>GitHub repository:</b> <a href="https://github.com/kabir-bhatia/FINN-ENAM">https://github.com/kabir-bhatia/FINN-ENAM</a></li>
+<li><b>AI build history and artifacts (Google Drive):</b> <span class="ph">[DRIVE LINK]</span> — the full Claude Code conversations (3 chats, exported to Markdown, keys removed), planning docs, every design round, and the design-review notes</li>
+<li><b>Attached:</b> <i>FINN — Product and Decisions</i> (PDF, 9 pages): every key decision, with the reasoning and the trade-off</li>
+</ul>
+<p><b>What I built</b></p>
+<p>FINN is a calm, mobile-first intelligence layer for a long-term, governance-first investment team. I read the brief as written for ENAM’s own analysts and partners, not retail users, so FINN cuts time and noise rather than simplifying the finance.</p>
+<ul>
+<li><b>Push: Home.</b> Every exchange filing across an 18-company portfolio, classified and ranked by thesis impact. Governance always comes first, the investor’s own price and volume rules come next (shown only when no filing explains the move), and routine paperwork folds into one line. The page ends with “You’re caught up”. Real phone notifications cover red flags and rule hits, plus a morning and evening brief. Results cards show Sales, EBITDA, PBT and PAT vs last quarter and last year.</li>
+<li><b>Pull: Track record, for any NSE ticker.</b> FINN reads the last 4 earnings-call transcripts and lists every checkable promise with its exact quote and page. It then judges each one against reported numbers (Kept, Missed, Target changed, Went silent or Too early), with a said-vs-reported view and questions to ask management. Ad-hoc examples outside the portfolio are Asian Paints, Pidilite and Britannia; you can also search any company you like.</li>
+</ul>
+<p><b>Key decisions and trade-offs</b></p>
+<ul>
+<li><b>Two workflows, done deeply.</b> A finished, explainable briefing (Push) and one structured research instrument (Pull), linked by the results card: when results land, FINN shows them against management’s own guidance. Ranking is deterministic and shows its reason (e.g. the rule that fired), and governance is never collapsed.</li>
+<li><b>Models read words; code does maths and owns quotes.</b> No model produces a number. A promise appears only if code finds its quote word-for-word on the cited page, so a few genuine promises are lost to messy PDF text rather than risking invented ones.</li>
+<li><b>Cheapest model that does the job.</b> Rules classify 79% of filings at zero cost. A small model reads only the exchange’s short summary for the rest, and judgment runs on a few KB of extracted ledger, not whole transcripts. Everything immutable is cached for every user. GLM 5.3 flash is the main model, with Gemini as an automatic fallback, all on free tiers. Classifying 366 filings would cost about ₹1 at paid prices; the actual cost was ₹0.</li>
+<li><b>No database and no separate backend.</b> It runs as Next.js on Vercel with Vercel Blob documents. Push is precomputed on a schedule, so Home never waits on a live scrape.</li>
+<li><b>Data was proved with a spike first.</b> The BSE API blocks cloud servers, so filings come from NSE. Reported numbers come from Screener’s standardised table, so results are deterministic for every ticker.</li>
+</ul>
+<p><b>What I deliberately left out:</b> intraday and technical charts, news and broker notes, business and balance-sheet snapshots (Screener does these well; I spent the time on promised vs. delivered), and logins. Not yet built: bios for newly appointed executives, NSE’s separate pledge feed, and a published accuracy test set.</p>
+<p><b>Where I’d take it next:</b> an evaluation harness with published accuracy; management-change cards built from the appointment filing’s own profile; annual-report red flags (cash conversion, related parties, auditor remarks); “ask about this” on a single promise, answered only from its transcript excerpt; and a team mode with a shared portfolio and notes.</p>
+<p>I built FINN with Claude Code as a coding agent. I started with product discovery and a written decision log, ran a data spike before writing any app code, went through four design rounds driven by phone testing, and deployed after every round. The Drive folder shows that process end to end.</p>
+<p>Thank you for your time. I would be glad to walk you through it.</p>
+<p>Best regards,</p>
+<p>Kabir Bhatia</p>
+<p>IIT Delhi</p></body></html>

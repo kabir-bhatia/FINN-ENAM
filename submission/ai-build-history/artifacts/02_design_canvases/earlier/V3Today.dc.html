@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FINN Today, thesis-first</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="{{theme}}">
+  <div style="position: absolute; inset: 0 0 76px 0; overflow: hidden; padding: 16px 20px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: center; justify-content: space-between; height: 44px">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.18em">FINN</span>
+      <span style="display: flex; margin-right: -10px">
+        <a href="HowFinnThinks.dc.html" aria-label="How FINN ranks items" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--ink2)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 11v6"></path><path d="M12 7.5v.01"></path></svg></a>
+        <a href="V3Settings.dc.html" aria-label="Settings" style="width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: var(--ink2)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></a>
+      </span>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 600">Today</h1>
+      <a href="WindowSheet.dc.html" style="align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; font-size: 13px; color: var(--ink2); text-decoration: none">Since you last looked · Fri 18:40 · 61 filings read
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden">
+      <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px 14px 12px">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink3)">YOUR 18 COMPANIES</span>
+        <span style="font-size: 17px; line-height: 23px; font-weight: 600">1 challenged · 2 worth a look · 15 unchanged</span>
+        <span role="img" aria-label="1 challenged, 2 worth a look, 15 unchanged" style="display: flex; gap: 3px; height: 8px">
+          <span style="flex: 1 1 0; border-radius: 4px; background: var(--act)"></span>
+          <span style="flex: 2 1 0; border-radius: 4px; background: var(--watch)"></span>
+          <span style="flex: 15 1 0; border-radius: 4px; background: var(--quietbg)"></span>
+        </span>
+      </div>
+      <a href="V3Company.dc.html" style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none">
+        <span style="flex: 0 0 auto; margin-top: 2px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: var(--act); background: var(--actbg); padding: 3px 6px; border-radius: 6px">CHALLENGED</span>
+        <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 600">Sample Industries</span><span style="font-size: 13px; line-height: 18px; color: var(--ink2)">Promoter pledged 12.4% of holding — first pledge on record</span></span>
+      </a>
+      <a href="V3Company.dc.html" style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none">
+        <span style="flex: 0 0 auto; margin-top: 2px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: var(--watch); background: var(--watchbg); padding: 3px 6px; border-radius: 6px">LOOK</span>
+        <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 600">Titan Company</span><span style="font-size: 13px; line-height: 18px; color: var(--ink2)">Profit doubled — but the margin target has changed over 3 calls</span></span>
+      </a>
+      <a href="V3Company.dc.html" style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none">
+        <span style="flex: 0 0 auto; margin-top: 2px; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; color: var(--watch); background: var(--watchbg); padding: 3px 6px; border-radius: 6px">LOOK</span>
+        <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 600">Sample Engineering</span><span style="font-size: 13px; line-height: 18px; color: var(--ink2)">Market moved, business didn’t: −4.1% on 3.1× volume, no filing</span></span>
+      </a>
+      <a href="V3Companies.dc.html" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-top: 1px solid var(--line); color: var(--ink2); text-decoration: none; font-size: 14px">
+        <span>15 unchanged — every filing checked</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+      </a>
+    </div>
+
+    <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink3); margin-top: 6px">WHAT HAPPENED</span>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px">
+      <span style="display: flex; justify-content: space-between; align-items: center">
+        <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--watch)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20.5a2 2 0 0 0 4 0"></path></svg>Your volume rule fired</span>
+        <span style="font-size: 12px; color: var(--ink3)">Fri close</span>
+      </span>
+      <span style="font-size: 16px; line-height: 22px; font-weight: 600">Sample Engineering traded 3.1× its usual volume and fell 4.1%</span>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--ink3)">20-day avg × 3.1 · your rule × 2.0</span>
+      <span style="font-size: 14px; line-height: 21px; padding: 10px 12px; background: var(--ground); border-radius: 10px"><span style="background: var(--mark); padding: 0 2px">Market moved, business didn’t.</span> No filing explains it, and management kept its last 3 promises.</span>
+      <span style="display: flex; gap: 8px">
+        <a href="V3Ask.dc.html" style="height: 36px; padding: 0 12px; display: inline-flex; align-items: center; background: var(--sunk); color: var(--ink); border-radius: 10px; font-size: 14px; font-weight: 500; text-decoration: none">Ask</a>
+        <a href="V3Company.dc.html" style="height: 36px; padding: 0 12px; display: inline-flex; align-items: center; color: var(--ink); border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none">Open company ›</a>
+      </span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px">
+      <span style="display: flex; justify-content: space-between; align-items: center">
+        <span style="font-size: 13px; font-weight: 600">Sample Industries</span>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--act); background: var(--actbg); padding: 3px 8px; border-radius: 6px">GOVERNANCE</span>
+      </span>
+      <span style="font-size: 16px; line-height: 22px; font-weight: 600">Promoter pledged 12.4% of their shares</span>
+      <span style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+        <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: var(--ink3)">Pledged now</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: var(--act)">12.4%</span></span>
+        <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: var(--ink3)">Before</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px">0.0%</span></span>
+        <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 11px; color: var(--ink3)">Lender</span><span style="font-size: 13px">[from filing]</span></span>
+      </span>
+      <span style="font-size: 12px; color: var(--ink3)">Pledge disclosure · filed Fri 17:52</span>
+      <span style="display: flex; gap: 8px">
+        <a href="V3Ask.dc.html" style="height: 36px; padding: 0 12px; display: inline-flex; align-items: center; background: var(--sunk); color: var(--ink); border-radius: 10px; font-size: 14px; font-weight: 500; text-decoration: none">Ask</a>
+        <a href="V3Company.dc.html" style="height: 36px; padding: 0 12px; display: inline-flex; align-items: center; color: var(--ink); border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none">Open company ›</a>
+      </span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px">
+      <span style="display: flex; justify-content: space-between; align-items: center">
+        <span style="font-size: 13px; font-weight: 600">Titan Company</span>
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--ink); background: var(--sunk); padding: 3px 8px; border-radius: 6px">RESULTS · Q2 FY27</span>
+      </span>
+      <span style="font-size: 16px; line-height: 22px; font-weight: 600">Profit more than doubled from a year ago</span>
+      <span style="display: flex; gap: 14px; font-family: 'IBM Plex Mono', monospace; font-size: 13px">
+        <span><span style="font-family: 'IBM Plex Sans', sans-serif; color: var(--ink3)">Sales </span><span style="color: var(--good)">▲10.1%</span></span>
+        <span><span style="font-family: 'IBM Plex Sans', sans-serif; color: var(--ink3)">Profit </span><span style="color: var(--good)">▲113.7%</span></span>
+        <span style="font-family: 'IBM Plex Sans', sans-serif; color: var(--ink3)">vs last year</span>
+      </span>
+      <div style="display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; background: var(--ground); border-radius: 10px">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink3)">AGAINST THEIR WORD</span>
+        <span style="font-size: 14px; line-height: 21px">Margin target: <span style="font-family: 'IBM Plex Mono', monospace">12–13%</span> → <span style="font-family: 'IBM Plex Mono', monospace">~12%</span> → <span style="background: var(--mark); padding: 0 2px">“anchored around 11%”</span></span>
+        <span style="font-size: 12px; color: var(--watch); font-weight: 600">Target changed over 3 calls · Q2 call, p.7</span>
+      </div>
+      <span style="font-size: 12px; color: var(--ink3)">Results filing · filed Thu 18:40</span>
+      <span style="display: flex; gap: 8px">
+        <a href="V3Ask.dc.html" style="height: 36px; padding: 0 12px; display: inline-flex; align-items: center; background: var(--sunk); color: var(--ink); border-radius: 10px; font-size: 14px; font-weight: 500; text-decoration: none">Ask</a>
+        <a href="V3Track.dc.html" style="height: 36px; padding: 0 12px; display: inline-flex; align-items: center; color: var(--ink); border-radius: 10px; font-size: 14px; font-weight: 600; text-decoration: none">Track record ›</a>
+      </span>
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px">
+      <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 15px; font-weight: 500">38 routine filings</span><span style="font-size: 12px; color: var(--ink3)">Trading-window notices, newspaper ads, certificates</span></span>
+      <span style="font-size: 14px; font-weight: 600">Show</span>
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 22px 0 8px; text-align: center">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--good)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.8 2.8L16.5 9.5"></path></svg>
+      <span style="font-size: 17px; font-weight: 600">You’re caught up</span>
+      <span style="font-size: 13px; color: var(--ink3)">Next brief Mon 08:30, before the market opens</span>
+    </div>
+  </div>
+
+  <nav style="position: absolute; left: 0; right: 0; bottom: 0; height: 76px; padding-bottom: 12px; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--surface); border-top: 1px solid var(--line)">
+    <a href="V3Today.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--ink); text-decoration: none; font-size: 12px; font-weight: 600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13h4l2 3h4l2-3h4"></path><path d="M5.5 5h13l1.5 8v6H4v-6z"></path></svg>Today</a>
+    <a href="V3Companies.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--ink3); text-decoration: none; font-size: 12px; font-weight: 500">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V8l6-4v16"></path><path d="M10 20V10l10 4v6"></path><path d="M3 20h18"></path></svg>Companies</a>
+    <a href="V2Alerts.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--ink3); text-decoration: none; font-size: 12px; font-weight: 500">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20.5a2 2 0 0 0 4 0"></path></svg>Alerts</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":1560}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var L = '--ground:#F3F3EF;--surface:#FFFFFF;--sunk:#EAEAE4;--ink:#15171B;--ink2:#4C515A;--ink3:#656A73;--line:#DEDDD6;--act:#B3261E;--actbg:#FBEAE7;--watch:#8A5300;--watchbg:#FBF0DC;--good:#1E6B3A;--goodbg:#E4F1E7;--quiet:#5B6270;--quietbg:#ECECE7;--mark:#FFE27A;--scrim:rgba(21,23,27,.45);--oninv:#F3F3EF;';
+    var D = '--ground:#0F1012;--surface:#17191C;--sunk:#202328;--ink:#ECECE6;--ink2:#B4B8BF;--ink3:#8D929B;--line:#2A2D33;--act:#FF8A7A;--actbg:#3A1C19;--watch:#E8B45A;--watchbg:#33260F;--good:#74C98F;--goodbg:#14301E;--quiet:#9AA1AD;--quietbg:#24272C;--mark:#5E4B0B;--scrim:rgba(0,0,0,.6);--oninv:#0F1012;';
+    var dark = this.props.dark ?? false;
+    return { theme: 'width:390px;height:1560px;position:relative;overflow:hidden;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;' + (dark ? D : L) };
+  }
+}
+</script>
+</body>
+</html>

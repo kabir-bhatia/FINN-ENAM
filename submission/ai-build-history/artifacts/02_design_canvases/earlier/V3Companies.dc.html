@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Companies, long-press menu</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="{{theme}}">
+  <div style="position: absolute; inset: 0 0 76px 0; overflow: hidden; padding: 16px 20px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: center; justify-content: space-between; height: 44px">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.18em">FINN</span>
+      <a href="V3Settings.dc.html" aria-label="Settings" style="width: 44px; height: 44px; margin-right: -10px; display: flex; align-items: center; justify-content: center; color: var(--ink2)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg></a>
+    </div>
+    <h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 600">Companies</h1>
+    <span style="height: 52px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line)"></span>
+    <div style="display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 16px">
+      <span style="height: 62px; border-bottom: 1px solid var(--line)"></span>
+      <span style="height: 62px; border-bottom: 1px solid var(--line)"></span>
+      <span style="height: 62px; border-bottom: 1px solid var(--line)"></span>
+      <span style="height: 62px"></span>
+    </div>
+  </div>
+  <a href="V3Companies.dc.html" aria-label="Close menu" style="position: absolute; inset: 0; background: var(--scrim)"></a>
+
+  <div style="position: absolute; left: 16px; right: 16px; top: 258px; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--surface); border-radius: 16px; transform: scale(1.02)">
+    <span style="display: flex; flex-direction: column; gap: 3px; flex: 1 1 auto"><span style="font-size: 16px; font-weight: 600">Sample Engineering</span><span style="font-size: 12px; font-weight: 600; color: var(--watch)">worth a look · unexplained move</span></span>
+    <span role="img" aria-label="3 kept" style="display: flex; gap: 3px"><span style="width: 8px; height: 8px; border-radius: 4px; background: var(--good)"></span><span style="width: 8px; height: 8px; border-radius: 4px; background: var(--good)"></span><span style="width: 8px; height: 8px; border-radius: 4px; background: var(--good)"></span></span>
+  </div>
+
+  <div role="menu" aria-label="Actions for Sample Engineering" style="position: absolute; left: 16px; right: 16px; top: 346px; display: flex; flex-direction: column; background: var(--surface); border-radius: 16px; overflow: hidden">
+    <a href="V3Company.dc.html" role="menuitem" style="display: flex; align-items: center; gap: 12px; height: 54px; padding: 0 16px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: 16px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V8l6-4v16"></path><path d="M10 20V10l10 4v6"></path><path d="M3 20h18"></path></svg>Open company</a>
+    <a href="V3Companies.dc.html" role="menuitem" style="display: flex; align-items: center; gap: 12px; height: 54px; padding: 0 16px; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: 16px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14v14H5z"></path><path d="M9 12h6"></path></svg>Build track record</a>
+    <a href="V3Companies.dc.html" role="menuitem" style="display: flex; align-items: center; gap: 12px; height: 54px; padding: 0 16px; color: var(--act); text-decoration: none; font-size: 16px; font-weight: 600">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"></path><path d="M9 7V4h6v3"></path><path d="M6 7l1 13h10l1-13"></path></svg>Remove from portfolio</a>
+  </div>
+
+  <div role="status" style="position: absolute; left: 16px; right: 16px; bottom: 92px; display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 52px; padding: 0 16px; background: var(--ink); color: var(--oninv); border-radius: 14px; font-size: 14px">
+    <span>After removing: “Removed Sample Engineering”</span>
+    <span style="font-weight: 600; color: var(--mark)">Undo</span>
+  </div>
+
+  <nav style="position: absolute; left: 0; right: 0; bottom: 0; height: 76px; padding-bottom: 12px; box-sizing: border-box; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); background: var(--surface); border-top: 1px solid var(--line)">
+    <a href="V3Today.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--ink3); text-decoration: none; font-size: 12px; font-weight: 500">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 13h4l2 3h4l2-3h4"></path><path d="M5.5 5h13l1.5 8v6H4v-6z"></path></svg>Today</a>
+    <a href="V3Companies.dc.html" aria-current="page" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--ink); text-decoration: none; font-size: 12px; font-weight: 600">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V8l6-4v16"></path><path d="M10 20V10l10 4v6"></path><path d="M3 20h18"></path></svg>Companies</a>
+    <a href="V2Alerts.dc.html" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--ink3); text-decoration: none; font-size: 12px; font-weight: 500">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"></path><path d="M10 20.5a2 2 0 0 0 4 0"></path></svg>Alerts</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var L = '--ground:#F3F3EF;--surface:#FFFFFF;--sunk:#EAEAE4;--ink:#15171B;--ink2:#4C515A;--ink3:#656A73;--line:#DEDDD6;--act:#B3261E;--actbg:#FBEAE7;--watch:#8A5300;--watchbg:#FBF0DC;--good:#1E6B3A;--goodbg:#E4F1E7;--quiet:#5B6270;--quietbg:#ECECE7;--mark:#FFE27A;--scrim:rgba(21,23,27,.45);--oninv:#F3F3EF;';
+    var D = '--ground:#0F1012;--surface:#17191C;--sunk:#202328;--ink:#ECECE6;--ink2:#B4B8BF;--ink3:#8D929B;--line:#2A2D33;--act:#FF8A7A;--actbg:#3A1C19;--watch:#E8B45A;--watchbg:#33260F;--good:#74C98F;--goodbg:#14301E;--quiet:#9AA1AD;--quietbg:#24272C;--mark:#5E4B0B;--scrim:rgba(0,0,0,.6);--oninv:#0F1012;';
+    var dark = this.props.dark ?? false;
+    return { theme: 'width:390px;height:844px;position:relative;overflow:hidden;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;' + (dark ? D : L) };
+  }
+}
+</script>
+</body>
+</html>
