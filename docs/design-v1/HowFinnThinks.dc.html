@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>How FINN thinks</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+<style>body{margin:0}</style>
+</helmet>
+<div style="{{theme}}">
+  <div style="position: absolute; inset: 0; overflow: hidden; padding: 16px 20px 0; box-sizing: border-box; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: center; height: 44px">
+      <a href="Watch.dc.html" aria-label="Back" style="width: 44px; height: 44px; margin-left: -12px; display: flex; align-items: center; justify-content: center; color: var(--ink)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+      </a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <h1 style="margin: 0; font-size: 26px; line-height: 32px; font-weight: 600">How FINN thinks</h1>
+      <span style="font-size: 14px; line-height: 20px; color: var(--ink2)">Built for long-term investors: a price move alone is not news. A change to the investment case is.</span>
+    </div>
+
+    <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink3)">THREE TIERS</span>
+    <div style="display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 16px">
+      <div style="display: flex; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line)">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--act); background: var(--actbg); padding: 3px 6px; border-radius: 6px; align-self: flex-start; white-space: nowrap">NEEDS YOU</span>
+        <span style="font-size: 14px; line-height: 20px">Governance (pledges, auditor or senior exits, insider selling), results, M&amp;A, fund-raises</span>
+      </div>
+      <div style="display: flex; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line)">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--watch); background: var(--watchbg); padding: 3px 6px; border-radius: 6px; align-self: flex-start; white-space: nowrap">KNOW</span>
+        <span style="font-size: 14px; line-height: 20px">Unexplained moves, ratings, capex, orders, investor meetings</span>
+      </div>
+      <div style="display: flex; gap: 12px; padding: 12px 14px">
+        <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.06em; color: var(--quiet); background: var(--quietbg); padding: 3px 6px; border-radius: 6px; align-self: flex-start; white-space: nowrap">ROUTINE</span>
+        <span style="font-size: 14px; line-height: 20px">Trading-window notices, newspaper ads, compliance certificates. Hidden, one tap away.</span>
+      </div>
+    </div>
+
+    <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--ink3); margin-top: 2px">WHO DOES WHAT</span>
+    <div style="display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; font-size: 14px">
+      <div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line)"><span>Rules sort clear filings</span><span style="font-family: 'IBM Plex Mono', monospace; color: var(--ink3)">free</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line)"><span>Small model reads unclear ones</span><span style="font-family: 'IBM Plex Mono', monospace; color: var(--ink3)">flash-lite</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--line)"><span>Larger model judges promises</span><span style="font-family: 'IBM Plex Mono', monospace; color: var(--ink3)">flash</span></div>
+      <div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 14px"><span>All maths and checks</span><span style="font-family: 'IBM Plex Mono', monospace; color: var(--ink3)">code</span></div>
+    </div>
+    <span style="font-size: 13px; line-height: 19px; color: var(--ink2)">Every number links to its filing and page. Anything that can’t be traced is left out.</span>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var L = '--ground:#F3F3EF;--surface:#FFFFFF;--sunk:#EAEAE4;--ink:#15171B;--ink2:#4C515A;--ink3:#656A73;--line:#DEDDD6;--act:#B3261E;--actbg:#FBEAE7;--watch:#8A5300;--watchbg:#FBF0DC;--good:#1E6B3A;--goodbg:#E4F1E7;--quiet:#5B6270;--quietbg:#ECECE7;--mark:#FFE27A;--scrim:rgba(21,23,27,.45);--oninv:#F3F3EF;';
+    var D = '--ground:#0F1012;--surface:#17191C;--sunk:#202328;--ink:#ECECE6;--ink2:#B4B8BF;--ink3:#8D929B;--line:#2A2D33;--act:#FF8A7A;--actbg:#3A1C19;--watch:#E8B45A;--watchbg:#33260F;--good:#74C98F;--goodbg:#14301E;--quiet:#9AA1AD;--quietbg:#24272C;--mark:#5E4B0B;--scrim:rgba(0,0,0,.6);--oninv:#0F1012;';
+    var dark = this.props.dark ?? false;
+    return { theme: 'width:390px;height:844px;position:relative;overflow:hidden;background:var(--ground);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;' + (dark ? D : L) };
+  }
+}
+</script>
+</body>
+</html>

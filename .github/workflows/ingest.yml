@@ -1,0 +1,16 @@
+# Free intraday schedule for FINN's Push data (Vercel Hobby cron is daily only).
+# The work runs on Vercel bom1 (NSE/Screener reachable there); GitHub only rings the bell.
+name: ingest
+on:
+  schedule:
+    - cron: "0 3,6,9,11,13 * * 1-5" # 08:30–18:30 IST, weekdays
+  workflow_dispatch:
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Refresh all tracked companies
+        run: |
+          curl -fsS -X POST "${{ vars.FINN_URL || 'https://web-lake-chi-14.vercel.app' }}/api/ingest" \
+            -H "x-ingest-secret: ${{ secrets.INGEST_SECRET }}" --max-time 290 | head -c 2000
