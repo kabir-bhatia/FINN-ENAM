@@ -10,3 +10,4 @@ web/.canvas/
 web/.canvas-ref/
 *.log
 ps/
+.serena/
