@@ -10,7 +10,7 @@ Please find my submission for the FINN AI Engineer Build Challenge.
 **Links**
 - **App (open on a phone):** https://web-lake-chi-14.vercel.app (no login; Share → Add to Home Screen installs it, and notifications can then be turned on in Settings)
 - **GitHub repository:** https://github.com/kabir-bhatia/FINN-ENAM
-- **AI build history and artifacts (Google Drive):** `[DRIVE LINK]` — the full Claude Code conversations (3 chats, exported to Markdown, keys removed), planning docs, every design round, and the design-review notes
+- **AI build history and artifacts:** https://github.com/kabir-bhatia/FINN-ENAM/tree/main/submission/ai-build-history (the full Claude Code conversations (3 chats, exported to Markdown, keys removed), planning docs, every design round, and the design-review notes)
 - **Attached:** *FINN — Product and Decisions* (PDF, 9 pages): every key decision, with the reasoning and the trade-off
 
 **What I built**
@@ -31,7 +31,7 @@ FINN is a calm, mobile-first intelligence layer for a long-term, governance-firs
 
 **Where I’d take it next:** an evaluation harness with published accuracy; management-change cards built from the appointment filing’s own profile; annual-report red flags (cash conversion, related parties, auditor remarks); “ask about this” on a single promise, answered only from its transcript excerpt; and a team mode with a shared portfolio and notes.
 
-I built FINN with Claude Code as a coding agent. I started with product discovery and a written decision log, ran a data spike before writing any app code, went through four design rounds driven by phone testing, and deployed after every round. The Drive folder shows that process end to end.
+I built FINN with Claude Code as a coding agent. I started with product discovery and a written decision log, ran a data spike before writing any app code, went through four design rounds driven by phone testing, and deployed after every round. The build-history folder in the repository shows that process end to end.
 
 Thank you for your time. I would be glad to walk you through it.
 
