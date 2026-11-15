@@ -4,7 +4,7 @@ import { cleanSymbol, patchTrack } from "@/lib/bundle";
 import { applyExtraction, discover, extractTranscript, getLedger, saveLedger, verdicts } from "@/lib/track";
 import { screener } from "@/lib/sources";
 
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 export async function GET(_req: Request, ctx: { params: Promise<{ symbol: string }> }) {
   const symbol = cleanSymbol((await ctx.params).symbol);

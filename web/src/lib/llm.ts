@@ -50,10 +50,17 @@ function parseJSON<T>(text: string): T {
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+// GLM reasons before it answers, so a long transcript can take ~40 s. Give it one bounded try
+// (a second only after a quick failure) so Gemini still has time inside the function limit.
+const GLM_BUDGET_MS = 60000;
+
 async function glm<T>(key: string, step: string, prompt: string, maxOut: number, timeoutMs: number): Promise<LlmResult<T>> {
   let last = "";
+  const start = Date.now();
   for (let attempt = 0; attempt < 2; attempt++) {
     const t0 = Date.now();
+    const left = Math.min(timeoutMs, GLM_BUDGET_MS) - (t0 - start);
+    if (left < 15000) break;
     try {
       const r = await fetch(GLM_URL, {
         method: "POST",
@@ -68,13 +75,13 @@ async function glm<T>(key: string, step: string, prompt: string, maxOut: number,
           // GLM reasons before answering; leave room so the JSON is never cut off.
           max_tokens: maxOut + 4096,
         }),
-        signal: AbortSignal.timeout(timeoutMs),
+        signal: AbortSignal.timeout(left),
       });
       const j = await r.json().catch(() => null);
       if (!r.ok) {
         last = `${GLM_MODEL} ${r.status} ${JSON.stringify(j?.error?.message ?? "").slice(0, 120)}`;
         if (r.status === 401 || r.status === 403) break; // bad key: go straight to the fallback
-        await wait(1200 * (attempt + 1));
+        await wait(1200);
         continue;
       }
       const data = parseJSON<T>(j?.choices?.[0]?.message?.content ?? "");
@@ -83,6 +90,7 @@ async function glm<T>(key: string, step: string, prompt: string, maxOut: number,
       return { data, cost: { step, model: GLM_MODEL, inTok, outTok, inr: 0, ms: Date.now() - t0 } };
     } catch (e) {
       last = `${GLM_MODEL} ${String(e).slice(0, 120)}`;
+      if (Date.now() - t0 > 20000) break; // a slow failure (timeout): don't spend the fallback's time
     }
   }
   throw new Error(last);
