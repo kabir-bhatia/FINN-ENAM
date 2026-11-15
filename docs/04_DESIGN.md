@@ -55,6 +55,61 @@ Ink on paper, with one highlighter. The app should feel like a well-kept researc
 ## 7. Screens on the canvas
 Brief (light + dark) · Results detail · Time-window sheet · Evidence sheet · Research home · Research running · Promise ledger (light + dark) · Promise drift detail · Watch · Add-company sheet · How FINN thinks · Theme board · Navigation map.
 
+## 13. FINAL design — "Clear Day" hybrid (approved by user, 16 Nov) — BUILD THIS
+
+**User's decisions:** A (Clear Day) is the base — its portfolio ring and its bottom nav are liked ("like an actual production app"). Keep B's company page (Night Desk — Company) and C's company page (Morning Paper — Company) ideas. B's heat map is cluttered: **do not build it now** (low-priority later improvement).
+
+**Visual language = A everywhere** (one app, one look). Reference mockups: `web/.canvas/project/V4AHome.dc.html`, `V4ACompany.dc.html`, `V4BCompany.dc.html`, `V4CCompany.dc.html`.
+
+**Tokens (light):** ground `#F4F7FB` · card `#FFFFFF` · sunk `#E7EDF5` · navy ink `#0B2545` · ink2 `#5A6B82` · ink3 `#8493A8` · line `#E3E9F1` · accent teal `#0FA3A3` (text-on-light teal `#0A7C7C`, tint `#E3F5F5`) · watch amber `#F2A900` (text `#8A5F00`, tint `#FFF4D6`) · act red `#E5484D` (text `#C8323A`, tint `#FDECEC`) · sector blue `#5B8DEF` · quiet `#C5D0DE` · highlight (quotes) `#FFE9A8`.
+**Tokens (dark, for the Settings toggle):** ground `#0A1626` · card `#122238` · sunk `#1A2E49` · ink `#EAF0F8` · ink2 `#A9B8CC` · ink3 `#7F90A8` · line `#213754` · teal `#3DD6C6` · amber `#F5BE4B` · red `#FF7A7E` · highlight `#5A4A12`.
+**Type:** Plus Jakarta Sans (400/500/600/700); numbers use tabular figures (`font-variant-numeric: tabular-nums`). **Shape:** cards radius 20–24, soft shadow `0 6px 24px rgba(11,37,69,.06)`, pills radius full, buttons ≥ 44 px. **Motion:** unchanged (§4). Every colour signal also has a word or arrow.
+
+**Navigation (from A):** bottom bar, 5 slots — **Home · Companies · [centre teal Search button, raised] · Alerts · Calendar**. Settings = icon button top-right of Home. Search opens a full-screen search for any NSE company → company page.
+
+**Home (from A, plus C's lead):**
+1. Greeting + date; settings button.
+2. **Portfolio card:** ring of company states (unchanged / worth a look / challenged, centre = company count) with legend; three stat tiles — **promises kept %** (across cached track records), **governance flags**, **filings read**; **sector mix** bar with legend; "since <last looked>" window control.
+3. **The lead (from C):** 2–3 sentence written summary with highlighted facts; each highlight opens its source. Templated from data; on a quiet day it says so plainly ("Nothing material across 18 companies; 12 routine filings checked").
+4. **Needs your attention:** event cards with icon tile, company · type, one-sentence headline, promise mini-bar where relevant ("Against their word").
+5. **Coming up:** next results / earnings calls (also feeds the Calendar tab).
+6. Routine filings collapsed; "You're caught up · next brief …".
+Home must look complete on a quiet day: ring, stats, sector mix and Coming up always render.
+
+**Company page (A's frame + C's Results + B's Track record):**
+- Header (A): back, "✓ In portfolio" pill, name, sector · followed-for; navy hero card with **promises-kept ring** and breakdown → Track record.
+- Segments: Updates · Results · Track record · Governance.
+- **Results (from C):** one-sentence headline; 4-metric strip (Sales, EBITDA, PBT, Profit vs last year, toggle vs last quarter); profit bar chart, last 5 quarters (A); management **pull-quote with highlight** and page; "Against their word" box.
+- **Track record (from B):** **said vs reported table** per quarter; small line chart (guided dashed vs reported solid); **ledger rows** = status word (Kept / Missed / Target changed / Went silent / Too early) + promise + source page; "Questions to ask management" button.
+- **Governance:** the four-tile strip from v3.
+- Evidence sheet from any number or quote (unchanged).
+
+**Other screens:** Companies list, Alerts (rules), Settings, Ask sheet, long-press remove — keep behaviour from v3 (§11), restyled with these tokens. **Calendar** (new, simple): upcoming results/board meetings/calls for portfolio companies by date.
+
+**Not now:** heat map; audio brief; Night Desk / Morning Paper colour themes.
+
+## 12. v4 — three new visual directions (drawn 16 Nov; user picked the hybrid in §13)
+
+**Why:** the shipped app (git tag `design-v3-shipped`, canvas page v3) works but looks like a generic AI app, and on a quiet day Home is an empty grey screen ("0 challenged · 18 unchanged · caught up"). The home needs a **portfolio summary that is alive every day**, not only a list of events.
+
+**Research used:** Lollypop investment-dashboard guide (summary header, donut labelled with value + %, sparkline holding cards, never red/green alone); Fey (dense pro look, ticker command, progressive disclosure); Quartr (event calendar, calls, alerts one tap from the watchlist, answers linked to source); Finimize (For You / Research / News tabs, audio brief with mini-player); Lazarev fintech review (explain before acting, micro-feedback).
+
+Canvas page **"v4 · Three new directions"**, each with Home + Company:
+
+| | A · Clear Day | B · Night Desk | C · Morning Paper |
+|---|---|---|---|
+| Feel | Friendly, visual, consumer-grade | Pro terminal | A daily newspaper |
+| Colour | White/ice, navy ink, teal accent, amber/red signals | Black, amber accent, mono numbers | Salmon paper, claret accent, serif headlines |
+| Type | Plus Jakarta Sans | Inter Tight + JetBrains Mono | Newsreader + IBM Plex Sans |
+| Portfolio summary | **Ring** (unchanged/look/challenged) + 3 stats (promises kept %, governance flags, filings read) + sector bar + "Coming up" | **Credibility score 71/100** + **heat map** of all 18 companies + dense tape | **Written lead** with highlights + portfolio table with sparklines + week calendar |
+| Navigation | 5-slot bottom bar, centre **Search** button: Home · Companies · Search · Alerts · Calendar | Floating pill: Desk · Companies · Rules · Calendar + **"/" ticker command bar** | Top tabs: Brief · Portfolio · Calendar · Alerts + bottom **Listen** bar |
+| Best for | Anyone in 5 seconds; strongest on a quiet day | Analysts; highest density | Partners who read; most distinctive |
+| Risk | Could look "consumer"; ring uses counts, not ₹ | Intimidating; small tap targets in heat map | Top tabs harder to reach; prose must be tightly templated |
+
+**Recommendation:** A as the base (ring + stats + nav), borrowing B's heat map as the "see all companies" view and C's highlighted written lead as the first card. All three keep every brief requirement (digest, window, thresholds, results card, promise ledger, citations).
+
+**New data needed (all cheap):** promises-kept % across the portfolio (already in the cached ledgers), sector per company (static map), upcoming results/calls (NSE event calendar / board-meeting intimations).
+
 ## 11. v3 — Thesis-first Push (drawn 15 Nov; current direction, awaiting sign-off)
 
 > **Canvas page "v3 · Thesis-first Push (current)"** (v2 and v1 kept as saved pages; v2 files also copied to `docs/design-v2/`).

@@ -84,7 +84,7 @@ export function FilingCard({ day, f, seen }: { day: CompanyDay; f: Filing; seen:
   const open = () => markSeen(`f:${f.id}`);
   const tab = isRes ? "results" : isGov ? "governance" : "updates";
   const tone = isGov ? (f.govSeverity === "high" ? "c-act" : "c-watch") : isRes ? "c-good" : tier === "act" ? "c-ink" : "c-quiet";
-  const type = isGov ? `Governance${f.govKind ? ` · ${f.govKind}` : ""}` : isRes && view ? `Results · ${view.q}` : CAT_LABEL[f.category];
+  const type = isGov ? `Governance${f.govKind && f.govKind !== "Governance" ? ` · ${f.govKind}` : ""}` : isRes && view ? `Results · ${view.q}` : CAT_LABEL[f.category];
   return (
     <article className={`card enter${seen ? " seen" : ""}`} style={{ flexDirection: "row", gap: 12, alignItems: "flex-start" }}>
       <span className={`icontile ${tone}`} aria-hidden>{isGov ? Icon.shield : isRes ? Icon.chart : Icon.page}</span>

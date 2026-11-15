@@ -74,7 +74,7 @@ export default function CompanyView({ symbol }: { symbol: string }) {
           </div>
           <StateLine b={b} />
           <Hero b={b} onOpen={() => setTab("track")} />
-          <div className="seg" role="tablist">
+          <div className="seg tabs" role="tablist">
             {TABS.map((t) => (
               <button key={t.k} role="tab" aria-pressed={tab === t.k} aria-selected={tab === t.k} onClick={() => setTab(t.k)}>
                 {t.label}
@@ -275,13 +275,13 @@ function Results({ b, onTrack }: { b: Bundle; onTrack: () => void }) {
           <button aria-pressed={vs === "yoy"} onClick={() => setVs("yoy")} style={{ padding: "0 12px" }}>vs last year</button>
           <button aria-pressed={vs === "qoq"} onClick={() => setVs("qoq")} style={{ padding: "0 12px" }}>vs last quarter</button>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(4, v.rows.length)}, minmax(0, 1fr))`, borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(4, v.rows.length)}, minmax(0, 1fr))`, columnGap: 8, borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
           {v.rows.map((r) => {
             const x = vs === "yoy" ? r.yoy : r.qoq;
             return (
               <button key={r.key} onClick={() => openRow(r)} className="stack" style={{ gap: 2, background: "none", border: 0, padding: "10px 0", textAlign: "left", minWidth: 0 }} aria-label={`${r.label}: ${fmt(r.now)} crore. Tap for source`}>
                 <span style={{ fontSize: 11 }} className="ink2">{r.label.replace(" (PAT)", "")}{r.computed ? "*" : ""}</span>
-                <span style={{ fontSize: 16, fontWeight: 700 }} className={x == null ? "muted" : x >= 0 ? "t-good" : "t-act"}>{x == null ? "–" : fmtPct(x)}</span>
+                <span style={{ fontSize: 15, fontWeight: 700, whiteSpace: "nowrap" }} className={x == null ? "muted" : x >= 0 ? "t-good" : "t-act"}>{x == null ? "–" : fmtPct(x)}</span>
                 <span style={{ fontSize: 11 }} className="muted">{fmt(r.now)}</span>
               </button>
             );
@@ -321,7 +321,7 @@ function Results({ b, onTrack }: { b: Bundle; onTrack: () => void }) {
                   }
                 >
                   <span style={{ fontSize: 11, fontWeight: lastBar ? 700 : 500 }} className={x.x < 0 ? "t-act" : lastBar ? "" : "ink2"}>{fmt(x.x)}</span>
-                  <span style={{ width: "100%", height: `${Math.max(4, (Math.abs(x.x) / max) * 78)}%`, borderRadius: 8, background: x.x < 0 ? "var(--act-solid)" : lastBar ? "var(--accent)" : "var(--quiet-solid)" }} />
+                  <span style={{ width: "100%", height: `${Math.max(4, (Math.abs(x.x) / max) * 70)}%`, borderRadius: 8, background: x.x < 0 ? "var(--act-solid)" : lastBar ? "var(--accent)" : "var(--quiet-solid)" }} />
                   <span style={{ fontSize: 11, fontWeight: lastBar ? 700 : 400 }} className={lastBar ? "" : "ink2"}>{qShort(x.q)}</span>
                 </button>
               );

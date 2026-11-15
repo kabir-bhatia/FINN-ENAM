@@ -119,7 +119,7 @@ export default function TrackView({ b }: { b: Bundle }) {
       <section className="card big" style={{ gap: 12 }}>
         <span className="small ink2">{done.length} calls read · {done.length ? `${done[done.length - 1].month} – ${done[0].month}` : ""}</span>
         <span style={{ fontSize: 20, lineHeight: "26px", fontWeight: 700 }}>
-          {!l.promises.length ? "No checkable promises found" : due ? `Kept ${counts.Kept} of the ${due} promises that are due` : `${l.promises.length} promises on record; none is due yet`}
+          {!l.promises.length ? "No checkable promises found" : due ? `Kept ${counts.Kept} of the ${due} ${due === 1 ? "promise that is" : "promises that are"} due` : `${l.promises.length} promises on record; none is due yet`}
         </span>
         {l.promises.length > 0 && (
           <>
@@ -152,7 +152,10 @@ export default function TrackView({ b }: { b: Bundle }) {
           <span className="label" style={{ padding: "14px 16px 6px" }}>Ledger · {l.promises.length} promises · tap a row for the quote</span>
           {shown.map((p) => (
             <button key={p.id} className="ledger" style={{ borderTop: "1px solid var(--line)" }} onClick={() => openPromise(p)}>
-              <span className={`small strong ${vcls(p.verdict)}`}>{p.verdict ?? "Too early"}</span>
+              <span className="stack" style={{ gap: 2 }}>
+                <span className={`small strong ${vcls(p.verdict)}`}>{p.verdict ?? "Too early"}</span>
+                <span className="small muted">{p.call.split(" ")[0]} · p.{p.page}</span>
+              </span>
               <span className="stack" style={{ gap: 2, minWidth: 0 }}>
                 <span className="s14" style={{ lineHeight: "20px" }}>
                   <span style={{ fontWeight: 600 }}>{p.metric}</span> · {p.target}
@@ -160,7 +163,6 @@ export default function TrackView({ b }: { b: Bundle }) {
                 </span>
                 {p.reason && <span className="small ink2" style={{ lineHeight: "17px" }}>{p.reason}</span>}
               </span>
-              <span className="small muted" style={{ textAlign: "right", whiteSpace: "nowrap" }}>{p.call.split(" ")[0]} · p.{p.page}</span>
             </button>
           ))}
           {ps.length > 8 && (

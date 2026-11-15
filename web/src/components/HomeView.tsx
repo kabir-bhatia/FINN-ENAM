@@ -187,7 +187,7 @@ export default function HomeView() {
             <section className="card" aria-label="Summary">
               <span className="label">The brief</span>
               <p style={{ margin: 0, fontSize: 16, lineHeight: "25px" }}>
-                {lead.map((s, i) => (typeof s === "string" ? <span key={i}>{s}</span> : <button key={i} className="mark" style={{ display: "inline", padding: "0 3px", textAlign: "left" }} onClick={s.on}>{s.t}</button>))}
+                {lead.map((s, i) => (typeof s === "string" ? <span key={i}>{s}</span> : <span key={i} role="button" tabIndex={0} className="mark" style={{ cursor: "pointer", textDecoration: "underline", textUnderlineOffset: 3, textDecorationColor: "color-mix(in srgb, currentColor 35%, transparent)" }} onClick={s.on} onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && s.on()}>{s.t}</span>))}
               </p>
               <span className="small muted">Written from the filings by fixed rules, not by a model. Tap a highlight for its source.</span>
             </section>

@@ -15,15 +15,23 @@ ENAM's own investment team — a coverage analyst (wants completeness, a source 
 
 ## Screens
 
-| Tab | What it does |
+Design: **"Clear Day"** (`docs/04_DESIGN.md` §13) — navy ink and teal on ice white, Plus Jakarta Sans with tabular figures, soft rounded cards, light and dark (Settings). Colour is never the only signal: every state also has a word or an arrow. The previous look is kept as git tag `design-v3-shipped`.
+
+Bottom bar: **Home · Companies · (Search) · Alerts · Calendar**; Settings sits top-right of Home.
+
+| Screen | What it does |
 |---|---|
-| **Today** | Thesis board (*1 challenged · 2 worth a look · 15 unchanged*, one reason per company) → alert cards when **your** rule fired (*"Market moved, business didn't — no filing explains it"*) → governance / results / other cards → *N routine filings · Show* → *You're caught up · next brief*. Window: since you last looked / 24 h / 7 d / 30 d. |
-| **Company** `/c/SYMBOL` | Works for any NSE ticker. Governance strip (auditor changes, senior exits, regulatory actions, pledges). **Updates** (ranked filings, price/volume moves explained or not — price lives only here) · **Results** (Sales, EBITDA, PBT, PAT vs last quarter and last year) · **Track record** (promise ledger, questions to ask management, cost receipt). |
-| **Companies** | Portfolio (saved in the browser) with each company's state; search any NSE company; long-press → remove with Undo. |
+| **Home** | Greeting · **portfolio card**: ring of company states (*unchanged / worth a look / challenged*), three stats (**promises kept %** across built track records, **governance flags**, **filings read**), **sector mix**, window control (since you last looked / 24 h / 7 d / 30 d) → **the brief**: 2–3 templated sentences whose highlighted facts open their source (honest on a quiet day) → **Needs your attention** (governance, your categories, your price/volume rules — *"Market moved, business didn't"*) → Worth knowing → **Coming up** (NSE event calendar) → *N routine filings · Show* → *You're caught up*. |
+| **Company** `/c/SYMBOL` | Any NSE ticker. Navy hero with the **promises-kept ring** → **Updates** (ranked filings, price/volume moves explained or not) · **Results** (sentence headline, Sales / EBITDA / PBT / Profit vs last year or last quarter, profit bars for 5 quarters, management pull-quote with page, *Against their word*) · **Track record** (scorecard, **said vs reported** table + guided-vs-reported line, ledger rows with status word and source page, questions to ask management, cost receipt) · **Governance** (auditor, senior exits, regulatory, pledge tiles + the filings). |
+| **Search** | Any NSE company → its page; add to portfolio. |
+| **Companies** | Portfolio with each company's state and promise bar; long-press → remove with Undo. |
 | **Alerts** | Volume × 20-day average, ±% price, "only if no filing explains it", which announcement types count as *needs you*. |
+| **Calendar** | Board meetings (results, dividends, fund raising) your companies announced, by date — from NSE's event calendar. |
 | Settings · How FINN thinks | Theme, brief times, default window, reset demo · ranking rules, model routing and live cost numbers. |
 
 Every number and quote opens an **evidence sheet**: the document, page, exact quote (highlighted), and how it was produced.
+
+**Not built from the design yet:** "followed for N days" (no add-date is stored), an Ask sheet, earnings-call dates in the calendar (NSE's event feed lists board meetings only), the heat map, audio brief and alternative colour themes (deliberately left out).
 
 ## Architecture
 
@@ -82,6 +90,8 @@ npm run dev
 ```
 
 Cron: set the repo secret `INGEST_SECRET` (same value as on Vercel) for `.github/workflows/ingest.yml`.
+
+Deploys: the repo is connected to Vercel (root directory `web`); every push to `main` deploys to production.
 
 ## Status (15 Nov 2026)
 

@@ -121,6 +121,8 @@ button.mark, a.mark { border: 0; font: inherit; color: inherit; text-decoration:
 .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; background: var(--sunk); border-radius: 16px; padding: 4px; }
 .seg button { height: 38px; border: 0; background: none; border-radius: 12px; font-size: 13.5px; font-weight: 600; color: var(--ink2); padding: 0 2px; white-space: nowrap; }
 .seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 700; box-shadow: 0 1px 3px rgba(11, 37, 69, 0.1); }
+.seg.tabs { gap: 2px; padding: 3px; }
+.seg.tabs button { font-size: 12.5px; padding: 0; }
 .seg.sm button { height: 30px; font-size: 12px; border-radius: 10px; }
 .toggle { width: 46px; height: 28px; border-radius: 14px; background: var(--sunk); border: 1px solid var(--line); position: relative; flex: 0 0 auto; }
 .toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 2px rgba(0,0,0,.2); transition: transform 160ms ease-out; }
@@ -173,7 +175,7 @@ button.mark, a.mark { border: 0; font: inherit; color: inherit; text-decoration:
 @keyframes pulse { 50% { opacity: 0.5; } }
 
 /* ledger rows: status word + promise + source page */
-.ledger { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; gap: 10px; padding: 13px 16px; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; width: 100%; align-items: baseline; }
+.ledger { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; padding: 13px 16px; border: 0; border-top: 1px solid var(--line); background: none; text-align: left; width: 100%; align-items: baseline; }
 .ledger:first-child { border-top: 0; }
 .ledger:active { background: var(--sunk); }
 
